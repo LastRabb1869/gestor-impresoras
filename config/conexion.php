@@ -1,13 +1,13 @@
 <?php
-$host = "localhost";
-$db = "gestor_impresoras";
-$user = "root";
-$pass = ""; // ajustar a futuro si hay contraseña
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
-}
+    define('DB_SERVER', 'localhost');
+    define('DB_USERNAME', 'root');
+    define('DB_PASSWORD', '');
+    define('DB_NAME', 'login_tuto');
+
+    $link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+    if($link === false){
+        die("ERROR EN LA CONEXION" . mysqli_connect_error());
+    }
 ?>

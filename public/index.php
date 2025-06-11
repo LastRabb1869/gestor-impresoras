@@ -1,8 +1,8 @@
-<?php 
-    include 'code-register.php';
+<?php
+    
+    require "code-login.php";
 
 ?>
-
 
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>REGISTRO - PRINT MANAGER</title>
+    <title>INICIO - PRINT MANAGER</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -21,27 +21,24 @@
     <div class="container-all">
 
         <div class="ctn-form">
-            <img src="../assets/img/ppdc-logo1.png" alt="" class="logo">
-            <h1 class="title">Registrarse</h1>
+            <img src="../assets/img/logo-magtimus-small.png" alt="" class="logo">
+            <h1 class="title">Iniciar Sesión</h1>
 
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-               
-                <label for="">Nombre completo</label>
-                <input type="text" name="username">
-                <span class="msg-error"><?php echo $username_err; ?></span>
-                <label for="">Email - Meliá</label>
+
+                <label for="">Email</label>
                 <input type="text" name="email">
-                <span class="msg-error"> <?php echo $email_err; ?></span>
+                <span class="msg-error"><?php echo $email_err; ?></span>
                 <label for="">Contraseña</label>
                 <input type="password" name="password">
-                <span class="msg-error"> <?php echo $password_err; ?></span>
+                <span class="msg-error"><?php echo $password_err; ?></span>
 
-                <input type="submit" value="Registrarse">
+                <input type="submit" value="Iniciar">
 
             </form>
 
-            <span class="text-footer">¿Ya te has registrado?
-                <a href="index.php">Iniciar Sesión</a>
+            <span class="text-footer">¿Aún no te has regsitrado?
+                <a href="register.php">Registrate</a>
             </span>
         </div>
 
