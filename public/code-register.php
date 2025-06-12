@@ -89,7 +89,7 @@
             $stmt->bind_param("sssss", $nombre, $correo, $num_colaborador, $contrasena, $nivel);
 
             if ($stmt->execute()) {
-                header("Location: index.php");
+                header("Location: login.php");
                 exit;
             } else {
                 echo "Error al registrar. Intenta más tarde.";

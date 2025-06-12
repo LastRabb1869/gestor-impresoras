@@ -52,7 +52,7 @@
             </form>
 
             <span class="text-footer">¿Ya tienes cuenta?
-                <a href="index.php">Iniciar Sesión</a>
+                <a href="login.php">Iniciar Sesión</a>
             </span>
         </div>
 
