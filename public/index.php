@@ -21,12 +21,12 @@
     <div class="container-all">
 
         <div class="ctn-form">
-            <img src="../assets/img/logo-magtimus-small.png" alt="" class="logo">
+            <img src="../assets/img/ppdc-logo1.png" alt="" class="logo">
             <h1 class="title">Iniciar Sesión</h1>
 
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
-                <label for="">Email</label>
+                <label for="">Correo Meliá</label>
                 <input type="text" name="email">
                 <span class="msg-error"><?php echo $email_err; ?></span>
                 <label for="">Contraseña</label>

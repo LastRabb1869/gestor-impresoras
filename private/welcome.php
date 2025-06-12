@@ -23,8 +23,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
    
    <div class="ctn-welcome">
        
-       <img src="../assets/img/logo-magtimus-small.png" alt="" class="logo-welcome">
-       <h1 class="title-welcome">Bienvenido lo has <b>LOGRADOOOOOO!</b></h1>
+       <img src="../assets/img/ppdc-logo1.png" alt="" class="logo-welcome">
+       <h1 class="title-welcome">Bienvenido lo has <b>BIENVENIDO!</b></h1>
        <a href="../public/close-session.php" class="close-sesion">Cerrar Sesión</a>
        
    </div>

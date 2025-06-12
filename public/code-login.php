@@ -33,9 +33,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     //VALIDAR CREDENCIALES
     if(empty($email_err) && empty($password_err)){
         
-        $sql = "SELECT id, usuario, email, clave FROM usuarios WHERE email = ?";
+        $sql = "SELECT id, nombre, correo, nivel, contrasena FROM usuarios WHERE correo = ?";
         
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             
             mysqli_stmt_bind_param($stmt, "s", $param_email);
             
@@ -46,7 +46,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             }
             
             if(mysqli_stmt_num_rows($stmt) == 1){
-                mysqli_stmt_bind_result($stmt, $id, $usuario, $email, $hashed_password);
+                mysqli_stmt_bind_result($stmt, $id, $nombre, $email, $nivel, $hashed_password);
                 if(mysqli_stmt_fetch($stmt)){
                     if(password_verify($password, $hashed_password)){
                         session_start();
@@ -55,6 +55,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                         $_SESSION["loggedin"] = true;
                         $_SESSION["id"] = $id;
                         $_SESSION["email"] = $email;
+                        $_SESSION["nivel"] = $nivel;
                         
                         header("location: ../private/welcome.php");
                     }else{
@@ -71,8 +72,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 }
     }
     
-    mysqli_close($link);
+    mysqli_close($conn);
     
 }
-
 ?>
