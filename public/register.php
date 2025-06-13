@@ -10,6 +10,7 @@
         <title>REGISTRO - PRINT MANAGER</title>
         <link rel="stylesheet" href="../assets/css/style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
     </head>
     <body>
     <div class="container-all">
