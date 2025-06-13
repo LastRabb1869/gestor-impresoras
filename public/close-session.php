@@ -10,6 +10,4 @@ header("location: ../index.html");
 
 exit;
 
-
-
 ?>

@@ -1,0 +1,231 @@
+/* ====== style-dashboard.css ====== */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  background: #F0F4FF;
+}
+
+/* ====== Sidebar ====== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 85px;
+  display: flex;
+  flex-direction: column;
+  background: #161a2d;
+  padding: 25px 20px;
+  transition: all 0.4s ease;
+  overflow-x: hidden;
+}
+
+/* Expande al hover */
+.sidebar:hover {
+  width: 260px;
+}
+
+.sidebar .sidebar-header {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .sidebar-header img.logo-mini {
+  width: 42px;
+  border-radius: 50%;
+}
+
+.sidebar .sidebar-header h2 {
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 23px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar:hover .sidebar-header h2 {
+  opacity: 1;
+}
+
+.sidebar-links {
+  list-style: none;
+  margin-top: 20px;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.sidebar-links::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-links h4 {
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  margin: 10px 0;
+  position: relative;
+}
+
+/* Texto oculto hasta hover */
+.sidebar-links h4 span {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.sidebar:hover .sidebar-links h4 span {
+  opacity: 1;
+}
+
+.sidebar-links .menu-separator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  background: #4f52ba;
+  transform-origin: right;
+  transform: scaleX(1);
+  transition: transform 0.3s ease 0.2s;
+}
+.sidebar:hover .sidebar-links .menu-separator {
+  transform: scaleX(0);
+  transition-delay: 0s;
+}
+
+.sidebar-links li {
+  margin-bottom: 1rem;
+}
+
+.sidebar-links li a {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+.sidebar-links li a:hover {
+  background: #fff;
+  color: #161a2d;
+}
+
+/* Ocultar texto de enlaces y títulos hasta hover */
+.sidebar-links li a span:nth-child(2) {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.sidebar:hover .sidebar-links li a span:nth-child(2) {
+  opacity: 1;
+}
+
+.user-account {
+  margin-top: auto;
+  padding: 12px 10px;
+  margin-left: -10px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #fff;
+  border-radius: 4px;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.sidebar:hover .user-account .user-profile {
+  opacity: 1;
+}
+
+.user-profile img {
+  width: 42px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.user-detail h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.user-detail span {
+  font-size: 0.775rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ====== Main Content ====== */
+.main-content {
+  margin-left: 85px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.4s ease;
+}
+
+.sidebar:hover + .main-content {
+  margin-left: 260px;
+}
+
+/* ====== Topbar ====== */
+.topbar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.search-container input {
+  width: 300px;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* ====== Preserve Cards & Buttons ====== */
+.sub-navbar, .cards-container, .card, .filter-button, .estado-label, .expand-button {
+  /* mantenga estilos previos */
+}
+
+/* Responsive adjustments */
+@media(max-width:768px) {
+  .main-content {
+    margin-left: 85px;
+  }
+  .topbar .search-container input {
+    width: 150px;
+  }
+}
+
+@media(max-width:480px) {
+  .sidebar {
+    display: none;
+  }
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+/* ====== LPTM me congelo con este AC a 22°C grrr ====== */
