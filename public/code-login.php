@@ -57,7 +57,13 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                         $_SESSION["email"] = $email;
                         $_SESSION["nivel"] = $nivel;
                         
-                        header("location: ../private/welcome.php");
+                        if ($nivel === 'Admin IT') {
+                            header("location: ../dashboard/panel_admin.php");
+                        } else {
+                            header("location: ../dashboard/panel_it.php");
+                        }
+                        exit;
+
                     }else{
                         $password_err = "La contraseña que has introducido no es valida";
                     }

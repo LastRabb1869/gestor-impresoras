@@ -7,8 +7,8 @@
     $nombre_err = $correo_err = $num_colaborador_err = $contrasena_err = $nivel_err = $admin_pass_err = "";
 
     // Contraseña secreta para validar acceso de Admin IT
-    $clave_admin_real = "123456"; // Puedes cambiarla luego
-
+    $clave_admin_real = "123456"; // Obviamente, en un entorno real, esta clave debería ser más segura y almacenada de forma segura.
+    // $clave_admin_real = password_hash($clave_admin_real, PASSWORD_DEFAULT);
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Validar nombre
         if (empty(trim($_POST["username"]))) {
