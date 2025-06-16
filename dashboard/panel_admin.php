@@ -92,7 +92,7 @@ while ($row = mysqli_fetch_assoc($result_impresoras)) {
     </ul>
     <div class="user-account">
       <div class="user-profile">
-        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="Foto de perfil de" />
+        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="Perfil" />
         <div class="user-detail">
           <h3><?php echo htmlspecialchars($nombre_usuario); ?></h3>
           <span><?php echo $_SESSION['nivel']; ?></span>

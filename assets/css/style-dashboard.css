@@ -32,7 +32,7 @@ body {
   overflow: hidden;
   z-index: 1000;
 }
-.sidebar:hover {
+.sidebar.expanded {
   width: 260px;
 }
 
@@ -51,10 +51,12 @@ body {
   white-space: nowrap;
   margin-left: 23px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
 }
-.sidebar:hover .sidebar-header h2 {
+.sidebar.expanded .sidebar-header h2 {
   opacity: 1;
+  visibility: visible;
 }
 
 /* ====== Sidebar Links ====== */
@@ -64,8 +66,20 @@ body {
   flex: 1;
   overflow-y: auto;
 }
+
 .sidebar-links::-webkit-scrollbar {
   display: none;
+}
+
+.sidebar-links h4 span {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar.expanded .sidebar-links h4 span {
+  opacity: 1;
+  visibility: visible;
 }
 
 .sidebar-links h4 {
@@ -74,6 +88,22 @@ body {
   white-space: nowrap;
   margin: 10px 0;
   padding-left: 10px;
+  position: relative;
+}
+
+.sidebar-links h4 .menu-separator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background: #7d4ec0;
+  transform: translateY(-50%);
+  display: block;
+}
+
+.sidebar.expanded .sidebar-links h4 .menu-separator {
+  display: none;
 }
 
 .sidebar-links li {
@@ -90,6 +120,7 @@ body {
   padding: 10px;
   border-radius: 4px;
   transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
 }
 .sidebar-links li.active a {
   background: #fff;
@@ -106,10 +137,12 @@ body {
 /* Ocultar texto hasta hover */
 .sidebar-links li a span:nth-child(2) {
   opacity: 0;
+  white-space: nowrap;
   transition: opacity 0.3s ease;
 }
-.sidebar:hover .sidebar-links li a span:nth-child(2) {
+.sidebar.expanded .sidebar-links li a span:nth-child(2) {
   opacity: 1;
+  visibility: visible;
 }
 
 /* ====== User Profile ====== */
@@ -150,7 +183,7 @@ body {
   position: relative;
   transition: margin-left 0.4s ease;
 }
-.sidebar:hover + .main-content {
+.sidebar.expanded + .main-content {
   margin-left: 260px;
 }
 
@@ -303,6 +336,5 @@ body {
     margin-left: 0;
   }
 }
-
 
 /* ====== LPTM me congelo con este AC a 22°C grrr ====== */

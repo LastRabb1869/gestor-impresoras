@@ -65,6 +65,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  // Al entrar con el ratón
+  sidebar.addEventListener('mouseenter', () => {
+    sidebar.classList.add('expanded');
+  });
+  // Al salir
+  sidebar.addEventListener('mouseleave', () => {
+    sidebar.classList.remove('expanded');
+  });
+
   // --- FILTRADO DE IMPRESORAS ---
   filterButtons.forEach(btn => {
     btn.addEventListener('click', () => {
