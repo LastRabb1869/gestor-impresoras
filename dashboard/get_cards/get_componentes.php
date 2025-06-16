@@ -1,5 +1,5 @@
 <?php
-include('../config/conexion.php');
+include('../../config/conexion.php');
 
 $query = "SELECT * FROM componentes";
 $result = mysqli_query($conn, $query);

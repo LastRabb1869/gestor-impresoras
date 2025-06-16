@@ -179,7 +179,9 @@ while ($row = mysqli_fetch_assoc($result_impresoras)) {
 
       <!-- Sección Alertas y Cambios -->
       <section id="alertas-section" class="dashboard-section" style="display:none;">
-        <!-- Aquí el JS inyectará la sección de alertas y cambios -->
+        <div class="cards-container">
+          <!-- Aquí el JS inyectará la sección de alertas y cambios -->
+        </div>
       </section>
     </main>
   </div>

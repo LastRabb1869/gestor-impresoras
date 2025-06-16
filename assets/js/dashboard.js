@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // — Carga dinámicamente los componentes —
   function cargarComponentes() {
-    fetch('get_componentes.php')
+    fetch('get_cards/get_componentes.php')
       .then(res => res.json())
       .then(data => {
         const cont = componentesSection.querySelector('.cards-container');
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
           cont.appendChild(card);
         });
       })
-      .catch(err => console.error('Error al cargar componentes:', err));
+      .catch(err => console.error('Hubo un error al cargar componentes: ', err));
   }
 
   // — Delegación de clics en Impresoras —
