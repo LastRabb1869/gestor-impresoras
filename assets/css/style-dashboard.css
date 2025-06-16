@@ -36,20 +36,6 @@ body {
   width: 260px;
 }
 
-/* sidebar overlay effect */
-.sidebar:hover ~ .main-content::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 260px;
-  width: calc(100% - 260px);
-  height: 100%;
-  background: rgba(0,0,0,0.1);
-  pointer-events: none;
-  z-index: 900;
-  backdrop-filter: blur(2px);
-}
-
 .sidebar .sidebar-header {
   display: flex;
   align-items: center;
@@ -71,34 +57,53 @@ body {
   opacity: 1;
 }
 
+/* ====== Sidebar Links ====== */
 .sidebar-links {
   list-style: none;
   margin-top: 20px;
   flex: 1;
   overflow-y: auto;
 }
-.sidebar-links::-webkit-scrollbar { display: none; }
+.sidebar-links::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-links h4 {
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  margin: 10px 0;
+  padding-left: 10px;
+}
 
 .sidebar-links li {
   margin-bottom: 1rem;
 }
+
 .sidebar-links li a {
   display: flex;
   align-items: center;
   gap: 20px;
   color: #fff;
   font-weight: 500;
-  white-space: nowrap;
   text-decoration: none;
   padding: 10px;
   border-radius: 4px;
   transition: background 0.2s, color 0.2s;
 }
-.sidebar-links li a:hover,
 .sidebar-links li.active a {
   background: #fff;
   color: #161a2d;
 }
+.sidebar-links li.active a .material-symbols-outlined {
+  color: #7d4ec0;
+}
+.sidebar-links li a:hover {
+  background: #fff;
+  color: #161a2d;
+}
+
+/* Ocultar texto hasta hover */
 .sidebar-links li a span:nth-child(2) {
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -107,6 +112,7 @@ body {
   opacity: 1;
 }
 
+/* ====== User Profile ====== */
 .user-account {
   margin-top: auto;
   padding: 12px 10px;
@@ -121,7 +127,7 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-.sidebar:hover .user-account .user-profile {
+.sidebar:hover .user-profile {
   opacity: 1;
 }
 .user-profile img {
@@ -132,6 +138,7 @@ body {
 .user-detail h3,
 .user-detail span {
   white-space: nowrap;
+  color: #161a2d;
 }
 
 /* ====== Main Content ====== */
@@ -183,13 +190,40 @@ body {
   position: relative;
 }
 
+/* ====== Filter Buttons ====== */
+.sub-navbar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.filter-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.filter-button.active,
+.filter-button:hover {
+  background: #007bff;
+  border-color: #0056b3;
+  color: #fff;
+}
+.filter-button .material-symbols-outlined {
+  font-size: 1rem;
+}
+
 /* ====== Cards Layout ====== */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
   padding: 2rem;
-  margin-left: 0;
 }
 .card {
   display: flex;
@@ -214,7 +248,11 @@ body {
   align-items: center;
   justify-content: center;
 }
-.card-img img { width: 100%; height: auto; object-fit: cover; }
+.card-img img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
 .card-info {
   padding: 1rem;
   flex: 1;
@@ -238,17 +276,32 @@ body {
   cursor: pointer;
   transition: background 0.2s ease;
 }
-.expand-button:hover { background-color: #0056b3; }
+.expand-button:hover {
+  background-color: #0056b3;
+}
 
 /* ====== Responsive ====== */
 @media(max-width:768px) {
-  .cards-container { flex-direction: column; }
-  .card { flex: 1 1 auto; }
-  .search-container input { width: 150px; }
+  .cards-container {
+    flex-direction: column;
+  }
+  .card {
+    flex: 1 1 auto;
+  }
+  .search-container input {
+    width: 150px;
+  }
+  .sub-navbar {
+    flex-wrap: wrap;
+  }
 }
 @media(max-width:480px) {
-  .sidebar { display: none; }
-  .main-content { margin-left: 0; }
+  .sidebar {
+    display: none;
+  }
+  .main-content {
+    margin-left: 0;
+  }
 }
 
 
