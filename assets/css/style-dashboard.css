@@ -160,7 +160,7 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-.sidebar:hover .user-profile {
+.sidebar.expanded .user-profile {
   opacity: 1;
 }
 .user-profile img {
@@ -230,7 +230,7 @@ body {
   gap: 1rem;
   margin: 1rem 0;
 }
-.filter-button {
+.filter-button, .filter-button-comp {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -241,13 +241,13 @@ body {
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
 }
-.filter-button.active,
-.filter-button:hover {
+.filter-button.active, .filter-button:hover,
+.filter-button-comp.active,.filter-button-comp:hover {
   background: #007bff;
   border-color: #0056b3;
   color: #fff;
 }
-.filter-button .material-symbols-outlined {
+.filter-button .material-symbols-outlined, .filter-button-comp .material-symbols-outlined {
   font-size: 1rem;
 }
 

@@ -92,7 +92,7 @@ while ($row = mysqli_fetch_assoc($result_impresoras)) {
     </ul>
     <div class="user-account">
       <div class="user-profile">
-        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="Perfil" />
+        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="FDPerfil" />
         <div class="user-detail">
           <h3><?php echo htmlspecialchars($nombre_usuario); ?></h3>
           <span><?php echo $_SESSION['nivel']; ?></span>
@@ -112,14 +112,25 @@ while ($row = mysqli_fetch_assoc($result_impresoras)) {
       <!-- Sección Impresoras -->
       <section id="impresoras-section" class="dashboard-section">
         <div class="sub-navbar">
-          <button class="filter-button active" data-filter="operativas">Operativas</button>
-          <button class="filter-button" data-filter="no-operativas">Ya no operan</button>
+          <button class="filter-button" data-filter="todas">
+            <span class="material-symbols-outlined">view_list</span>
+            <span>Todas</span>
+          </button>
+          <button class="filter-button" data-filter="operativas">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Operativas</span>
+          </button>
+          <button class="filter-button" data-filter="no-operativas">
+            <span class="material-symbols-outlined">cancel</span>
+            <span>Ya no operan</span>
+          </button>
         </div>
         <div class="cards-container">
+          <!-- Aquí el JS inyectará la sección de impresoras. Por el momento, PHP se encarga en su totalidad -->
           <?php foreach($impresoras as $imp): ?>
             <div class="card impresora-card <?php echo strtolower(str_replace(' ', '-', $imp['estado'])); ?>" data-estado="<?php echo $imp['estado']; ?>">
               <div class="card-img">
-                <img src="../assets/img/<?php echo $imp['imagen'] ?: 'default-printer.jpg'; ?>" alt="">
+                <img src="../assets/img/<?php echo $imp['imagen'] ?: 'default-printer.jpg'; ?>" alt="<?php echo htmlspecialchars($imp['nombre']); ?>">
               </div>
               <div class="card-info">
                 <h3><?php echo htmlspecialchars($imp['nombre']); ?></h3>
@@ -132,15 +143,43 @@ while ($row = mysqli_fetch_assoc($result_impresoras)) {
           <?php endforeach; ?>
         </div>
       </section>
-
       <!-- Sección Componentes -->
-      <section id="componentes-section" class="dashboard-section cards-container">
-        <!-- Aquí irán las tarjetas de componentes -->
+      <section id="componentes-section" class="dashboard-section">
+        <div class="sub-navbar">
+          <button class="filter-button-comp active" data-filter="todos">
+            <span class="material-symbols-outlined">view_list</span>
+            <span>Todos</span>
+          </button>
+          <button class="filter-button-comp" data-filter="en-condiciones">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>En condiciones</span>
+          </button>
+          <button class="filter-button-comp" data-filter="posible-fallo">
+            <span class="material-symbols-outlined">warning</span>
+            <span>Posible fallo</span>
+          </button>
+          <button class="filter-button-comp" data-filter="baja-definitiva">
+            <span class="material-symbols-outlined">delete</span>
+            <span>Baja definitiva</span>
+          </button>
+          <button class="filter-button-comp" data-filter="desconocido">
+            <span class="material-symbols-outlined">help</span>
+            <span>Desconocido</span>
+          </button>
+          <button class="filter-button-comp" data-filter="sin-stock">
+            <span class="material-symbols-outlined">block</span>
+            <span>Sin stock</span>
+          </button>
+        </div>
+        <div class="cards-container">
+          <!-- Aquí el JS inyectará la sección de componentes -->
+        </div>
       </section>
+
 
       <!-- Sección Alertas y Cambios -->
       <section id="alertas-section" class="dashboard-section" style="display:none;">
-        <!-- Aquí irán las alertas y cambios -->
+        <!-- Aquí el JS inyectará la sección de alertas y cambios -->
       </section>
     </main>
   </div>

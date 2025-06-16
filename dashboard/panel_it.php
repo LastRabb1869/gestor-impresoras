@@ -60,7 +60,7 @@ while ($row = mysqli_fetch_assoc($result_impresoras)) {
           <span>Impresoras</span>
         </a>
       </li>
-      <li class="nav-item" data-section="componentes-section">
+      <li id="btnComponentes" class="nav-item" data-section="componentes-section">
         <a href="javascript:;">
           <span class="material-symbols-outlined">memory</span>
           <span>Componentes</span>
@@ -92,7 +92,7 @@ while ($row = mysqli_fetch_assoc($result_impresoras)) {
     </ul>
     <div class="user-account">
       <div class="user-profile">
-        <img src="../assets/img/ppdc-logo.jpg" alt="Profile Image" />
+        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="FDPerfil" />
         <div class="user-detail">
           <h3><?php echo htmlspecialchars($nombre_usuario); ?></h3>
           <span><?php echo $_SESSION['nivel']; ?></span>
@@ -134,7 +134,7 @@ while ($row = mysqli_fetch_assoc($result_impresoras)) {
       </section>
 
       <!-- Sección Componentes -->
-      <section id="componentes-section" class="dashboard-section" style="display:none;">
+      <section id="componentes-section" class="dashboard-section cards-container">
         <!-- Aquí irán las tarjetas de componentes -->
       </section>
 
