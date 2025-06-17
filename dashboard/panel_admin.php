@@ -1,3 +1,4 @@
+<!-- panel_admin.php -->
 <?php
 session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
@@ -26,17 +27,14 @@ mysqli_stmt_close($stmt_usuario);
   <meta charset="UTF-8">
   <title>Panel - <?php echo htmlspecialchars($nivel); ?></title>
   <!-- Fuente de iconos Material Symbols -->
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-  />
-  <link rel="stylesheet" href="../assets/css/style-dashboard.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+  <link rel="stylesheet" href="../assets/css/style_dashboard.css">
 </head>
 <body>
 
   <aside class="sidebar">
     <div class="sidebar-header">
-      <img src="../assets/img/logo-mini.png" alt="Logo Meliá" class="logo-mini">
+      <img src="../assets/img/ppdc-logo.jpg" alt="Logo Meliá" class="logo-mini">
       <h2>Gestor Meliá</h2>
     </div>
     <ul class="sidebar-links">
@@ -62,7 +60,16 @@ mysqli_stmt_close($stmt_usuario);
           <span>Alertas y Cambios</span>
         </a>
       </li>
-
+      <h4>
+        <span>Gestionar</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li class="nav-item" id="colaboradores-btn">
+        <a href="javascript:;">
+          <span class="material-symbols-outlined">manage_accounts</span>
+          <span>Colaboradores</span>
+        </a>
+      </li>
       <h4>
         <span>Cuenta</span>
         <div class="menu-separator"></div>
@@ -102,6 +109,7 @@ mysqli_stmt_close($stmt_usuario);
       <!-- Sección Impresoras -->
       <section id="impresoras-section" class="dashboard-section">
         <div class="sub-navbar">
+          <!-- Barra de navegación con filtros para impresoras -->
           <button class="filter-button" data-filter="todas">
             <span class="material-symbols-outlined">view_list</span>
             <span>Todas</span>
@@ -110,9 +118,17 @@ mysqli_stmt_close($stmt_usuario);
             <span class="material-symbols-outlined">check_circle</span>
             <span>Operativas</span>
           </button>
+          <button class="filter-button" data-filter="con-problemas">
+            <span class="material-symbols-outlined">print_error</span>
+            <span>Con problemas</span>
+          </button>
+          <button class="filter-button" data-filter="reparando">
+            <span class="material-symbols-outlined">build_circle</span>
+            <span>Reparando</span>
+          </button>
           <button class="filter-button" data-filter="no-operativas">
-            <span class="material-symbols-outlined">cancel</span>
-            <span>Ya no operan</span>
+            <span class="material-symbols-outlined">delete</span>
+            <span>Baja definitiva</span>
           </button>
         </div>
         <div class="cards-container">
@@ -122,6 +138,7 @@ mysqli_stmt_close($stmt_usuario);
       <!-- Sección Componentes -->
       <section id="componentes-section" class="dashboard-section">
         <div class="sub-navbar">
+          <!-- Barra de navegación con filtros para componentes -->
           <button class="filter-button-comp active" data-filter="todos">
             <span class="material-symbols-outlined">view_list</span>
             <span>Todos</span>
@@ -134,29 +151,27 @@ mysqli_stmt_close($stmt_usuario);
             <span class="material-symbols-outlined">warning</span>
             <span>Posible fallo</span>
           </button>
-          <button class="filter-button-comp" data-filter="baja-definitiva">
-            <span class="material-symbols-outlined">delete</span>
-            <span>Baja definitiva</span>
+          <button class="filter-button-comp" data-filter="sin-stock">
+            <span class="material-symbols-outlined">block</span>
+            <span>Sin stock</span>
           </button>
           <button class="filter-button-comp" data-filter="desconocido">
             <span class="material-symbols-outlined">help</span>
             <span>Desconocido</span>
           </button>
-          <button class="filter-button-comp" data-filter="sin-stock">
-            <span class="material-symbols-outlined">block</span>
-            <span>Sin stock</span>
+          <button class="filter-button-comp" data-filter="baja-definitiva">
+            <span class="material-symbols-outlined">delete</span>
+            <span>Baja definitiva</span>
           </button>
         </div>
         <div class="cards-container">
           <!-- Aquí el JS inyectará la sección de componentes -->
         </div>
       </section>
-
-
       <!-- Sección Alertas y Cambios -->
       <section id="alertas-section" class="dashboard-section" style="display:none;">
         <div class="cards-container">
-          <!-- Aquí el JS inyectará la sección de alertas y cambios -->
+          <!-- Sección por desarrollar... -->
         </div>
       </section>
     </main>

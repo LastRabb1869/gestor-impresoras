@@ -1,3 +1,5 @@
+// -- Dashboard.js --
+
 document.addEventListener('DOMContentLoaded', () => {
   // — Elementos principales —
   const navItems            = document.querySelectorAll('.nav-item[data-section]');
@@ -82,7 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const estado = card.dataset.estado;
         const ok = filter === 'todas'
                 || (filter === 'operativas'    && estado === 'FUNCIONANDO')
-                || (filter === 'no-operativas' && estado !== 'FUNCIONANDO');
+                || (filter === 'con-problemas'    && estado === 'CON PROBLEMAS')
+                || (filter === 'reparando'    && estado === 'REPARANDO')
+                || (filter === 'no-operativas' && estado == 'BAJA');
         card.style.display = ok ? 'flex' : 'none';
       });
   }

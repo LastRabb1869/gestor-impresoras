@@ -2,13 +2,12 @@
     require "code-login.php";
 ?>
 
-
 <!DOCTYPE html>
 <html lang="es-ES">
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style_logreg.css">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>INICIO - PRINT MANAGER</title>
     <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
