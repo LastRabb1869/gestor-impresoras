@@ -1,4 +1,4 @@
-<?php  
+<?php
     include 'code-register.php'; 
 
 ?>
@@ -19,9 +19,13 @@
             <h1 class="title">Registrarse</h1>
 
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <label>Nombre completo</label>
+                <label>Nombre(s)</label>
                 <input type="text" name="username" value="<?php echo $nombre; ?>">
                 <span class="msg-error"><?php echo $nombre_err; ?></span>
+
+                <label>Apellido(s)</label>
+                <input type="text" name="lastname" value="<?php echo $apellido; ?>">
+                <span class="msg-error"><?php echo $apellido_err; ?></span>
 
                 <label>Email - Meliá</label>
                 <input type="text" name="email" value="<?php echo $correo; ?>">

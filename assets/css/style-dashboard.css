@@ -168,7 +168,7 @@ body {
   border-radius: 50%;
   border: 2px solid #fff;
 }
-.user-detail h3,
+.user-detail h4,
 .user-detail span {
   white-space: nowrap;
   color: #161a2d;

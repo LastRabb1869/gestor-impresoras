@@ -18,18 +18,8 @@ mysqli_stmt_execute($stmt_usuario);
 mysqli_stmt_bind_result($stmt_usuario, $nombre_usuario, $imagen_perfil);
 mysqli_stmt_fetch($stmt_usuario);
 mysqli_stmt_close($stmt_usuario);
-
-// Datos de impresoras
-$sql_impresoras = "SELECT i.id, i.nombre, i.num_serie, i.estado, i.imagen, u.nombre AS ubicacion 
-                   FROM impresoras i
-                   JOIN ubicaciones u ON i.ubicacion_id = u.id";
-$result_impresoras = mysqli_query($conn, $sql_impresoras);
-
-$impresoras = [];
-while ($row = mysqli_fetch_assoc($result_impresoras)) {
-    $impresoras[] = $row;
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -94,7 +84,7 @@ while ($row = mysqli_fetch_assoc($result_impresoras)) {
       <div class="user-profile">
         <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="FDPerfil" />
         <div class="user-detail">
-          <h3><?php echo htmlspecialchars($nombre_usuario); ?></h3>
+          <h4><?php echo htmlspecialchars($nombre_usuario); ?></h4>
           <span><?php echo $_SESSION['nivel']; ?></span>
         </div>
       </div>
@@ -127,20 +117,6 @@ while ($row = mysqli_fetch_assoc($result_impresoras)) {
         </div>
         <div class="cards-container">
           <!-- Aquí el JS inyectará la sección de impresoras. Por el momento, PHP se encarga en su totalidad -->
-          <?php foreach($impresoras as $imp): ?>
-            <div class="card impresora-card <?php echo strtolower(str_replace(' ', '-', $imp['estado'])); ?>" data-estado="<?php echo $imp['estado']; ?>">
-              <div class="card-img">
-                <img src="../assets/img/<?php echo $imp['imagen'] ?: 'default-printer.jpg'; ?>" alt="<?php echo htmlspecialchars($imp['nombre']); ?>">
-              </div>
-              <div class="card-info">
-                <h3><?php echo htmlspecialchars($imp['nombre']); ?></h3>
-                <p><strong>Serie:</strong> <?php echo htmlspecialchars($imp['num_serie']); ?></p>
-                <p><strong>Ubicación:</strong> <?php echo htmlspecialchars($imp['ubicacion']); ?></p>
-                <p><strong>Estado:</strong> <span class="estado-label"><?php echo $imp['estado']; ?></span></p>
-                <button class="expand-button" data-id="<?php echo $imp['id']; ?>">Ver más</button>
-              </div>
-            </div>
-          <?php endforeach; ?>
         </div>
       </section>
       <!-- Sección Componentes -->

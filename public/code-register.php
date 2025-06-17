@@ -2,21 +2,32 @@
     require_once "../config/conexion.php";
 
     // Inicializar variables
-    $nombre = $correo = $num_colaborador = $contrasena = $nivel = "";
+    $nombre = $apellido = $correo = $num_colaborador = $contrasena = $nivel = "";
     $admin_pass = "";
-    $nombre_err = $correo_err = $num_colaborador_err = $contrasena_err = $nivel_err = $admin_pass_err = "";
+    $nombre_err = $apellido_err = $correo_err = $num_colaborador_err = $contrasena_err = $nivel_err = $admin_pass_err = "";
 
     // Contraseña secreta para validar acceso de Admin IT
     $clave_admin_real = "123456"; // Obviamente, en un entorno real, esta clave debería ser más segura y almacenada de forma segura.
     // $clave_admin_real = password_hash($clave_admin_real, PASSWORD_DEFAULT);
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
         // Validar nombre
         if (empty(trim($_POST["username"]))) {
             $nombre_err = "Por favor, ingresa tu nombre";
         } elseif (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u", trim($_POST["username"]))) {
-            $nombre_err = "El nombre solo debe contener letras";
+            $nombre_err = "El nombre solo debe contener letras, espacios y acentos";
         } else {
             $nombre = trim($_POST["username"]);
+        }
+
+        // Validar apellido
+        if (empty(trim($_POST["lastname"]))) {
+            $apellido_err = "Por favor, ingresa tu apellido";
+        } elseif (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u", trim($_POST["lastname"]))) {
+            $apellido_err = "El apellido solo debe contener letras, espacios y acentos";
+        } else {
+            $apellido = trim($_POST["lastname"]);
         }
 
         // Validar correo
@@ -77,16 +88,16 @@
                 if (empty($_POST["admin_pass"])) {
                     $admin_pass_err = "Debes ingresar la clave de administrador";
                 } elseif ($_POST["admin_pass"] !== $clave_admin_real) {
-                    $admin_pass_err = "Clave de administrador incorrecta";
+                    $admin_pass_err = "La clave de administrador es incorrecta.";
                 }
             }
         }
 
-        // Si no hay errores, insertar en la base de datos
-        if (empty($nombre_err) && empty($correo_err) && empty($num_colaborador_err) && empty($contrasena_err) && empty($nivel_err) && empty($admin_pass_err)) {
-            $sql = "INSERT INTO USUARIOS (nombre, correo, num_colaborador, contrasena, nivel) VALUES (?, ?, ?, ?, ?)";
+        // Y si no hay errores, se insertará en la base de datos
+        if (empty($nombre_err) && empty($apellido_err) && empty($correo_err) && empty($num_colaborador_err) && empty($contrasena_err) && empty($nivel_err) && empty($admin_pass_err)) {
+            $sql = "INSERT INTO USUARIOS (nombre, apellido, correo, num_colaborador, contrasena, nivel) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssss", $nombre, $correo, $num_colaborador, $contrasena, $nivel);
+            $stmt->bind_param("ssssss", $nombre, $apellido, $correo, $num_colaborador, $contrasena, $nivel);
 
             if ($stmt->execute()) {
                 header("Location: login.php");

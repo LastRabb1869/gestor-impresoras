@@ -8,31 +8,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const componentesSection  = document.getElementById('componentes-section');
   const searchBar           = document.getElementById('searchBar');
 
-  // — Aplica filtro sobre impresoras —
-  function applyPrinterFilter(filter) {
-    document.querySelectorAll('#impresoras-section .impresora-card')
-      .forEach(card => {
-        const estado = card.dataset.estado;
-        const ok = filter === 'todas'
-                || (filter === 'operativas'    && estado === 'FUNCIONANDO')
-                || (filter === 'no-operativas' && estado !== 'FUNCIONANDO');
-        card.style.display = ok ? 'flex' : 'none';
-      });
-  }
-
-  // — Aplica filtro sobre componentes —
-  function applyComponentFilter(filter) {
-    document.querySelectorAll('#componentes-section .componente-card')
-      .forEach(card => {
-        const estado = card.dataset.estado;
-        const ok = filter === 'todos'
-                || (filter === 'en-condiciones'  && estado === 'EXCELENTES CONDICIONES')
-                || (filter === 'posible-fallo'   && estado === 'POSIBLE FALLO')
-                || (filter === 'baja-definitiva' && estado === 'BAJA DEFINITIVA')
-                || (filter === 'desconocido'     && estado === 'DESCONOCIDO')
-                || (filter === 'sin-stock'       && estado === 'SIN STOCK');
-        card.style.display = ok ? 'flex' : 'none';
-      });
+  // — Carga dinámicamente las impresoras —
+  function cargarImpresoras() {
+    fetch('get_cards/get_impresoras.php')
+      .then(res => res.json())
+      .then(data => {
+        const cont = impresorasSection.querySelector('.cards-container');
+        cont.innerHTML = '';
+        if (!data.length) {
+          cont.innerHTML = '<p>No hay impresoras registradas.</p>';
+          return;
+        }
+        data.forEach(c => {
+          const card = document.createElement('div');
+          card.className = 'card impresora-card';
+          card.setAttribute('data-estado', c.estado);
+          card.innerHTML = `
+            <div class="card-img">
+              <img src="../assets/img/${c.imagen || 'default-impresora.jpg'}" alt="${c.nombre}">
+            </div>
+            <div class="card-info">
+              <h3>${c.nombre}</h3>
+              <p><strong>Serie:</strong> ${c.num_serie}</p>
+              <p><strong>Marca:</strong> ${c.marca}</p>
+              <p><strong>Ubicación:</strong> ${c.ubicacion}</p>
+              <p><strong>Estado:</strong> ${c.estado}</p>
+              <button class="expand-button">Ver</button>
+            </div>`;
+          cont.appendChild(card);
+        });
+      })
+      .catch(err => console.error('Hubo un error al cargar las impresoras: ', err));
   }
 
   // — Carga dinámicamente los componentes —
@@ -58,15 +64,42 @@ document.addEventListener('DOMContentLoaded', () => {
               <h3>${c.nombre}</h3>
               <p><strong>Serie:</strong> ${c.num_serie}</p>
               <p><strong>Marca:</strong> ${c.marca}</p>
-              <p><strong>Ubicación:</strong> ${c.ubicacion_id}</p>
+              <p><strong>Ubicación:</strong> ${c.ubicacion}</p>
               <p><strong>Estado:</strong> ${c.estado}</p>
               <p><strong>Stock:</strong> ${c.cantidad_stock}</p>
-              <button class="expand-button">Ver más</button>
+              <button class="expand-button">Ver</button>
             </div>`;
           cont.appendChild(card);
         });
       })
-      .catch(err => console.error('Hubo un error al cargar componentes: ', err));
+      .catch(err => console.error('Hubo un error al cargar los componentes: ', err));
+  }
+
+  // — Aplica filtro sobre impresoras —
+  function applyPrinterFilter(filter) {
+    document.querySelectorAll('#impresoras-section .impresora-card')
+      .forEach(card => {
+        const estado = card.dataset.estado;
+        const ok = filter === 'todas'
+                || (filter === 'operativas'    && estado === 'FUNCIONANDO')
+                || (filter === 'no-operativas' && estado !== 'FUNCIONANDO');
+        card.style.display = ok ? 'flex' : 'none';
+      });
+  }
+
+  // — Aplica filtro sobre componentes —
+  function applyComponentFilter(filter) {
+    document.querySelectorAll('#componentes-section .componente-card')
+      .forEach(card => {
+        const estado = card.dataset.estado;
+        const ok = filter === 'todos'
+                || (filter === 'en-condiciones'  && estado === 'EXCELENTES CONDICIONES')
+                || (filter === 'posible-fallo'   && estado === 'POSIBLE FALLO')
+                || (filter === 'baja-definitiva' && estado === 'BAJA DEFINITIVA')
+                || (filter === 'desconocido'     && estado === 'DESCONOCIDO')
+                || (filter === 'sin-stock'       && estado === 'SIN STOCK');
+        card.style.display = ok ? 'flex' : 'none';
+      });
   }
 
   // — Delegación de clics en Impresoras —
@@ -128,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (target === 'impresoras-section') {
         // reset filtros Impresoras
+        cargarImpresoras();
         const btnAllI = impresorasSection.querySelector('.filter-button[data-filter="todas"]');
         impresorasSection.querySelectorAll('.filter-button').forEach(b => b.classList.remove('active'));
         btnAllI.classList.add('active');
@@ -153,6 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = '../public/close-session.php';
   });
 
-  // — Inicializar en Impresoras —
+  // — Se fuerza el inicializar en impresoras —
   navItems[0].click();
 });

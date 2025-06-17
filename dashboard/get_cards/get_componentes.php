@@ -1,12 +1,14 @@
 <?php
 include('../../config/conexion.php');
 
-$query = "SELECT * FROM componentes";
-$result = mysqli_query($conn, $query);
+$sql_componentes = "SELECT i.id, i.nombre, i.marca, i.num_serie, i.cantidad_stock, i.estado, i.imagen, u.nombre AS ubicacion
+                   FROM componentes i
+                   JOIN ubicaciones u ON i.ubicacion_id = u.id";
+$result_componentes = mysqli_query($conn, $sql_componentes);
 
 $componentes = [];
 
-while ($row = mysqli_fetch_assoc($result)) {
+while ($row = mysqli_fetch_assoc($result_componentes)) {
     $componentes[] = $row;
 }
 
