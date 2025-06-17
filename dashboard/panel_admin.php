@@ -89,7 +89,7 @@ mysqli_stmt_close($stmt_usuario);
     </ul>
     <div class="user-account">
       <div class="user-profile">
-        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="FDPerfil" />
+        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="FDPerfil"/>
         <div class="user-detail">
           <h4><?php echo htmlspecialchars($nombre_usuario); ?></h4>
           <span><?php echo $_SESSION['nivel']; ?></span>
@@ -168,10 +168,37 @@ mysqli_stmt_close($stmt_usuario);
           <!-- Aquí el JS inyectará la sección de componentes -->
         </div>
       </section>
-      <!-- Sección Alertas y Cambios -->
-      <section id="alertas-section" class="dashboard-section" style="display:none;">
-        <div class="cards-container">
-          <!-- Sección por desarrollar... -->
+      <section id="alertas-section" class="dashboard-section">
+        <!-- Sección Alertas y Cambios -->
+        <div class="sub-navbar">
+          <!-- Reutilizamos la misma clase de pestañas que los filtros -->
+          <button class="filter-tab active" data-section="alertas">
+            <span class="material-symbols-outlined">warning</span>
+            <span>Alertas</span>
+          </button>
+          <button class="filter-tab" data-section="cambios">
+            <span class="material-symbols-outlined">sync_alt</span>
+            <span>Cambios</span>
+          </button>
+        </div>
+        <div id="alertas-container" class="cards-container">
+          <!-- Aquí el JS inyectará la sección de alertas -->
+        </div>
+        <div id="cambios-container" class="cards-container">
+          <!-- Aquí el JS inyectará la sección de cambios -->
+        </div>
+
+        <!-- FAB flotante -->
+        <div class="fab-menu">
+          <button id="fab-toggle" class="fab" title="Opciones">+</button>
+          <div class="fab-options hidden">
+            <button id="fab-alerta" title="Nueva Alerta">
+              <span class="material-symbols-outlined">notification_add</span>
+            </button>
+            <button id="fab-cambio" title="Nuevo Cambio">
+              <span class="material-symbols-outlined">loop</span>
+            </button>
+          </div>
         </div>
       </section>
     </main>

@@ -1,4 +1,4 @@
-// -- Dashboard.js --
+// assets/js/dashboard.js
 
 document.addEventListener('DOMContentLoaded', () => {
   // — Elementos principales —
@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const logoutBtn           = document.getElementById('logout-btn');
   const impresorasSection   = document.getElementById('impresoras-section');
   const componentesSection  = document.getElementById('componentes-section');
+  const alertasSection      = document.getElementById('alertas-section');
   const searchBar           = document.getElementById('searchBar');
 
   // — Carga dinámicamente las impresoras —
@@ -17,14 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
         const cont = impresorasSection.querySelector('.cards-container');
         cont.innerHTML = '';
-        if (!data.length) {
-          cont.innerHTML = '<p>No hay impresoras registradas.</p>';
-          return;
-        }
+        if (!data.length) return cont.innerHTML = '<p>No hay impresoras.</p>';
         data.forEach(c => {
           const card = document.createElement('div');
           card.className = 'card impresora-card';
-          card.setAttribute('data-estado', c.estado);
+          card.dataset.estado = c.estado;
           card.innerHTML = `
             <div class="card-img">
               <img src="../assets/img/${c.imagen || 'default-impresora.jpg'}" alt="${c.nombre}">
@@ -35,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <p><strong>Marca:</strong> ${c.marca}</p>
               <p><strong>Ubicación:</strong> ${c.ubicacion}</p>
               <p><strong>Estado:</strong> ${c.estado}</p>
-              <button class="expand-button">Ver</button>
+              <button class="expand-button" data-id="${c.id}">Ver</button>
             </div>`;
           cont.appendChild(card);
         });
@@ -50,14 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
         const cont = componentesSection.querySelector('.cards-container');
         cont.innerHTML = '';
-        if (!data.length) {
-          cont.innerHTML = '<p>No hay componentes registrados.</p>';
-          return;
-        }
+        if (!data.length) return cont.innerHTML = '<p>No hay componentes.</p>';
         data.forEach(c => {
           const card = document.createElement('div');
           card.className = 'card componente-card';
-          card.setAttribute('data-estado', c.estado);
+          card.dataset.estado = c.estado;
           card.innerHTML = `
             <div class="card-img">
               <img src="../assets/img/${c.imagen || 'default-componente.jpg'}" alt="${c.nombre}">
@@ -69,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <p><strong>Ubicación:</strong> ${c.ubicacion}</p>
               <p><strong>Estado:</strong> ${c.estado}</p>
               <p><strong>Stock:</strong> ${c.cantidad_stock}</p>
-              <button class="expand-button">Ver</button>
+              <button class="expand-button" data-id="${c.id}">Ver</button>
             </div>`;
           cont.appendChild(card);
         });
@@ -84,9 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const estado = card.dataset.estado;
         const ok = filter === 'todas'
                 || (filter === 'operativas'    && estado === 'FUNCIONANDO')
-                || (filter === 'con-problemas'    && estado === 'CON PROBLEMAS')
-                || (filter === 'reparando'    && estado === 'REPARANDO')
-                || (filter === 'no-operativas' && estado == 'BAJA');
+                || (filter === 'con-problemas' && estado === 'CON PROBLEMAS')
+                || (filter === 'reparando'     && estado === 'REPARANDO')
+                || (filter === 'no-operativas' && estado === 'BAJA');
         card.style.display = ok ? 'flex' : 'none';
       });
   }
@@ -95,101 +90,115 @@ document.addEventListener('DOMContentLoaded', () => {
   function applyComponentFilter(filter) {
     document.querySelectorAll('#componentes-section .componente-card')
       .forEach(card => {
-        const estado = card.dataset.estado;
+        const e = card.dataset.estado;
         const ok = filter === 'todos'
-                || (filter === 'en-condiciones'  && estado === 'EXCELENTES CONDICIONES')
-                || (filter === 'posible-fallo'   && estado === 'POSIBLE FALLO')
-                || (filter === 'baja-definitiva' && estado === 'BAJA DEFINITIVA')
-                || (filter === 'desconocido'     && estado === 'DESCONOCIDO')
-                || (filter === 'sin-stock'       && estado === 'SIN STOCK');
+                || (filter === 'en-condiciones'  && e === 'EXCELENTES CONDICIONES')
+                || (filter === 'posible-fallo'   && e === 'POSIBLE FALLO')
+                || (filter === 'baja-definitiva' && e === 'BAJA DEFINITIVA')
+                || (filter === 'desconocido'     && e === 'DESCONOCIDO')
+                || (filter === 'sin-stock'       && e === 'SIN STOCK');
         card.style.display = ok ? 'flex' : 'none';
       });
   }
 
-  // — Delegación de clics en Impresoras —
+  // === Delegación de eventos ===
+  // Impresoras
   impresorasSection.addEventListener('click', e => {
-    // filtro
-    const btnI = e.target.closest('.filter-button');
-    if (btnI) {
-      impresorasSection.querySelectorAll('.filter-button')
-        .forEach(b => b.classList.remove('active'));
-      btnI.classList.add('active');
-      applyPrinterFilter(btnI.dataset.filter);
+    if (e.target.closest('.filter-button')) {
+      const btn = e.target.closest('.filter-button');
+      impresorasSection.querySelectorAll('.filter-button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyPrinterFilter(btn.dataset.filter);
       return;
     }
-    // "Ver más"
-    const expI = e.target.closest('.expand-button');
-    if (expI) {
-      console.log('Ver más impresora ID:', expI.dataset.id);
+    if (e.target.closest('.expand-button')) {
+      console.log('Ver impresora', e.target.closest('.expand-button').dataset.id);
     }
   });
 
-  // — Delegación de clics en Componentes —
+  // Componentes
   componentesSection.addEventListener('click', e => {
-    // filtro
-    const btnC = e.target.closest('.filter-button-comp');
-    if (btnC) {
-      componentesSection.querySelectorAll('.filter-button-comp')
-        .forEach(b => b.classList.remove('active'));
-      btnC.classList.add('active');
-      applyComponentFilter(btnC.dataset.filter);
+    if (e.target.closest('.filter-button-comp')) {
+      const btn = e.target.closest('.filter-button-comp');
+      componentesSection.querySelectorAll('.filter-button-comp').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyComponentFilter(btn.dataset.filter);
       return;
     }
-    // "Ver más"
-    const expC = e.target.closest('.expand-button');
-    if (expC) {
-      console.log('Ver más componente');
+    if (e.target.closest('.expand-button')) {
+      console.log('Ver componente', e.target.closest('.expand-button').dataset.id);
     }
   });
 
-  // — Búsqueda en Impresoras —
-  searchBar.addEventListener('input', () => {
-    const term = searchBar.value.toLowerCase();
-    document.querySelectorAll('#impresoras-section .impresora-card')
-      .forEach(card => {
-        const nombre = card.querySelector('h3').textContent.toLowerCase();
-        const serie  = card.querySelector('p strong').nextSibling.textContent.toLowerCase();
-        card.style.display = (nombre.includes(term) || serie.includes(term)) ? 'flex' : 'none';
-      });
-  });
-
-  // — Navegación entre secciones —
+  // Navegación general
   navItems.forEach(item => {
     item.addEventListener('click', () => {
+      // activa la pestaña
       navItems.forEach(i => i.classList.remove('active'));
       item.classList.add('active');
+      // muestra sección
       const target = item.dataset.section;
-      sections.forEach(s =>
-        s.id === target ? s.classList.add('active') : s.classList.remove('active')
-      );
+      sections.forEach(s => s.id === target ? s.classList.add('active') : s.classList.remove('active'));
 
+      // inicializaciones según sección
       if (target === 'impresoras-section') {
-        // reset filtros Impresoras
         cargarImpresoras();
-        const btnAllI = impresorasSection.querySelector('.filter-button[data-filter="todas"]');
         impresorasSection.querySelectorAll('.filter-button').forEach(b => b.classList.remove('active'));
-        btnAllI.classList.add('active');
+        impresorasSection.querySelector('.filter-button[data-filter="todas"]').classList.add('active');
         applyPrinterFilter('todas');
       }
       if (target === 'componentes-section') {
-        // carga + reset filtros Componentes
         cargarComponentes();
-        const btnAllC = componentesSection.querySelector('.filter-button-comp[data-filter="todos"]');
         componentesSection.querySelectorAll('.filter-button-comp').forEach(b => b.classList.remove('active'));
-        btnAllC.classList.add('active');
+        componentesSection.querySelector('.filter-button-comp[data-filter="todos"]').classList.add('active');
         applyComponentFilter('todos');
+      }
+      if (target === 'alertas-section') {
+        // al entrar en alertas, muestra alertas
+        showSection('alertas');
       }
     });
   });
 
-  // — Hover sidebar —
+  // === Sección “Alertas y Cambios” ===
+  const tabA       = document.querySelector('.filter-tab[data-section="alertas"]');
+  const tabC       = document.querySelector('.filter-tab[data-section="cambios"]');
+  const contA      = document.getElementById('alertas-container');
+  const contC      = document.getElementById('cambios-container');
+  const fabToggle  = document.getElementById('fab-toggle');
+  const fabOptions = document.querySelector('.fab-options');
+  const fabAlert   = document.getElementById('fab-alerta');
+  const fabChange  = document.getElementById('fab-cambio');
+
+  function showSection(sec) {
+    if (sec === 'alertas') {
+      tabA.classList.add('active'); tabC.classList.remove('active');
+      contA.style.display = 'flex'; contC.style.display = 'none';
+    } else {
+      tabC.classList.add('active'); tabA.classList.remove('active');
+      contC.style.display = 'flex'; contA.style.display = 'none';
+    }
+  }
+
+  tabA.addEventListener('click', () => showSection('alertas'));
+  tabC.addEventListener('click', () => showSection('cambios'));
+  showSection('alertas');
+
+  fabToggle.addEventListener('click', () => fabOptions.classList.toggle('hidden'));
+  fabAlert.addEventListener('click', () => { console.log('Crear alerta'); fabOptions.classList.add('hidden'); });
+  fabChange.addEventListener('click', () => { console.log('Crear cambio'); fabOptions.classList.add('hidden'); });
+  document.addEventListener('click', e => {
+    if (!fabToggle.contains(e.target) && !fabOptions.contains(e.target)) {
+      fabOptions.classList.add('hidden');
+    }
+  });
+
+  // Hover sidebar
   sidebar.addEventListener('mouseenter', () => sidebar.classList.add('expanded'));
   sidebar.addEventListener('mouseleave', () => sidebar.classList.remove('expanded'));
 
-  // — Logout —
-  logoutBtn.addEventListener('click', () => {
-    window.location.href = '../public/close-session.php';
-  });
+  // Logout
+  logoutBtn.addEventListener('click', () => window.location.href = '../public/close-session.php');
 
   // — Se fuerza el inicializar en impresoras —
   navItems[0].click();

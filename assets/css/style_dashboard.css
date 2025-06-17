@@ -208,8 +208,8 @@ body {
 /* ====== Section Animation ====== */
 .dashboard-section {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  /* transform: translateY(20px) Quitado para que no afecte el botón de alertas y cambios*/;
+  transition: opacity 0.4s ease /*, transform 0.4s ease Quitado para que no afecte el botón de alertas y cambios*/;
   position: absolute;
   width: 100%;
   top: 0;
@@ -219,18 +219,20 @@ body {
 .dashboard-section.active {
   display: block;
   opacity: 1;
-  transform: translateY(0);
+  /* transform: translateY(0) Quitado para que no afecte el botón de alertas y cambios*/;
   position: relative;
 }
 
-/* ====== Filter Buttons ====== */
+/* ====== Botones de Filtros ====== */
+
+/* Ajuste que hace la sub-navbar para filtros */
 .sub-navbar {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin: 1rem 0;
 }
-.filter-button, .filter-button-comp {
+.filter-button, .filter-button-comp, .filter-tab {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -242,12 +244,13 @@ body {
   transition: background 0.2s, border-color 0.2s;
 }
 .filter-button.active, .filter-button:hover,
-.filter-button-comp.active,.filter-button-comp:hover {
+.filter-button-comp.active,.filter-button-comp:hover,
+.filter-tab.active, .filter-tab:hover {
   background: #007bff;
   border-color: #0056b3;
   color: #fff;
 }
-.filter-button .material-symbols-outlined, .filter-button-comp .material-symbols-outlined {
+.filter-button .material-symbols-outlined, .filter-button-comp .material-symbols-outlined, .filter-tab .material-symbols-outlined {
   font-size: 1rem;
 }
 
@@ -313,6 +316,73 @@ body {
   background-color: #0056b3;
 }
 
+/* ====== Alertas y Cambios ====== */
+
+/* Contenedores de tarjetas */
+#alertas-container,
+#cambios-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+/* Botón flotante y opciones */
+.fab-menu {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  z-index: 1100;
+}
+.fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #007bff;
+  color: #fff;
+  font-size: 2rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.fab:hover {
+  background: #0056b3;
+  transform: scale(1.1);
+}
+
+.fab-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  /* align-items: flex-end; */
+}
+.fab-options.hidden {
+  display: none;
+}
+.fab-options button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  color: #007bff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  transition: background 0.2s, transform 0.2s;
+}
+.fab-options button:hover {
+  background: #e6f0ff;
+  transform: translateX(-4px);
+}
 
 /* ====== Responsive ====== */
 @media(max-width:768px) {
@@ -338,4 +408,4 @@ body {
   }
 }
 
-/* ====== LPTM me congelo con este AC a 22°C grrr ====== */
+/* ====== LPTM me congelo con este AC a 20°C grrr ====== */
