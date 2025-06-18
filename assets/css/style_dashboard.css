@@ -360,12 +360,87 @@ body {
   transform: translateX(-4px);
 }
 
+/* ====== Menú Móvil ====== */
+.mobile-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #fff; border-top: 1px solid #ddd;
+  z-index: 1300;
+  font-size: .75rem;
+}
+.mobile-nav-main {
+  display: flex; justify-content: space-around;
+  padding: .5rem 0;
+}
+.mobile-nav-main li {
+  flex: 1; text-align: center; cursor: pointer;
+  color: #555; transition: color .2s;
+}
+.mobile-nav-main li.active { color: #007bff; }
+.mobile-nav-main li .material-symbols-outlined,
+.mobile-nav-main li .mobile-avatar {
+  display: block; margin: 0 auto .25rem;
+  font-size: 1.5rem;
+  width: 24px; height: 24px; border-radius: 50%;
+}
+.mobile-nav-main li .mobile-avatar { object-fit: cover; }
+
+/* sub-menús ocultos */
+/* contenedor de submenus posicionadas encima */
+.mobile-submenus {
+  position: fixed;
+  bottom: 56px;            /* justo encima de la barra */
+  left: 0; right: 0;
+  pointer-events: none;    /* no bloquear clicks fuera de los ítems */
+  display: flex;
+  justify-content: center;
+  z-index: 1400;
+}
+
+/* por defecto ocultas */
+.mobile-nav-sub {
+  display: none;
+  background: #fff;
+  padding: .5rem 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  gap: 1rem;
+  pointer-events: auto;    /* sólo los ítems reciben clicks */
+}
+
+/* mostrar sólo la del grupo activo */
+.mobile-nav-sub.principal,
+.mobile-nav-sub.gestionar,
+.mobile-nav-sub.cuenta {
+  /* empty – se activará vía JS */
+}
+
+.mobile-nav-sub li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  font-size: .75rem;
+  gap: .25rem;
+  transition: transform .1s;
+}
+.mobile-nav-sub li:hover {
+  transform: translateY(-2px);
+}
 
 
 /* ====== Responsive ====== */
-@media(max-width:768px) {
+/* Media query para pantallas pequeñas */
+@media(max-width: 768px) {
+  /* hide desktop sidebar & topbar */
+  .sidebar, .topbar { display: none; }
+  /* ajustar mainContent padding para dejar hueco al nav */
+  .main-content { margin: 0; padding-bottom: 120px; }
+  /* mostrar menú móvil */
+  .mobile-nav { display: block; }
+  
   .cards-container {
-    flex-direction: column;
+  flex-direction: column;
   }
   .card {
     flex: 1 1 auto;
@@ -376,7 +451,15 @@ body {
   .sub-navbar {
     flex-wrap: wrap;
   }
+  /* en móvil, subir el FAB lo suficiente */
+  .fab-menu {
+    /* 2rem de separación + aprox 56px de altura del mobile-nav */
+    bottom: calc(2rem + 56px + 8px);
+    right: 1.5rem;
+  }
+
 }
+
 @media(max-width:480px) {
   .sidebar {
     display: none;

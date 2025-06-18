@@ -199,8 +199,53 @@ mysqli_stmt_close($stmt_usuario);
           <!-- Aquí el JS inyectará la sección de alertas -->
         </div>
       </section>
+        <!-- FAB de control y añadidos -->
+      <div class="fab-menu">
+        <button id="fab-toggle" class="fab" title="Acciones rápidas">+</button>
+        <div class="fab-options hidden">
+          <button data-action="alerta" title="Nueva Alerta">
+            <span class="material-symbols-outlined">notification_add</span>
+          </button>
+          <button data-action="cambio" title="Nuevo Cambio">
+            <span class="material-symbols-outlined">loop</span>
+          </button>
+        </div>
+      </div>
     </main>
   </div>
+
+  <!-- Menú inferior para móvil -->
+  <nav class="mobile-nav">
+    <ul class="mobile-nav-main">
+      <li data-group="principal" class="active">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Principal</span>
+      </li>
+      <li data-group="gestionar">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Gestionar</span>
+      </li>
+      <li data-group="cuenta">
+        <img src="../assets/img/ppdc-logo.jpg" class="mobile-avatar" alt="Perfil">
+      </li>
+    </ul>
+    <!-- Sub-menús burbuja -->
+    <div class="mobile-submenus">
+      <ul class="mobile-nav-sub principal">
+        <li data-section="impresoras-section"><span class="material-symbols-outlined">print</span><span>Impresoras</span></li>
+        <li data-section="componentes-section"><span class="material-symbols-outlined">memory</span><span>Componentes</span></li>
+      </ul>
+      <ul class="mobile-nav-sub gestionar">
+        <li data-section="alertas-section"><span class="material-symbols-outlined">warning</span><span>Alertas</span></li>
+        <li data-section="cambios-section"><span class="material-symbols-outlined">sync_alt</span><span>Cambios</span></li>
+        <li id="colaboradores-btn"><span class="material-symbols-outlined">manage_accounts</span><span>Colaboradores</span></li>
+      </ul>
+      <ul class="mobile-nav-sub cuenta">
+        <li id="profile-open"><span class="material-symbols-outlined">account_circle</span><span>Perfil</span></li>
+        <li id="logout-btn"><span class="material-symbols-outlined">logout</span><span>Salir</span></li>
+      </ul>
+    </div>
+  </nav>
   <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>

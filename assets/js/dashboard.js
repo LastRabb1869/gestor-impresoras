@@ -10,6 +10,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const alertasSection      = document.getElementById('alertas-section');
   const cambiosSection      = document.getElementById('cambios-section');
   const searchBar           = document.getElementById('searchBar');
+  const mobileMain = document.querySelectorAll('.mobile-nav-main li');
+  const mobileSubs  = document.querySelectorAll('.mobile-nav-sub');
+
+  // — Menú móvil: conmutar grupos y mostrar su sub-lista —
+
+  function hideAllSubs() {
+  mobileSubs.forEach(ul => ul.style.display = 'none');
+  }
+
+  mobileMain.forEach(btn => {
+    btn.addEventListener('click', e => {
+      // 1) marca activo
+      mobileMain.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      // 2) muestra sólo su submenú
+      const group = btn.dataset.group;            // ej. "principal"
+      hideAllSubs();
+      const subUl = document.querySelector(`.mobile-nav-sub.${group}`);
+      if (subUl) subUl.style.display = 'flex';
+    });
+  });
+
+  // click en sub-items: navega a sección y oculta
+  document.querySelectorAll('.mobile-nav-sub li').forEach(item => {
+    item.addEventListener('click', e => {
+      const section = item.dataset.section;
+      if (section) {
+        document.querySelector(`.nav-item[data-section="${section}"]`).click();
+      }
+        hideAllSubs();
+    });
+  });
+
+  // click fuera: cierra submenus
+  document.addEventListener('click', e => {
+    // si no es click dentro de .mobile-nav
+    if (!e.target.closest('.mobile-nav')) {
+      hideAllSubs();
+    }
+  });
 
   // — Carga dinámicamente las impresoras —
   function cargarImpresoras() {
@@ -283,7 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
       fabOptions.classList.add('hidden');
     });
   });
-
 
   // Hover sidebar
   sidebar.addEventListener('mouseenter', () => sidebar.classList.add('expanded'));
