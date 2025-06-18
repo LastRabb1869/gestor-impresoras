@@ -14,4 +14,3 @@ while ($row = mysqli_fetch_assoc($result_componentes)) {
 
 header('Content-Type: application/json');
 echo json_encode($componentes);
-?>

@@ -54,16 +54,22 @@ mysqli_stmt_close($stmt_usuario);
           <span>Componentes</span>
         </a>
       </li>
-      <li class="nav-item" data-section="alertas-section">
-        <a href="javascript:;">
-          <span class="material-symbols-outlined">warning</span>
-          <span>Alertas y Cambios</span>
-        </a>
-      </li>
       <h4>
         <span>Gestionar</span>
         <div class="menu-separator"></div>
       </h4>
+      <li class="nav-item" data-section="alertas-section">
+        <a href="javascript:;">
+          <span class="material-symbols-outlined">warning</span>
+          <span>Alertas</span>
+        </a>
+      </li>
+      <li class="nav-item" data-section="cambios-section">
+        <a href="javascript:;">
+          <span class="material-symbols-outlined">manage_history</span>
+          <span>Cambios</span>
+        </a>
+      </li>
       <li class="nav-item" id="colaboradores-btn">
         <a href="javascript:;">
           <span class="material-symbols-outlined">manage_accounts</span>
@@ -168,42 +174,56 @@ mysqli_stmt_close($stmt_usuario);
           <!-- Aquí el JS inyectará la sección de componentes -->
         </div>
       </section>
+      <!-- Sección Alertas-->
       <section id="alertas-section" class="dashboard-section">
-        <!-- Sección Alertas y Cambios -->
         <div class="sub-navbar">
-          <!-- Reutilizamos la misma clase de pestañas que los filtros -->
-          <button class="filter-tab active" data-section="alertas">
-            <span class="material-symbols-outlined">warning</span>
-            <span>Alertas</span>
+          <!-- Barra de navegación con filtros para alertas -->
+          <button class="filter-button-alt active" data-filter="todas">
+            <span class="material-symbols-outlined">view_list</span>
+            <span>Todos</span>
           </button>
-          <button class="filter-tab" data-section="cambios">
-            <span class="material-symbols-outlined">sync_alt</span>
-            <span>Cambios</span>
+          <button class="filter-button-alt" data-filter="completado">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Completado</span>
+          </button>
+          <button class="filter-button-alt" data-filter="en-proceso">
+            <span class="material-symbols-outlined">warning</span>
+            <span>En proceso</span>
+          </button>
+          <button class="filter-button-alt" data-filter="sin-arreglo">
+            <span class="material-symbols-outlined">block</span>
+            <span>Sin arreglo</span>
           </button>
         </div>
-        <div id="alertas-container" class="cards-container">
+        <div class="cards-container">
           <!-- Aquí el JS inyectará la sección de alertas -->
         </div>
-        <div id="cambios-container" class="cards-container">
-          <!-- Aquí el JS inyectará la sección de cambios -->
-        </div>
-
-        <!-- FAB flotante -->
-        <div class="fab-menu">
-          <button id="fab-toggle" class="fab" title="Opciones">+</button>
-          <div class="fab-options hidden">
-            <button id="fab-alerta" title="Nueva Alerta">
-              <span class="material-symbols-outlined">notification_add</span>
-            </button>
-            <button id="fab-cambio" title="Nuevo Cambio">
-              <span class="material-symbols-outlined">loop</span>
-            </button>
-          </div>
+      </section>
+      <!-- Sección Cambios-->
+      <section id="cambios-section" class="dashboard-section">
+        <div class="cards-container">
+          <!-- Aquí el JS inyectará la sección de alertas -->
         </div>
       </section>
+        <!-- FAB de control y añadidos -->
+      <div class="fab-menu">
+        <button id="fab-toggle" class="fab" title="Acciones rápidas">+</button>
+        <div class="fab-options hidden">
+          <button data-action="impresora" title="Nueva Impresora">
+            <span class="material-symbols-outlined">print</span>
+          </button>
+          <button data-action="componente" title="Nuevo Componente">
+            <span class="material-symbols-outlined">memory</span>
+          </button>
+          <button data-action="alerta" title="Nueva Alerta">
+            <span class="material-symbols-outlined">notification_add</span>
+          </button>
+          <button data-action="cambio" title="Nuevo Cambio">
+            <span class="material-symbols-outlined">loop</span>
+          </button>
+      </div>
     </main>
   </div>
-
   <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>

@@ -1,3 +1,4 @@
+<!-- panel_admin.php -->
 <?php
 session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
@@ -26,17 +27,14 @@ mysqli_stmt_close($stmt_usuario);
   <meta charset="UTF-8">
   <title>Panel - <?php echo htmlspecialchars($nivel); ?></title>
   <!-- Fuente de iconos Material Symbols -->
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-  />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
   <link rel="stylesheet" href="../assets/css/style_dashboard.css">
 </head>
 <body>
 
   <aside class="sidebar">
     <div class="sidebar-header">
-      <img src="../assets/img/logo-mini.png" alt="Logo Meliá" class="logo-mini">
+      <img src="../assets/img/ppdc-logo.jpg" alt="Logo Meliá" class="logo-mini">
       <h2>Gestor Meliá</h2>
     </div>
     <ul class="sidebar-links">
@@ -56,10 +54,20 @@ mysqli_stmt_close($stmt_usuario);
           <span>Componentes</span>
         </a>
       </li>
+      <h4>
+        <span>Gestionar</span>
+        <div class="menu-separator"></div>
+      </h4>
       <li class="nav-item" data-section="alertas-section">
         <a href="javascript:;">
           <span class="material-symbols-outlined">warning</span>
-          <span>Alertas y Cambios</span>
+          <span>Alertas</span>
+        </a>
+      </li>
+      <li class="nav-item" data-section="cambios-section">
+        <a href="javascript:;">
+          <span class="material-symbols-outlined">manage_history</span>
+          <span>Cambios</span>
         </a>
       </li>
       <h4>
@@ -81,7 +89,7 @@ mysqli_stmt_close($stmt_usuario);
     </ul>
     <div class="user-account">
       <div class="user-profile">
-        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="FDPerfil" />
+        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="FDPerfil"/>
         <div class="user-detail">
           <h4><?php echo htmlspecialchars($nombre_usuario); ?></h4>
           <span><?php echo $_SESSION['nivel']; ?></span>
@@ -160,15 +168,39 @@ mysqli_stmt_close($stmt_usuario);
           <!-- Aquí el JS inyectará la sección de componentes -->
         </div>
       </section>
-      <!-- Sección Alertas y Cambios -->
-      <section id="alertas-section" class="dashboard-section" style="display:none;">
+      <!-- Sección Alertas-->
+      <section id="alertas-section" class="dashboard-section">
+        <div class="sub-navbar">
+          <!-- Barra de navegación con filtros para alertas -->
+          <button class="filter-button-alt active" data-filter="todas">
+            <span class="material-symbols-outlined">view_list</span>
+            <span>Todos</span>
+          </button>
+          <button class="filter-button-alt" data-filter="completado">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Completado</span>
+          </button>
+          <button class="filter-button-alt" data-filter="en-proceso">
+            <span class="material-symbols-outlined">warning</span>
+            <span>En proceso</span>
+          </button>
+          <button class="filter-button-alt" data-filter="sin-arreglo">
+            <span class="material-symbols-outlined">block</span>
+            <span>Sin arreglo</span>
+          </button>
+        </div>
         <div class="cards-container">
-          <!-- Sección por desarrollar... -->
+          <!-- Aquí el JS inyectará la sección de alertas -->
+        </div>
+      </section>
+      <!-- Sección Cambios-->
+      <section id="cambios-section" class="dashboard-section">
+        <div class="cards-container">
+          <!-- Aquí el JS inyectará la sección de alertas -->
         </div>
       </section>
     </main>
   </div>
-
   <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>

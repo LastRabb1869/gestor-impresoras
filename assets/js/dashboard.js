@@ -1,5 +1,4 @@
 // assets/js/dashboard.js
-
 document.addEventListener('DOMContentLoaded', () => {
   // — Elementos principales —
   const navItems            = document.querySelectorAll('.nav-item[data-section]');
@@ -9,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const impresorasSection   = document.getElementById('impresoras-section');
   const componentesSection  = document.getElementById('componentes-section');
   const alertasSection      = document.getElementById('alertas-section');
+  const cambiosSection      = document.getElementById('cambios-section');
   const searchBar           = document.getElementById('searchBar');
 
   // — Carga dinámicamente las impresoras —
@@ -72,6 +72,59 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error('Hubo un error al cargar los componentes: ', err));
   }
 
+  // — Carga dinámicamente alertas —
+  // Falta la sección de imágenes de alertas
+  function cargarAlertas() {
+    fetch('get_cards/get_alertas.php')
+      .then(res => res.json())
+      .then(data => {
+        const cont = alertasSection.querySelector('.cards-container');
+        cont.innerHTML = '';
+        if (!data.length) return cont.innerHTML = '<p>No hay alertas pendientes.</p>';
+        data.forEach(a => {
+          const card = document.createElement('div');
+          card.className = 'card alerta-card';
+          card.dataset.estado = a.estado_actual;
+          card.innerHTML = `
+            <div class="card-info">
+              <h3>Alerta # ${a.id} – Prioridad: ${a.prioridad}</h3>
+              <p><strong>Impresora:</strong> ${a.impresora}</p>
+              <p><strong>IP:</strong> ${a.direccion_ip}</p>
+              <p><strong>Estado:</strong> ${a.estado_actual}</p>
+              <p><strong>Reportado:</strong><small> ${a.fecha_hora}</small></p>
+              <button class="expand-button" data-id="${a.id}">Ver</button>
+            </div>`;
+          cont.appendChild(card);
+        });
+      })
+      .catch(console.error('Hubo un error al cargar las alertas: ', err));
+  }
+
+  // — Carga dinámicamente los cambios —
+  function cargarCambios() {
+    fetch('get_cards/get_cambios.php')
+      .then(res => res.json())
+      .then(data => {
+        const cont = cambiosSection.querySelector('.cards-container');
+        cont.innerHTML = '';
+        if (!data.length) return cont.innerHTML = '<p>No hay cambios realizados.</p>';
+        data.forEach(a => {
+          const card = document.createElement('div');
+          card.className = 'card cambio-card';
+          card.innerHTML = `
+            <div class="card-info">
+              <h3>Cambio en impresora: ${a.impresora}</h3>
+              <p><strong>Con S/N:</strong> ${a.num_serie}</p>
+              <p><strong>Componente:</strong> ${a.componente}</p>
+              <p><strong>Cambiado:</strong><small> ${a.fecha_hora}</small></p>
+              <button class="expand-button" data-id="${a.id}">Ver</button>
+            </div>`;
+          cont.appendChild(card);
+        });
+      })
+      .catch(console.error('Hubo un error al cargar los cambios de componentes: ', err));
+  }
+
   // — Aplica filtro sobre impresoras —
   function applyPrinterFilter(filter) {
     document.querySelectorAll('#impresoras-section .impresora-card')
@@ -97,6 +150,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 || (filter === 'baja-definitiva' && e === 'BAJA DEFINITIVA')
                 || (filter === 'desconocido'     && e === 'DESCONOCIDO')
                 || (filter === 'sin-stock'       && e === 'SIN STOCK');
+        card.style.display = ok ? 'flex' : 'none';
+      });
+  }
+
+  // — Aplica filtro sobre alertas —
+  function applyWarningFilter(filter) {
+    document.querySelectorAll('#alertas-section .alerta-card')
+      .forEach(card => {
+        const es = card.dataset.estado;
+        const ok = filter === 'todas'
+                || (filter === 'completado'    && es === 'COMPLETADO')
+                || (filter === 'en-proceso' && es === 'EN PROCESO')
+                || (filter === 'sin-arreglo'     && es === 'SIN ARREGLO')
         card.style.display = ok ? 'flex' : 'none';
       });
   }
@@ -130,6 +196,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Alertas
+  alertasSection.addEventListener('click', e => {
+    if (e.target.closest('.filter-button-alt')) {
+      const btn = e.target.closest('.filter-button-alt');
+      alertasSection.querySelectorAll('.filter-button-alt').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyWarningFilter(btn.dataset.filter);
+      return;
+    }
+    if (e.target.closest('.expand-button')) {
+      console.log('Ver arreglo', e.target.closest('.expand-button').dataset.id);
+    }
+  });
+
   // Navegación general
   navItems.forEach(item => {
     item.addEventListener('click', () => {
@@ -154,44 +234,56 @@ document.addEventListener('DOMContentLoaded', () => {
         applyComponentFilter('todos');
       }
       if (target === 'alertas-section') {
-        // al entrar en alertas, muestra alertas
-        showSection('alertas');
+        cargarAlertas();
+        alertasSection.querySelectorAll('.filter-button-alt').forEach(b => b.classList.remove('active'));
+        alertasSection.querySelector('.filter-button-alt[data-filter="todas"]').classList.add('active');
+        applyWarningFilter('todas');
+      }
+      if (target === 'cambios-section') {
+        cargarCambios();
       }
     });
   });
 
-  // === Sección “Alertas y Cambios” ===
-  const tabA       = document.querySelector('.filter-tab[data-section="alertas"]');
-  const tabC       = document.querySelector('.filter-tab[data-section="cambios"]');
-  const contA      = document.getElementById('alertas-container');
-  const contC      = document.getElementById('cambios-container');
+  // — FAB GLOBAL: toggle y navegación —
   const fabToggle  = document.getElementById('fab-toggle');
   const fabOptions = document.querySelector('.fab-options');
-  const fabAlert   = document.getElementById('fab-alerta');
-  const fabChange  = document.getElementById('fab-cambio');
 
-  function showSection(sec) {
-    if (sec === 'alertas') {
-      tabA.classList.add('active'); tabC.classList.remove('active');
-      contA.style.display = 'flex'; contC.style.display = 'none';
-    } else {
-      tabC.classList.add('active'); tabA.classList.remove('active');
-      contC.style.display = 'flex'; contA.style.display = 'none';
-    }
-  }
-
-  tabA.addEventListener('click', () => showSection('alertas'));
-  tabC.addEventListener('click', () => showSection('cambios'));
-  showSection('alertas');
-
-  fabToggle.addEventListener('click', () => fabOptions.classList.toggle('hidden'));
-  fabAlert.addEventListener('click', () => { console.log('Crear alerta'); fabOptions.classList.add('hidden'); });
-  fabChange.addEventListener('click', () => { console.log('Crear cambio'); fabOptions.classList.add('hidden'); });
-  document.addEventListener('click', e => {
-    if (!fabToggle.contains(e.target) && !fabOptions.contains(e.target)) {
-      fabOptions.classList.add('hidden');
-    }
+  fabToggle.addEventListener('click', e => {
+    e.stopPropagation();
+    fabOptions.classList.toggle('hidden');
   });
+
+  // ocultar si clic fuera
+  document.addEventListener('click', () => {
+    fabOptions.classList.add('hidden');
+  });
+
+  // para cada opción, navegar a la sección correspondiente
+  fabOptions.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const action = btn.dataset.action; // 'impresora'|'componente'|'alerta'|'cambio'
+      let navButton;
+      switch(action) {
+        case 'impresora':
+          navButton = document.querySelector('.nav-item[data-section="impresoras-section"]');
+          break;
+        case 'componente':
+          navButton = document.querySelector('.nav-item[data-section="componentes-section"]');
+          break;
+        case 'alerta':
+        case 'cambio':
+          navButton = document.querySelector('.nav-item[data-section="alertas-section"]');
+          break;
+      }
+      if (navButton) navButton.click();
+      // aquí podrías abrir tu modal/form correspondiente
+      console.log('Acción:', action);
+      fabOptions.classList.add('hidden');
+    });
+  });
+
 
   // Hover sidebar
   sidebar.addEventListener('mouseenter', () => sidebar.classList.add('expanded'));
