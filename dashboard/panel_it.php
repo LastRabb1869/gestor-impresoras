@@ -25,6 +25,7 @@ mysqli_stmt_close($stmt_usuario);
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel - <?php echo htmlspecialchars($nivel); ?></title>
   <!-- Fuente de iconos Material Symbols -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>

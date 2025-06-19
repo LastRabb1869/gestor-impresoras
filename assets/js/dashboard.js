@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const navItems            = document.querySelectorAll('.nav-item[data-section]');
   const sections            = document.querySelectorAll('.dashboard-section');
   const sidebar             = document.querySelector('.sidebar');
-  const logoutBtn           = document.getElementById('logout-btn');
+  //const logoutBtn           = document.getElementById('logout-btn');
   const impresorasSection   = document.getElementById('impresoras-section');
   const componentesSection  = document.getElementById('componentes-section');
   const alertasSection      = document.getElementById('alertas-section');
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   mobileMain.forEach(btn => {
     btn.addEventListener('click', e => {
       // 1) marca activo
+      e.stopPropagation();
       mobileMain.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       // 2) muestra sólo su submenú
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // click en sub-items: navega a sección y oculta
   document.querySelectorAll('.mobile-nav-sub li').forEach(item => {
     item.addEventListener('click', e => {
+      e.stopPropagation(); // evita que se cierre el menú al hacer click
       const section = item.dataset.section;
       if (section) {
         document.querySelector(`.nav-item[data-section="${section}"]`).click();
@@ -329,7 +331,11 @@ document.addEventListener('DOMContentLoaded', () => {
   sidebar.addEventListener('mouseleave', () => sidebar.classList.remove('expanded'));
 
   // Logout
-  logoutBtn.addEventListener('click', () => window.location.href = '../public/close-session.php');
+  document.querySelectorAll('.logout-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      window.location.href = '../public/close-session.php';
+    });
+  });
 
   // — Se fuerza el inicializar en impresoras —
   navItems[0].click();

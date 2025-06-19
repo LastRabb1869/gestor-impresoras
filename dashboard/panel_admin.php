@@ -25,6 +25,7 @@ mysqli_stmt_close($stmt_usuario);
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel - <?php echo htmlspecialchars($nivel); ?></title>
   <!-- Fuente de iconos Material Symbols -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
@@ -86,7 +87,7 @@ mysqli_stmt_close($stmt_usuario);
           <span>Perfil</span>
         </a>
       </li>
-      <li class="nav-item" id="logout-btn">
+      <li class="nav-item logout-btn">
         <a href="javascript:;">
           <span class="material-symbols-outlined">logout</span>
           <span>Cerrar Sesión</span>
@@ -95,7 +96,7 @@ mysqli_stmt_close($stmt_usuario);
     </ul>
     <div class="user-account">
       <div class="user-profile">
-        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="FDPerfil"/>
+        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="Perfil"/>
         <div class="user-detail">
           <h4><?php echo htmlspecialchars($nombre_usuario); ?></h4>
           <span><?php echo $_SESSION['nivel']; ?></span>
@@ -238,7 +239,8 @@ mysqli_stmt_close($stmt_usuario);
         <span>Gestionar</span>
       </li>
       <li data-group="cuenta">
-        <img src="../assets/img/ppdc-logo.jpg" class="mobile-avatar" alt="Perfil">
+        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" class="mobile-avatar" alt="Perfil"/>
+        <span>Cuenta</span>
       </li>
     </ul>
     <!-- Sub-menús burbuja -->
@@ -254,7 +256,7 @@ mysqli_stmt_close($stmt_usuario);
       </ul>
       <ul class="mobile-nav-sub cuenta">
         <li id="profile-open"><span class="material-symbols-outlined">account_circle</span><span>Perfil</span></li>
-        <li id="logout-btn"><span class="material-symbols-outlined">logout</span><span>Salir</span></li>
+        <li class="logout-btn"><span class="material-symbols-outlined">logout</span><span>Salir</span></li>
       </ul>
     </div>
   </nav>
