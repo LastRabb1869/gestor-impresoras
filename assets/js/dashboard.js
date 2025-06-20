@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const navItems            = document.querySelectorAll('.nav-item[data-section]');
   const sections            = document.querySelectorAll('.dashboard-section');
   const sidebar             = document.querySelector('.sidebar');
-  //const logoutBtn           = document.getElementById('logout-btn');
   const impresorasSection   = document.getElementById('impresoras-section');
   const componentesSection  = document.getElementById('componentes-section');
   const alertasSection      = document.getElementById('alertas-section');
@@ -12,6 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchBar           = document.getElementById('searchBar');
   const mobileMain = document.querySelectorAll('.mobile-nav-main li');
   const mobileSubs  = document.querySelectorAll('.mobile-nav-sub');
+  const modal = document.getElementById('modal-impresora');
+  const btnClose = modal.querySelector('.modal-close');
+  const btnCancel = modal.querySelector('.btn-cancel');
+  const form = document.getElementById('form-impresora');
+  const selectUbicacion = document.getElementById('select-ubicacion');
+  const inputImagen = document.getElementById('imagen');
+  const nombreArchivo = document.getElementById('nombre-archivo');
+
 
   // — Menú móvil: conmutar grupos y mostrar su sub-lista —
 
@@ -54,6 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // — Carga dinámicamente las impresoras —
+  //El "<img src="../assets/img/printers/${c.num_serie}/${c.imagen || 'default-impresora.jpg'}" alt="${c.nombre}">" es diferente aquí que en los demás porque esto se lo cambié yo
+  // eventualmente se lo estaría cambiando a todos los demás cuando estén listos los demás formularios
   function cargarImpresoras() {
     fetch('get_cards/get_impresoras.php')
       .then(res => res.json())
@@ -67,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
           card.dataset.estado = c.estado;
           card.innerHTML = `
             <div class="card-img">
-              <img src="../assets/img/${c.imagen || 'default-impresora.jpg'}" alt="${c.nombre}">
+              <img src="../assets/img/printers/${c.num_serie}/${c.imagen || 'default-impresora.jpg'}" alt="${c.nombre}">
             </div>
             <div class="card-info">
               <h3>${c.nombre}</h3>
@@ -82,6 +91,84 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(err => console.error('Hubo un error al cargar las impresoras: ', err));
   }
+
+  // --- Control modal de nueva impresora ---
+  function abrirModalImpresora() {
+    modal.classList.remove('hidden');
+    cargarUbicaciones();
+  }
+
+  function cerrarModal() {
+    if (confirm('¿Deseas cancelar el registro de la impresora?')) {
+      form.reset();
+      modal.classList.add('hidden');
+    }
+  }
+
+  btnClose.addEventListener('click', cerrarModal);
+  btnCancel.addEventListener('click', cerrarModal);
+
+  // --- Cargar ubicaciones dinámicamente ---
+  function cargarUbicaciones() {
+    fetch('get_cards/get_ubicaciones.php')
+      .then(res => res.json())
+      .then(data => {
+        selectUbicacion.innerHTML = '<option value="">Selecciona ubicación</option>';
+        data.forEach(u => {
+          const opt = document.createElement('option');
+          opt.value = u.id;
+          opt.textContent = `${u.nombre} (${u.tipo})`;
+          selectUbicacion.appendChild(opt);
+        });
+      });
+  }
+
+  // - Para añadir impresoras -
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!confirm('¿Confirmas que deseas añadir esta impresora?')) return;
+
+    const formData = new FormData(form);
+
+    fetch('set_info/set_impresoras.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.text())
+    .then(resp => {
+      if (resp.trim() === 'OK') {
+        alert('Impresora registrada exitosamente.');
+        form.reset();
+        modal.classList.add('hidden');
+        cargarImpresoras(); // recargar tarjetas
+      } else {
+        alert('Error: ' + resp);
+      }
+    })
+    .catch(err => {
+      console.error('Error al enviar:', err);
+      alert('Error al enviar los datos.');
+    });
+  });
+  
+  inputImagen.addEventListener('change', () => {
+    if (inputImagen.files.length > 0) {
+      const file = inputImagen.files[0];
+      nombreArchivo.textContent = `Seleccionado: ${file.name}`;
+
+      // Mostrar preview
+      const preview = document.getElementById('preview-img');
+      const reader = new FileReader();
+      reader.onload = e => {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      nombreArchivo.textContent = '';
+      document.getElementById('preview-img').style.display = 'none';
+    }
+  });
 
   // — Carga dinámicamente los componentes —
   function cargarComponentes() {
@@ -320,7 +407,8 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
       }
       if (navButton) navButton.click();
-      // aquí podrías abrir tu modal/form correspondiente
+      // Si es impresora, abrir modal
+      if (action === 'impresora') abrirModalImpresora();
       console.log('Acción:', action);
       fabOptions.classList.add('hidden');
     });

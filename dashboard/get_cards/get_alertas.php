@@ -1,5 +1,6 @@
 <?php
-include('../../config/conexion.php');
+// get_alertas.php
+include '../../config/conexion.php';
 
 $sql = " SELECT a.id, a.impresora_id, i.nombre AS impresora, a.prioridad, a.direccion_ip, a.reporte, a.estado_actual, a.fecha_hora
         FROM alertas a

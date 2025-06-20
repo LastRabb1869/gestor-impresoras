@@ -243,6 +243,7 @@ mysqli_stmt_close($stmt_usuario);
         <span>Cuenta</span>
       </li>
     </ul>
+
     <!-- Sub-menús burbuja -->
     <div class="mobile-submenus">
       <ul class="mobile-nav-sub principal">
@@ -260,6 +261,57 @@ mysqli_stmt_close($stmt_usuario);
       </ul>
     </div>
   </nav>
+
+  <!-- Modal para añadir impresora -->
+  <div id="modal-impresora" class="modal-overlay hidden">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2>Añadir nueva impresora</h2>
+      <form id="form-impresora" enctype="multipart/form-data">
+        <div class="form-columns">
+          <!-- Imagen -->
+          <div class="image-upload">
+            <label for="imagen">
+              <div class="image-box">
+                <span>Subir imagen</span>
+                <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png" required>
+                <img id="preview-img" style="display:none; margin-top: 10px; max-height: 100px;" alt="Vista previa de la impresora">
+              </div>
+            </label>
+            <small id="nombre-archivo" style="display:block; margin-top:0.5rem; color:#555;"></small>
+            <small>Formatos: JPG, PNG | Máx: 5MB</small>
+          </div>
+
+          <!-- Datos -->
+          <div class="fields">
+            <input type="text" name="nombre" placeholder="Nombre" required>
+            <input type="text" name="marca" placeholder="Marca" required>
+            <input type="text" name="modelo" placeholder="Modelo" required>
+            <input type="text" name="num_serie" placeholder="Número de serie" required>
+            <input type="text" name="direccion_ip" placeholder="Dirección IP" required>
+            
+            <select name="estado" required>
+              <option value="" disabled selected>Selecciona estado</option>
+              <option value="FUNCIONANDO">FUNCIONANDO</option>
+              <option value="CON PROBLEMAS">CON PROBLEMAS</option>
+              <option value="REPARANDO">REPARANDO</option>
+              <option value="BAJA">BAJA</option>
+            </select>
+
+            <select name="ubicacion" required id="select-ubicacion">
+              <option value="" disabled selected>Cargando ubicaciones...</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn-add">Añadir impresora</button>
+          <button type="button" class="btn-cancel">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>
