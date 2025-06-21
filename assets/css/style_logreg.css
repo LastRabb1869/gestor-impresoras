@@ -10,7 +10,7 @@
 }
 
 body {
-    background: linear-gradient(90deg, #BF4222, #E30F87);
+    background: linear-gradient(90deg, #22bfa2, #2b0fe3);
     padding: 20px;
 }
 
@@ -59,7 +59,7 @@ input[type="password"] {
     border: 0px;
     outline: 0px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    color: #E30F87;
+    color: #000000;
     font-size: 16px;
 }
 
@@ -69,14 +69,14 @@ input[type="submit"] {
     margin-top: 60px;
     color: white;
     border: 0px;
-    background: linear-gradient(90deg, #BF4222, #E30F87);
+    background: linear-gradient(90deg, #22bfa2, #2b0fe3);
     font-weight: 300;
     cursor: pointer;
     font-size: 18px;
 }
 
 input[type="submit"]:hover {
-    background: linear-gradient(90deg, #E30F87, #BF4222);
+    background: linear-gradient(90deg, #2b0fe3, #22bfa2);
 }
 
 
@@ -111,7 +111,7 @@ input[type="submit"]:hover {
     position: absolute;
     top: 0;
     left: 0;
-    background: linear-gradient(90deg, #E30F87, #BF4222);
+    background: linear-gradient(90deg, #22bfa2, #2b0fe3);
     opacity: 0.8;
 }
 
@@ -178,14 +178,14 @@ input[type="submit"]:hover {
     display: block;
     padding: 20px;
     margin-top: 40px;
-    background: linear-gradient(90deg, #BF4222, #E30F87);
+    background: linear-gradient(90deg, #2b0fe3, #22bfa2);
     color: white;
     font-size: 20px;
     font-weight: 300;
 }
 
 .close-sesion:hover {
-    background: linear-gradient(90deg, #E30F87, #BF4222);
+    background: linear-gradient(90deg, #22bfa2, #2b0fe3);
 }
 
 

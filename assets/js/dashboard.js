@@ -18,7 +18,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const selectUbicacion = document.getElementById('select-ubicacion');
   const inputImagen = document.getElementById('imagen');
   const nombreArchivo = document.getElementById('nombre-archivo');
+  // const campoNombre = document.getElementById('nombre');
+  // const iconoNombre = document.getElementById('icon-nombre');
+  // const tooltipNombre = document.getElementById('tooltip-nombre');
 
+  const svgAdvertencia = `
+  <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="gradWarn" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#ff4d4d"/>
+        <stop offset="100%" stop-color="#e60000"/>
+      </linearGradient>
+    </defs>
+    <circle cx="12" cy="12" r="11" fill="url(#gradWarn)" stroke="#b30000" stroke-width="2"/>
+    <line x1="12" y1="7" x2="12" y2="14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="12" cy="17" r="1.5" fill="#fff"/>
+  </svg>
+  `;
+
+  const svgValidacion = `
+  <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="gradOk" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#66ff66"/>
+        <stop offset="100%" stop-color="#00cc00"/>
+      </linearGradient>
+    </defs>
+    <circle cx="12" cy="12" r="11" fill="url(#gradOk)" stroke="#009900" stroke-width="2"/>
+    <polyline points="8,12.5 11,15.5 16,9.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  `;
+  
+  document.querySelectorAll('.validable').forEach(input => {
+    input.addEventListener('blur', () => validarCampo(input));
+  });
 
   // — Menú móvil: conmutar grupos y mostrar su sub-lista —
 
@@ -101,27 +134,29 @@ document.addEventListener('DOMContentLoaded', () => {
   function cerrarModal() {
     if (confirm('¿Deseas cancelar el registro de la impresora?')) {
       form.reset();
+
+      // Limpiar íconos y tooltips de validación
+      document.querySelectorAll('.status-icon').forEach(icon => {
+        icon.classList.remove('error', 'ok');
+        icon.innerHTML = '';
+      });
+      document.querySelectorAll('.tooltip').forEach(tip => {
+        tip.style.display = 'none';
+      });
+
+      // Limpiar imagen subida si hay vista previa
+      const vistaPrevia = document.querySelector('.image-box img');
+      if (vistaPrevia) {
+        vistaPrevia.remove();
+      }
+      document.getElementById('nombre-archivo').textContent = '';
+
       modal.classList.add('hidden');
     }
   }
 
   btnClose.addEventListener('click', cerrarModal);
   btnCancel.addEventListener('click', cerrarModal);
-
-  // --- Cargar ubicaciones dinámicamente ---
-  function cargarUbicaciones() {
-    fetch('get_cards/get_ubicaciones.php')
-      .then(res => res.json())
-      .then(data => {
-        selectUbicacion.innerHTML = '<option value="">Selecciona ubicación</option>';
-        data.forEach(u => {
-          const opt = document.createElement('option');
-          opt.value = u.id;
-          opt.textContent = `${u.nombre} (${u.tipo})`;
-          selectUbicacion.appendChild(opt);
-        });
-      });
-  }
 
   // - Para añadir impresoras -
   form.addEventListener('submit', e => {
@@ -150,10 +185,33 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Error al enviar los datos.');
     });
   });
+
+  function validarImagen() {
+    const file = inputImagen.files[0];
+    const icon = document.getElementById('icon-imagen');
+    // const tooltip = document.getElementById('tooltip-imagen');
+
+    if (file && ['image/jpeg', 'image/png'].includes(file.type) && file.size <= 5 * 1024 * 1024) {
+      icon.classList.remove('error');
+      icon.classList.add('ok');
+      icon.innerHTML = svgValidacion;
+      // tooltip.style.display = 'none';
+      return true;
+    } else {
+      icon.classList.remove('ok');
+      icon.classList.add('error');
+      icon.innerHTML = svgAdvertencia;
+      return false;
+    }
+  }  
   
   inputImagen.addEventListener('change', () => {
+    const texto = document.getElementById('placeholder-text');
     if (inputImagen.files.length > 0) {
+      document.getElementById('uploading').style.display = 'block';
       const file = inputImagen.files[0];
+      texto.style.display = 'none';
+      document.getElementById('uploading').style.display = 'none';
       nombreArchivo.textContent = `Seleccionado: ${file.name}`;
 
       // Mostrar preview
@@ -165,10 +223,92 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       reader.readAsDataURL(file);
     } else {
+      texto.style.display = 'block';
       nombreArchivo.textContent = '';
+      document.getElementById('uploading').style.display = 'none';
       document.getElementById('preview-img').style.display = 'none';
     }
+    validarImagen();
   });
+
+  const validaciones = {
+    nombre: {
+      regex: /^[a-zA-Z0-9 ._\-\(\)\[\]]+$/,
+      mensaje: "Por favor, escribe un nombre válido (letras, números, guiones...)"
+    },
+    marca: {
+      regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
+      mensaje: "Solo letras y espacios son válidos."
+    },
+    modelo: {
+      regex: /^[a-zA-Z0-9 ._\-\(\)\[\]]+$/,
+      mensaje: "Modelo solo debe contener letras, números y guiones."
+    },
+    num_serie: {
+      regex: /^[a-zA-Z0-9\-]+$/,
+      mensaje: "Número de serie no debe contener espacios ni símbolos raros."
+    },
+    ip: {
+      regex: /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/,
+      mensaje: "Introduce una dirección IP válida (ej. 10.180.0.151)"
+    },
+    select: {
+      custom: val => val !== "",
+      mensaje: "Debes seleccionar una opción válida."
+    }
+  };
+
+  document.querySelectorAll('.status-icon').forEach(icon => {
+    icon.addEventListener('click', () => {
+      const id = icon.id.replace('icon-', '');
+      const tooltip = document.getElementById(`tooltip-${id}`);
+      if (icon.classList.contains('error')) {
+        tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
+      }
+    });
+  });
+
+  function validarCampo(input) {
+    const tipo = input.dataset.type;
+    const valor = input.value.trim();
+    const icon = document.getElementById(`icon-${input.id}`);
+    const tooltip = document.getElementById(`tooltip-${input.id}`);
+
+    const regla = validaciones[tipo];
+    if (!regla) return;
+
+    const esValido = regla.regex ? regla.regex.test(valor) : regla.custom(valor);
+
+    if (esValido) {
+      icon.classList.remove('error');
+      icon.classList.add('ok');
+      icon.innerHTML = svgValidacion;
+      tooltip.style.display = 'none';
+    } else {
+      icon.classList.remove('ok');
+      icon.classList.add('error');
+      icon.innerHTML = svgAdvertencia;
+      tooltip.textContent = regla.mensaje;
+      // tooltip.style.display = 'block'; Por el momento no se muestra el tooltip
+    }
+
+    return esValido;
+  }
+
+  // - Cargar ubicaciones dinámicamente -
+  function cargarUbicaciones() {
+    fetch('get_cards/get_ubicaciones.php')
+      .then(res => res.json())
+      .then(data => {
+        selectUbicacion.innerHTML = '<option value="">Selecciona ubicación</option>';
+        data.forEach(u => {
+          const opt = document.createElement('option');
+          opt.value = u.id;
+          opt.textContent = `${u.nombre} (${u.tipo})`;
+          selectUbicacion.appendChild(opt);
+        });
+      });
+  }
 
   // — Carga dinámicamente los componentes —
   function cargarComponentes() {

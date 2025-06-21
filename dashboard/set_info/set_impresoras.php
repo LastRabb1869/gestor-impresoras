@@ -10,14 +10,14 @@ function validarIP($ip) {
 // Verificamos que los datos básicos estén presentes
 if (
     isset($_POST['nombre'], $_POST['marca'], $_POST['modelo'], $_POST['num_serie'],
-          $_POST['direccion_ip'], $_POST['estado'], $_POST['ubicacion']) &&
+          $_POST['ip'], $_POST['estado'], $_POST['ubicacion']) &&
     isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK
 ) {
     $nombre       = trim($_POST['nombre']);
     $marca        = trim($_POST['marca']);
     $modelo       = trim($_POST['modelo']);
     $num_serie    = trim($_POST['num_serie']);
-    $direccion_ip = trim($_POST['direccion_ip']);
+    $direccion_ip = trim($_POST['ip']);
     $estado       = $_POST['estado'];
     $ubicacion_id = intval($_POST['ubicacion']);
 

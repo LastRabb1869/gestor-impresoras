@@ -273,34 +273,99 @@ mysqli_stmt_close($stmt_usuario);
           <div class="image-upload">
             <label for="imagen">
               <div class="image-box">
-                <span>Subir imagen</span>
+                <div class="placeholder-text" id="placeholder-text">Subir imagen</div>
+                <img id="preview-img" style="display:none; max-height: 150px;" alt="Vista previa de la impresora">
                 <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png" required>
-                <img id="preview-img" style="display:none; margin-top: 10px; max-height: 100px;" alt="Vista previa de la impresora">
+                <div id="uploading" style="display:none;">
+                  <div class="spinner"></div>
+                  <div class="uploading-text">Subiendo imagen...</div>
+                </div>
               </div>
             </label>
+            <span class="status-icon" id="icon-imagen"></span>
+            <!-- <div class="tooltip" id="tooltip-imagen">Debes subir una imagen JPG o PNG menor a 5MB.</div> Por ahora -->
             <small id="nombre-archivo" style="display:block; margin-top:0.5rem; color:#555;"></small>
             <small>Formatos: JPG, PNG | Máx: 5MB</small>
           </div>
 
           <!-- Datos -->
           <div class="fields">
-            <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="text" name="marca" placeholder="Marca" required>
-            <input type="text" name="modelo" placeholder="Modelo" required>
-            <input type="text" name="num_serie" placeholder="Número de serie" required>
-            <input type="text" name="direccion_ip" placeholder="Dirección IP" required>
+            <div class="field-group">
+              <label class="form-lb" for="nombre">Nombre:</label>
+              <div class="input-wrapper">
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validable" data-type="nombre" required>
+                <span class="status-icon" id="icon-nombre" title="">
+                  <!-- SVG se inserta aquí desde JS -->
+                </span>
+              </div>
+              <div class="tooltip" id="tooltip-nombre"></div>
+            </div>
+            <div class="field-group">
+              <label class="form-lb" for="marca">Marca:</label>
+              <div class="input-wrapper">
+                <input type="text" id="marca" name="marca" placeholder="Marca" class="validable" data-type="marca" required>
+                <span class="status-icon" id="icon-marca" title="">
+                  <!-- SVG se inserta aquí desde JS -->
+                </span>
+              </div>
+              <div class="tooltip" id="tooltip-marca"></div>
+            </div>
+            <div class="field-group">
+              <label class="form-lb" for="modelo">Modelo:</label>
+              <div class="input-wrapper">
+                <input type="text" id="modelo" name="modelo" placeholder="Modelo" class="validable" data-type="modelo" required>
+                <span class="status-icon" id="icon-modelo" title="">
+                  <!-- SVG se inserta aquí desde JS -->
+                </span>
+                <div class="tooltip" id="tooltip-modelo"></div>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="form-lb" for="num_serie">Número de serie:</label>
+              <div class="input-wrapper">
+                <input type="text" id="num_serie" name="num_serie" placeholder="Número de serie" class="validable" data-type="num_serie" required>
+                <span class="status-icon" id="icon-num_serie" title="">
+                  <!-- SVG se inserta aquí desde JS -->
+                </span>
+              </div>
+              <div class="tooltip" id="tooltip-num_serie"></div>
+            </div>
+            <div class="field-group">
+              <label class="form-lb" for="ip">Dirección IP:</label>
+              <div class="input-wrapper">
+                <input type="text" id="ip" name="ip" placeholder="Dirección IP" class="validable" data-type="ip" required>
+                <span class="status-icon" id="icon-ip" title="">
+                  <!-- SVG se inserta aquí desde JS -->
+                </span>
+              </div>
+              <div class="tooltip" id="tooltip-ip"></div>
+            </div>
             
-            <select name="estado" required>
-              <option value="" disabled selected>Selecciona estado</option>
-              <option value="FUNCIONANDO">FUNCIONANDO</option>
-              <option value="CON PROBLEMAS">CON PROBLEMAS</option>
-              <option value="REPARANDO">REPARANDO</option>
-              <option value="BAJA">BAJA</option>
-            </select>
+            <div class="field-group">
+              <label class="form-lb" for="estado">Estado:</label>
+              <div class="input-wrapper">
+                <select name="estado" id="estado" class="validable" data-type="select" required>
+                  <option value="" disabled selected>Selecciona estado</option>
+                  <option value="FUNCIONANDO">FUNCIONANDO</option>
+                  <option value="CON PROBLEMAS">CON PROBLEMAS</option>
+                  <option value="REPARANDO">REPARANDO</option>
+                  <option value="BAJA">BAJA</option>
+                </select>
+                <span class="status-icon" id="icon-estado" title=""></span>
+              </div>
+              <div class="tooltip" id="tooltip-estado"></div>
+            </div>
 
-            <select name="ubicacion" required id="select-ubicacion">
-              <option value="" disabled selected>Cargando ubicaciones...</option>
-            </select>
+            <div class="field-group">
+              <label class="form-lb" for="select-ubicacion">Ubicación:</label>
+              <div class="input-wrapper">
+                <select name="ubicacion" id="select-ubicacion" class="validable" data-type="select" required>
+                  <option value="" disabled selected>Cargando ubicaciones...</option>
+                </select>
+                <span class="status-icon" id="icon-select-ubicacion" title=""></span>
+              </div>
+              <div class="tooltip" id="tooltip-select-ubicacion"></div>
+            </div>
           </div>
         </div>
 
