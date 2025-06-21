@@ -274,12 +274,12 @@ mysqli_stmt_close($stmt_usuario);
             <label for="imagen">
               <div class="image-box">
                 <div class="placeholder-text" id="placeholder-text">Subir imagen</div>
-                <img id="preview-img" style="display:none; max-height: 150px;" alt="Vista previa de la impresora">
                 <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png" required>
                 <div id="uploading" style="display:none;">
                   <div class="spinner"></div>
                   <div class="uploading-text">Subiendo imagen...</div>
                 </div>
+                <img id="preview-img" style="display:none; max-height: 150px;" alt="Vista previa de la impresora">
               </div>
             </label>
             <span class="status-icon" id="icon-imagen"></span>
@@ -377,6 +377,6 @@ mysqli_stmt_close($stmt_usuario);
     </div>
   </div>
 
-  <script src="../assets/js/dashboard.js"></script>
+  <script type="module" src="../assets/js/dashboard.js"></script>
 </body>
 </html>
