@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
           card.dataset.estado = c.estado;
           card.innerHTML = `
             <div class="card-img">
-              <img src="../assets/sources/printers/img/${c.num_serie}/${c.imagen || 'default-impresora.jpg'}" alt="${c.nombre}">
+              <img src="../assets/sources/printers/${c.num_serie}/img/${c.imagen || 'default-impresora.jpg'}" alt="${c.nombre}">
             </div>
             <div class="card-info">
               <h3>${c.nombre}</h3>
@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
           card.dataset.estado = c.estado;
           card.innerHTML = `
             <div class="card-img">
-              <img src="../assets/img/${c.imagen || 'default-componente.jpg'}" alt="${c.nombre}">
+              <img src="../assets/sources/components/${c.num_serie}/img/${c.imagen || 'default-componente.jpg'}" alt="${c.nombre}">
             </div>
             <div class="card-info">
               <h3>${c.nombre}</h3>

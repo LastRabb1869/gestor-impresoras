@@ -1,39 +1,36 @@
 // assets/js/alerts/alerts-ui.js
+
 import { fetchAlertas } from './alerts-api.js';
 
-/**
- * Inicializa la UI de Alertas: carga y filtros.
- */
 export function initAlertsUI() {
   const alertasSection = document.getElementById('alertas-section');
   const navBtn = document.querySelector('.nav-item[data-section="alertas-section"]');
-  const filterButtons = alertasSection.querySelectorAll('.filter-button-alt');
+  const filterBtns = alertasSection.querySelectorAll('.filter-button-alt');
 
-  // Cuando se abre la pestaña de Alertas
-  navBtn.addEventListener('click', () => cargarAlertas());
-
-  // Delegación para filtros y botones Ver
-  alertasSection.addEventListener('click', e => {
-    const btn = e.target.closest('.filter-button-alt');
-    if (btn) {
-      filterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      applyWarningFilter(btn.dataset.filter);
-      return;
-    }
-    const expand = e.target.closest('.expand-button');
-    if (expand) {
-      console.log('Ver alerta', expand.dataset.id);
-    }
+  // Al hacer click en la pestaña, cargamos alertas y activamos "Todas"
+  navBtn.addEventListener('click', () => {
+    cargarAlertas().then(() => {
+      // al cargar, ponemos activo el filtro "todas"
+      filterBtns.forEach(b => b.classList.remove('active'));
+      alertasSection.querySelector('.filter-button-alt[data-filter="todas"]')
+        .classList.add('active');
+    });
   });
 
-  // Disparamos una recarga inicial
-  window.addEventListener('recargar-alertas', cargarAlertas);
+  // Delegación de clicks para los filtros
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // marcador visual
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      // aplicar filtro
+      applyWarningFilter(btn.dataset.filter);
+    });
+  });
+
+  // Arrancamos el modal
 }
 
-/**
- * Carga y renderiza las tarjetas de alertas.
- */
 export async function cargarAlertas() {
   const data = await fetchAlertas();
   const cont = document.querySelector('#alertas-section .cards-container');
@@ -59,9 +56,6 @@ export async function cargarAlertas() {
   });
 }
 
-/**
- * Filtra las alertas según estado.
- */
 export function applyWarningFilter(filter) {
   document.querySelectorAll('#alertas-section .alerta-card').forEach(card => {
     const es = card.dataset.estado;

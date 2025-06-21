@@ -1,7 +1,7 @@
 // assets/js/printers/modal-impresora.js
 
 import { fetchUbicaciones, setImpresora } from './printers-api.js';
-import { validarCampo } from '../ui/validation.js';
+import { validarCampo, activarTooltipsValidacion, initTooltipOutsideClick } from '../ui/validation.js';
 import { validarImagen } from '../ui/image-validation.js';
 
 export function initModalImpresora() {
@@ -13,16 +13,19 @@ export function initModalImpresora() {
   // ** seleciona el preview dentro del modal **
   const preview = modal.querySelector('#preview-img');
 
-  // escuchador para mostrar el modal
-  window.addEventListener('abrir-modal-impresora', () => {
-    modal.classList.remove('hidden');
-    cargarUbicaciones();
-  });
-
   // validaciones a los campos “validable”
   document.querySelectorAll('.validable').forEach(input =>
     input.addEventListener('blur', () => validarCampo(input))
   );
+
+  // escuchador para mostrar el modal
+  window.addEventListener('abrir-modal-impresora', () => {
+    modal.classList.remove('hidden');
+    cargarUbicaciones();
+    // ¡Aquí sí existen los .status-icon!
+    activarTooltipsValidacion();
+    initTooltipOutsideClick();
+  });
 
   // cerrar
   function cerrarModal() {

@@ -28,17 +28,28 @@ export const reglas = {
     }
 };
 
+export function activarTooltipsValidacion() {
+  document.querySelectorAll('.status-icon').forEach(icon => {
+    icon.addEventListener('click', () => {
+      const id  = icon.id.replace('icon-', '');
+      const tip = document.getElementById(`tooltip-${id}`);
+      if (icon.classList.contains('error')) {
+        tip.style.display = tip.style.display === 'block' ? 'none' : 'block';
+      }
+    });
+  });
+}
+
 export function validarCampo(input) {
   const tipo    = input.dataset.type;
   const valor   = input.value.trim();
-  const regla   = reglas[tipo];
-  if (!regla) return true;
-  const esOk = regla.regex
-    ? regla.regex.test(valor)
-    : regla.custom(valor);
-
   const icon = document.getElementById(`icon-${input.id}`);
   const tip  = document.getElementById(`tooltip-${input.id}`);
+
+  const regla   = reglas[tipo];
+  if (!regla) return;
+
+  const esOk = regla.regex ? regla.regex.test(valor) : regla.custom(valor);
 
   if (esOk) {
     icon.classList.replace('error','ok');
@@ -52,12 +63,10 @@ export function validarCampo(input) {
   return esOk;
 }
 
-document.querySelectorAll('.status-icon').forEach(icon => {
-  icon.addEventListener('click', () => {
-    const id  = icon.id.replace('icon-', '');
-    const tip = document.getElementById(`tooltip-${id}`);
-    if (icon.classList.contains('error')) {
-      tip.style.display = tip.style.display === 'block' ? 'none' : 'block';
+export function initTooltipOutsideClick() {
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.status-icon') && !e.target.closest('.tooltip')) {
+      document.querySelectorAll('.tooltip').forEach(t => t.style.display = 'none');
     }
   });
-});
+}

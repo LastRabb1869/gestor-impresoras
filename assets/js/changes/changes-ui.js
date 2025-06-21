@@ -2,11 +2,6 @@
 
 import { fetchCambios } from './changes-api.js';
 
-/**
- * Inicializa la UI de Cambios:
- * - Escucha la pestaña de Cambios
- * - Carga inicialmente las tarjetas
- */
 export function initChangesUI() {
   const navBtn = document.querySelector('.nav-item[data-section="cambios-section"]');
   navBtn.addEventListener('click', cargarCambios);
@@ -14,9 +9,6 @@ export function initChangesUI() {
   window.addEventListener('recargar-cambios', cargarCambios);
 }
 
-/**
- * Fetch y render de las tarjetas de cambios
- */
 export async function cargarCambios() {
   const data = await fetchCambios();
   const cont = document.querySelector('#cambios-section .cards-container');
@@ -41,9 +33,6 @@ export async function cargarCambios() {
   });
 }
 
-/**
- * Delegación para botón "Ver" dentro de Cambios
- */
 export function bindChangesDelegation() {
   const section = document.getElementById('cambios-section');
   section.addEventListener('click', e => {

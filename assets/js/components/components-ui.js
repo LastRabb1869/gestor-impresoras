@@ -1,24 +1,35 @@
 // assets/js/components/components-ui.js
+
 import { fetchComponentes } from './components-api.js';
 
 export function initComponentsUI() {
   const componentesSection = document.getElementById('componentes-section');
   const navBtn = document.querySelector('.nav-item[data-section="componentes-section"]');
-  // When section is activated, load componentes and init filters
-  navBtn.addEventListener('click', () => cargarComponentes());
+  const filterBtns = componentesSection.querySelectorAll('.filter-button-comp');
 
-  // Delegate filter button clicks
-  componentesSection.addEventListener('click', e => {
-    if (e.target.closest('.filter-button-comp')) {
-      const btn = e.target.closest('.filter-button-comp');
-      componentesSection.querySelectorAll('.filter-button-comp').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      applyComponentFilter(btn.dataset.filter);
-    }
-    if (e.target.closest('.expand-button')) {
-      console.log('Ver componente', e.target.closest('.expand-button').dataset.id);
-    }
-  });
+    // Al hacer click en la pestaña, cargamos componentes y activamos "Todos"
+    navBtn.addEventListener('click', () => {
+      cargarComponentes().then(() => {
+        // al cargar, ponemos activo el filtro "todos"
+        filterBtns.forEach(b => b.classList.remove('active'));
+        componentesSection.querySelector('.filter-button-comp[data-filter="todos"]')
+          .classList.add('active');
+      });
+    });
+
+    // Delegación de clicks para los filtros
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // marcador visual
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        // aplicar filtro
+        applyComponentFilter(btn.dataset.filter);
+      });
+    });
+
+    // Arrancamos el modal
+  
 }
 
 export async function cargarComponentes() {
