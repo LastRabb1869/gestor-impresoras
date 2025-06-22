@@ -2,7 +2,7 @@
 
 import { fetchImpresoras } from './printers-api.js';
 import { initModalImpresora } from './modal-impresora.js';
-import { fetchUbicaciones } from './printers-api.js';
+import { fetchDepartamentos } from '../departaments/departaments-api.js';
 
 let selectedLocations = [];   // IDs de ubicaciones marcadas
 let currentEstadoFilter = 'todas';
@@ -47,7 +47,7 @@ export function initPrintersUI() {
     const isOpen = !dropdown.classList.toggle('hidden');
     filterAll.classList.toggle('open', isOpen);
     if (!dropdown.dataset.loaded) {
-      const ubicaciones = await fetchUbicaciones();
+      const ubicaciones = await fetchDepartamentos();
       dropdown.innerHTML = ubicaciones.map(u => `
         <label>
           <input type="checkbox" value="${u.id}">

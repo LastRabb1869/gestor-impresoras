@@ -253,7 +253,7 @@ body {
   gap: 1rem;
   margin: 1rem 0;
 }
-.filter-button, .filter-button-comp, .filter-button-alt {
+.filter-button, .filter-button-comp, .filter-button-alt, .filter-button-dep {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -266,14 +266,16 @@ body {
 }
 .filter-button.active, .filter-button:hover,
 .filter-button-comp.active,.filter-button-comp:hover,
-.filter-button-alt.active, .filter-button-alt:hover {
+.filter-button-alt.active, .filter-button-alt:hover,
+.filter-button-dep.active, .filter-button-dep:hover {
   background: #007bff;
   border-color: #0056b3;
   color: #fff;
 }
 .filter-button .material-symbols-outlined,
 .filter-button-comp .material-symbols-outlined,
-.filter-button-alt .material-symbols-outlined {
+.filter-button-alt .material-symbols-outlined,
+.filter-button-dep .material-symbols-outlined {
   font-size: 1rem;
 }
 

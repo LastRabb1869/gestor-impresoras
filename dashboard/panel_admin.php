@@ -186,13 +186,46 @@ mysqli_stmt_close($stmt_usuario);
           <!-- Aquí el JS inyectará la sección de componentes -->
         </div>
       </section>
+      <!-- Sección Departamentos-->
+      <section id="departamentos-section" class="dashboard-section">
+        <div class="sub-navbar">
+          <!-- Barra de navegación con filtros para alertas -->
+          <button class="filter-button-dep active" data-filter="todos">
+            <span class="material-symbols-outlined">view_list</span>
+            <span>Todos</span>
+          </button>
+          <button class="filter-button-dep" data-filter="site">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Sites</span>
+          </button>
+          <button class="filter-button-dep" data-filter="bar">
+            <span class="material-symbols-outlined">warning</span>
+            <span>Bar</span>
+          </button>
+          <button class="filter-button-dep" data-filter="heladeria">
+            <span class="material-symbols-outlined">block</span>
+            <span>Heladería</span>
+          </button>
+          <button class="filter-button-dep" data-filter="lobby">
+            <span class="material-symbols-outlined">block</span>
+            <span>Lobby</span>
+          </button>
+          <button class="filter-button-dep" data-filter="oficina">
+            <span class="material-symbols-outlined">block</span>
+            <span>Oficina</span>
+          </button>
+        </div>
+        <div class="cards-container">
+          <!-- Aquí el JS inyectará la sección de departamentos -->
+        </div>
+      </section>
       <!-- Sección Alertas-->
       <section id="alertas-section" class="dashboard-section">
         <div class="sub-navbar">
           <!-- Barra de navegación con filtros para alertas -->
           <button class="filter-button-alt active" data-filter="todas">
             <span class="material-symbols-outlined">view_list</span>
-            <span>Todos</span>
+            <span>Todas</span>
           </button>
           <button class="filter-button-alt" data-filter="completado">
             <span class="material-symbols-outlined">check_circle</span>
@@ -227,7 +260,10 @@ mysqli_stmt_close($stmt_usuario);
           <button data-action="componente" title="Nuevo Componente">
             <span class="material-symbols-outlined">memory</span>
           </button>
-          <button data-action="alerta" title="Nueva Alerta">
+          <button data-action="departamento" title="Nuevo Departamento">
+            <span class="material-symbols-outlined">nearby</span>
+          </button>
+          <button data-action="alerta" title="Nueva Indicencia">
             <span class="material-symbols-outlined">notification_add</span>
           </button>
           <button data-action="cambio" title="Nuevo Cambio">

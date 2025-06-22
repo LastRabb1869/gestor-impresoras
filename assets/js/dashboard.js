@@ -5,6 +5,7 @@ import { initMobileNav } from './ui/movile-nav.js';
 import { initFab } from './ui/fab.js';
 import { initPrintersUI } from './printers/printers-ui.js';
 import { initComponentsUI } from './components/components-ui.js';
+import { initDepartamentsUI } from './departaments/departaments-ui.js';
 import { initAlertsUI } from './alerts/alerts-ui.js';
 import { initChangesUI, bindChangesDelegation } from './changes/changes-ui.js';
 
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFab();
   initPrintersUI();
   initComponentsUI();
+  initDepartamentsUI();
   initAlertsUI();
   initChangesUI();
   bindChangesDelegation();

@@ -1,6 +1,7 @@
 // assets/js/printers/modal-impresora.js
 
-import { fetchUbicaciones, setImpresora } from './printers-api.js';
+import { fetchDepartamentos } from '../departaments/departaments-api.js';
+import { setImpresora } from './printers-api.js';
 import { validarCampo, activarTooltipsValidacion, initTooltipOutsideClick } from '../ui/validation.js';
 import { validarImagen } from '../ui/image-validation.js';
 
@@ -52,7 +53,7 @@ export function initModalImpresora() {
 
   // carga ubicaciones
   async function cargarUbicaciones() {
-    const data = await fetchUbicaciones();
+    const data = await fetchDepartamentos();
     selectUbicacion.innerHTML = '<option value="">Selecciona ubicación</option>';
     data.forEach(u => {
       const opt = document.createElement('option');

@@ -23,14 +23,34 @@ export function initFab() {
         case 'componente':
           navButton = document.querySelector('.nav-item[data-section="componentes-section"]');
           break;
+        case 'departamento':
+          navButton = document.querySelector('.nav-item[data-section="departamentos-section"]');
         case 'alerta':
-        case 'cambio':
           navButton = document.querySelector('.nav-item[data-section="alertas-section"]');
+          break;
+        case 'cambio':
+          navButton = document.querySelector('.nav-item[data-section="cambios-section"]');
           break;
       }
       if (navButton) navButton.click();
       // disparar modal solo para impresoras; los demás vendrán luego
-      if (action === 'impresora') window.dispatchEvent(new Event('abrir-modal-impresora'));
+      switch(action) {
+        case 'impresora':
+          window.dispatchEvent(new Event('abrir-modal-impresora'));
+          break;
+        case 'componente':
+          window.dispatchEvent(new Event('abrir-modal-componente'));
+          break;
+        case 'departamento':
+          window.dispatchEvent(new Event('abrir-modal-departamento'));
+          break;
+        case 'alerta':
+          window.dispatchEvent(new Event('abrir-modal-alerta'));
+          break;
+        case 'cambio':
+          window.dispatchEvent(new Event('abrir-modal-cambio'));
+          break;
+      }
       fabOptions.classList.add('hidden');
     });
   });

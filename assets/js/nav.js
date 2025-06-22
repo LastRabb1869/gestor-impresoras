@@ -3,6 +3,7 @@ import { cargarImpresoras, applyCombinedFilter } from './printers/printers-ui.js
 import { cargarComponentes, applyComponentFilter } from './components/components-ui.js';
 import { cargarAlertas, applyWarningFilter } from './alerts/alerts-ui.js';
 import { cargarCambios } from './changes/changes-ui.js';
+import { cargarDepartamentos } from './departaments/departaments-ui.js';
 
 export function initNav() {
   const navItems = document.querySelectorAll('.nav-item[data-section]');
@@ -32,6 +33,9 @@ export function initNav() {
           document.querySelectorAll('#componentes-section .filter-button-comp').forEach(b => b.classList.remove('active'));
           document.querySelector('#componentes-section .filter-button-comp[data-filter="todos"]').classList.add('active');
           applyComponentFilter('todos');
+          break;
+        case 'departamentos-section':
+          cargarDepartamentos();
           break;
         case 'alertas-section':
           cargarAlertas();
