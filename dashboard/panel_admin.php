@@ -49,10 +49,16 @@ mysqli_stmt_close($stmt_usuario);
           <span>Impresoras</span>
         </a>
       </li>
-      <li id="btnComponentes" class="nav-item" data-section="componentes-section">
+      <li class="nav-item" data-section="componentes-section">
         <a href="javascript:;">
           <span class="material-symbols-outlined">memory</span>
           <span>Componentes</span>
+        </a>
+      </li>
+      <li class="nav-item" data-section="departamentos-section">
+        <a href="javascript:;">
+          <span class="material-symbols-outlined">nearby</span>
+          <span>Departamentos</span>
         </a>
       </li>
       <h4>
@@ -62,7 +68,7 @@ mysqli_stmt_close($stmt_usuario);
       <li class="nav-item" data-section="alertas-section">
         <a href="javascript:;">
           <span class="material-symbols-outlined">warning</span>
-          <span>Alertas</span>
+          <span>Indicencias</span>
         </a>
       </li>
       <li class="nav-item" data-section="cambios-section">
@@ -117,10 +123,15 @@ mysqli_stmt_close($stmt_usuario);
       <section id="impresoras-section" class="dashboard-section">
         <div class="sub-navbar">
           <!-- Barra de navegación con filtros para impresoras -->
-          <button class="filter-button" data-filter="todas">
+          <div class="filter-button filter-all" data-filter="todas">
+            <span class="filter-all__icon material-symbols-outlined">keyboard_arrow_down</span>
+            <span class="filter-all__divider"></span>
+            <div class="filter-all__dropdown hidden">
+              <!-- JS inyectará aquí los checkboxes de ubicaciones -->
+            </div>
             <span class="material-symbols-outlined">view_list</span>
-            <span>Todas</span>
-          </button>
+            <span class="filter-all__text">Todas</span>
+          </div>
           <button class="filter-button" data-filter="operativas">
             <span class="material-symbols-outlined">check_circle</span>
             <span>Operativas</span>
@@ -226,41 +237,6 @@ mysqli_stmt_close($stmt_usuario);
       </div>
     </main>
   </div>
-
-  <!-- Menú inferior para móvil -->
-  <nav class="mobile-nav">
-    <ul class="mobile-nav-main">
-      <li data-group="principal" class="active">
-        <span class="material-symbols-outlined">dashboard</span>
-        <span>Principal</span>
-      </li>
-      <li data-group="gestionar">
-        <span class="material-symbols-outlined">settings</span>
-        <span>Gestionar</span>
-      </li>
-      <li data-group="cuenta">
-        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" class="mobile-avatar" alt="Perfil"/>
-        <span>Cuenta</span>
-      </li>
-    </ul>
-
-    <!-- Sub-menús burbuja -->
-    <div class="mobile-submenus">
-      <ul class="mobile-nav-sub principal">
-        <li data-section="impresoras-section"><span class="material-symbols-outlined">print</span><span>Impresoras</span></li>
-        <li data-section="componentes-section"><span class="material-symbols-outlined">memory</span><span>Componentes</span></li>
-      </ul>
-      <ul class="mobile-nav-sub gestionar">
-        <li data-section="alertas-section"><span class="material-symbols-outlined">warning</span><span>Alertas</span></li>
-        <li data-section="cambios-section"><span class="material-symbols-outlined">sync_alt</span><span>Cambios</span></li>
-        <li id="colaboradores-btn"><span class="material-symbols-outlined">manage_accounts</span><span>Colaboradores</span></li>
-      </ul>
-      <ul class="mobile-nav-sub cuenta">
-        <li id="profile-open"><span class="material-symbols-outlined">account_circle</span><span>Perfil</span></li>
-        <li class="logout-btn"><span class="material-symbols-outlined">logout</span><span>Salir</span></li>
-      </ul>
-    </div>
-  </nav>
 
   <!-- Modal para añadir impresora -->
   <div id="modal-impresora" class="modal-overlay hidden">
@@ -376,6 +352,42 @@ mysqli_stmt_close($stmt_usuario);
       </form>
     </div>
   </div>
+
+  <!-- Menú inferior para móvil -->
+  <nav class="mobile-nav">
+    <ul class="mobile-nav-main">
+      <li data-group="principal" class="active">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Principal</span>
+      </li>
+      <li data-group="gestionar">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Gestionar</span>
+      </li>
+      <li data-group="cuenta">
+        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" class="mobile-avatar" alt="Perfil"/>
+        <span>Cuenta</span>
+      </li>
+    </ul>
+
+    <!-- Sub-menús burbuja -->
+    <div class="mobile-submenus">
+      <ul class="mobile-nav-sub principal">
+        <li data-section="impresoras-section"><span class="material-symbols-outlined">print</span><span>Impresoras</span></li>
+        <li data-section="componentes-section"><span class="material-symbols-outlined">memory</span><span>Componentes</span></li>
+        <li data-section="departamentos-section"><span class="material-symbols-outlined">nearby</span><span>Departamentos</span></li>
+      </ul>
+      <ul class="mobile-nav-sub gestionar">
+        <li data-section="alertas-section"><span class="material-symbols-outlined">warning</span><span>Indicencias</span></li>
+        <li data-section="cambios-section"><span class="material-symbols-outlined">sync_alt</span><span>Cambios</span></li>
+        <li id="colaboradores-btn"><span class="material-symbols-outlined">manage_accounts</span><span>Colaboradores</span></li>
+      </ul>
+      <ul class="mobile-nav-sub cuenta">
+        <li id="profile-open"><span class="material-symbols-outlined">account_circle</span><span>Perfil</span></li>
+        <li class="logout-btn"><span class="material-symbols-outlined">logout</span><span>Salir</span></li>
+      </ul>
+    </div>
+  </nav>
 
   <script type="module" src="../assets/js/dashboard.js"></script>
 </body>

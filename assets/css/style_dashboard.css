@@ -277,6 +277,87 @@ body {
   font-size: 1rem;
 }
 
+/* --- Filtro “Todas” con dropdown --- */
+.filter-all {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.filter-all.active,
+.filter-all:hover {
+  background: #007bff;
+  border-color: #0056b3;
+  color: #fff;
+}
+.filter-all__text {
+  margin-right: 0.5rem;
+}
+.filter-all__icon {
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+
+.filter-all.open .filter-all__icon {
+  transform: rotate(180deg);
+}
+
+.filter-all__divider {
+  width: 1px;
+  height: 1.2em;
+  background: currentColor;
+  margin: 0 0.2rem;
+}
+
+.filter-all.location-active .filter-all__icon,
+.filter-all.location-active .filter-all__divider {
+  background: #007bff;
+  color: #fff;
+}
+
+/*
+.filter-all.active {
+  bacground: none;
+}
+
+
+/* Dropdown de ubicaciones */
+.filter-all__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: max-content;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 0.5rem;
+  z-index: 1500;
+}
+
+.filter-all__dropdown {
+  color: #161a2d; 
+}
+
+.filter-all__dropdown.hidden {
+  display: none;
+}
+.filter-all__dropdown label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
 /* ====== Cards Layout ====== */
 .cards-container {
   display: flex;

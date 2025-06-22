@@ -1,5 +1,5 @@
 // assets/js/nav.js
-import { cargarImpresoras, applyPrinterFilter } from './printers/printers-ui.js';
+import { cargarImpresoras, applyCombinedFilter } from './printers/printers-ui.js';
 import { cargarComponentes, applyComponentFilter } from './components/components-ui.js';
 import { cargarAlertas, applyWarningFilter } from './alerts/alerts-ui.js';
 import { cargarCambios } from './changes/changes-ui.js';
@@ -25,7 +25,7 @@ export function initNav() {
           // reset filtros
           document.querySelectorAll('#impresoras-section .filter-button').forEach(b => b.classList.remove('active'));
           document.querySelector('#impresoras-section .filter-button[data-filter="todas"]').classList.add('active');
-          applyPrinterFilter('todas');
+          applyCombinedFilter('todas');
           break;
         case 'componentes-section':
           cargarComponentes();

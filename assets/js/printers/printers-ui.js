@@ -2,35 +2,91 @@
 
 import { fetchImpresoras } from './printers-api.js';
 import { initModalImpresora } from './modal-impresora.js';
+import { fetchUbicaciones } from './printers-api.js';
 
-// exportas la inicialización principal
+let selectedLocations = [];   // IDs de ubicaciones marcadas
+let currentEstadoFilter = 'todas';
+
+function updateLocationHighlight(filterAll) {
+  filterAll.classList.toggle('location-active', selectedLocations.length > 0);
+}
+
 export function initPrintersUI() {
   const impresorasSection = document.getElementById('impresoras-section');
   const navBtn            = document.querySelector('.nav-item[data-section="impresoras-section"]');
-  const filterBtns        = impresorasSection.querySelectorAll('.filter-button');
+  const filterBtns        = impresorasSection.querySelectorAll('.filter-button:not(.filter-all)');
+  const filterAll         = impresorasSection.querySelector('.filter-all');
+  const dropdown          = filterAll.querySelector('.filter-all__dropdown');
+  const textPart          = filterAll.querySelector('.filter-all__text');
+  const iconPart          = filterAll.querySelector('.filter-all__icon');
 
-  // Al hacer click en la pestaña, cargamos impresoras y activamos "Todas"
+  // 1) Al cargar pestaña: reset de estado y ubicación
   navBtn.addEventListener('click', () => {
+    currentEstadoFilter = 'todas';
+    selectedLocations = [];
+    filterAll.classList.remove('open', 'location-active');
     cargarImpresoras().then(() => {
-      // al cargar, ponemos activo el filtro "todas"
+      applyCombinedFilter();
       filterBtns.forEach(b => b.classList.remove('active'));
-      impresorasSection.querySelector('.filter-button[data-filter="todas"]')
-        .classList.add('active');
+      filterAll.classList.add('active'); // resalta el texto “Todas”
+      dropdown.classList.add('hidden');
     });
   });
 
-  // Delegación de clicks para los filtros
+  // 2) Click en texto “Todas” => solo filtro estado
+  textPart.addEventListener('click', () => {
+    currentEstadoFilter = 'todas';
+    applyCombinedFilter();
+    filterBtns.forEach(b => b.classList.remove('active'));
+    filterAll.classList.add('active');
+  });
+
+  // 3) Click en icono => abre/cierra dropdown de ubicaciones
+  iconPart.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    const isOpen = !dropdown.classList.toggle('hidden');
+    filterAll.classList.toggle('open', isOpen);
+    if (!dropdown.dataset.loaded) {
+      const ubicaciones = await fetchUbicaciones();
+      dropdown.innerHTML = ubicaciones.map(u => `
+        <label>
+          <input type="checkbox" value="${u.id}">
+          ${u.nombre}
+        </label>
+      `).join('');
+      dropdown.dataset.loaded = 'true';
+      // listener para cada checkbox
+      dropdown.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', () => {
+          selectedLocations = Array.from(dropdown.querySelectorAll('input:checked'))
+                                   .map(i => i.value);
+          applyCombinedFilter();
+          updateLocationHighlight(filterAll);
+        });
+      });
+    }
+  });
+
+  // 4) Click fuera cierra dropdown
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.filter-all')) {
+      dropdown.classList.add('hidden');
+      filterAll.classList.remove('open');
+    }
+  });
+
+  // 5) Delegación de filtros por estado
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // marcador visual
       filterBtns.forEach(b => b.classList.remove('active'));
+      filterAll.classList.remove('active');
       btn.classList.add('active');
-      // aplicar filtro
-      applyPrinterFilter(btn.dataset.filter);
+      currentEstadoFilter = btn.dataset.filter;
+      applyCombinedFilter();
     });
   });
 
-  // arrancamos el modal
+  // 6) Inicializa modal + primeras tarjetas
   initModalImpresora();
 }
 
@@ -47,6 +103,7 @@ export async function cargarImpresoras() {
     const card = document.createElement('div');
     card.className = 'card impresora-card';
     card.dataset.estado = c.estado;
+    card.dataset.ubicacionId = c.ubicacion_id; 
     card.innerHTML = `
       <div class="card-img">
         <img src="../assets/sources/printers/${c.num_serie}/img/${c.imagen || 'default-impresora.jpg'}" alt="${c.nombre}">
@@ -63,19 +120,22 @@ export async function cargarImpresoras() {
   });
 }
 
-// Lógica de filtro
-export function applyPrinterFilter(filter) {
+// Filtrado combinado: estado + ubicaciones
+export function applyCombinedFilter() {
   document.querySelectorAll('#impresoras-section .impresora-card')
     .forEach(card => {
-      const estado = card.dataset.estado;
-      const ok = filter === 'todas'
-              || (filter === 'operativas'    && estado === 'FUNCIONANDO')
-              || (filter === 'con-problemas' && estado === 'CON PROBLEMAS')
-              || (filter === 'reparando'     && estado === 'REPARANDO')
-              || (filter === 'no-operativas' && estado === 'BAJA');
-      card.style.display = ok ? 'flex' : 'none';
+      const est = card.dataset.estado;
+      const ubi = card.dataset.ubicacionId;
+      const okEstado = (currentEstadoFilter === 'todas')
+        || (currentEstadoFilter === 'operativas'    && est === 'FUNCIONANDO')
+        || (currentEstadoFilter === 'con-problemas' && est === 'CON PROBLEMAS')
+        || (currentEstadoFilter === 'reparando'     && est === 'REPARANDO')
+        || (currentEstadoFilter === 'no-operativas' && est === 'BAJA');
+      const okUbi = selectedLocations.length === 0 
+        || selectedLocations.includes(ubi);
+      card.style.display = (okEstado && okUbi) ? 'flex' : 'none';
     });
 }
 
-// Opcional: si quieres disparar recarga desde otro módulo
+// Para recargas externas
 window.addEventListener('recargar-impresoras', cargarImpresoras);
