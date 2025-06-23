@@ -1,16 +1,16 @@
-// assets/js/printers/modal-impresora.js
+// assets/js/components/modal-componente.js
 
 import { cargarUbicaciones } from '../departaments/departaments-api.js';
-import { setImpresora } from './printers-api.js';
+import { setComponente } from './components-api.js';
 import { validarCampo, activarTooltipsValidacion, initTooltipOutsideClick } from '../ui/validation.js';
 import { validarImagen } from '../ui/image-validation.js';
 
-export function initModalImpresora() {
-  const modal = document.getElementById('modal-impresora');
-  const form = document.getElementById('form-impresora');
-  const inputImagen = document.getElementById('imagen_impresora');
-  const nombreArchivo = document.getElementById('nombre-archivo_impresora');
-  const preview = modal.querySelector('#preview-img_impresora');
+export function initModalComponente() {
+  const modal = document.getElementById('modal-componente');
+  const form = document.getElementById('form-componente');
+  const inputImagen = document.getElementById('imagen_componente');
+  const nombreArchivo = document.getElementById('nombre-archivo_componente');
+  const preview = modal.querySelector('#preview-img_componente');
   const placeholder = modal.querySelector('.placeholder-text');
 
   // validaciones a los campos “validable”
@@ -19,12 +19,11 @@ export function initModalImpresora() {
   );
 
   // escuchador para mostrar el modal
-  window.addEventListener('abrir-modal-impresora', () => {
+  window.addEventListener('abrir-modal-componente', () => {
     modal.classList.remove('hidden');
-    cargarUbicaciones('select-ubicacion-impresora');
+    cargarUbicaciones('select-ubicacion-componente');
     activarTooltipsValidacion();
-    initTooltipOutsideClick();
-
+    initTooltipOutsideClick();  
     // limpiar estado previo
     form.reset();
     preview.style.display = 'none';
@@ -33,18 +32,17 @@ export function initModalImpresora() {
     modal.querySelectorAll('.status-icon').forEach(icon => {
       icon.classList.remove('ok','error');
       icon.innerHTML = '';
-    });
+    });    
   });
 
   // cerrar
   function cerrarModal() {
-    if (confirm('¿Deseas cancelar el registro de la impresora?')) {
+    if (confirm('¿Deseas cancelar el registro del componente?')) {
 
 
       modal.classList.add('hidden');
     }
   }
-
   modal.querySelector('.modal-close').addEventListener('click', cerrarModal);
   modal.querySelector('.btn-cancel').addEventListener('click', cerrarModal);
 
@@ -54,7 +52,7 @@ export function initModalImpresora() {
     if (file) {
       placeholder.style.display = 'none';
       nombreArchivo.textContent = `Seleccionado: ${file.name}`;
-      validarImagen(inputImagen, 'icon-imagen_impresora');
+      validarImagen(inputImagen, 'icon-imagen_componente');
       const reader = new FileReader();
       reader.onload = e => {
         preview.src = e.target.result;
@@ -66,18 +64,18 @@ export function initModalImpresora() {
       nombreArchivo.textContent = '';
       preview.style.display = 'none';
     }
-  });  
+  });
 
   // submit
   form.addEventListener('submit', async e => {
     e.preventDefault();
-    if (!confirm('¿Confirmas que deseas añadir esta impresora?')) return;
+    if (!confirm('¿Confirmas que deseas añadir este componente?')) return;
 
-    const texto = await setImpresora(new FormData(form));
+    const texto = await setComponente(new FormData(form));
     if (texto.trim() === 'OK') {
-      alert('¡Impresora registrada exitosamente!');
+      alert('¡Componente registrado exitosamente!');
       cerrarModal();
-      window.dispatchEvent(new Event('recargar-impresoras'));
+      window.dispatchEvent(new Event('recargar-componentes'));
     } else {
       alert('Error: ' + texto);
     }

@@ -1,6 +1,6 @@
 // assets/js/dashboard.js
 import { initNav } from './nav.js';
-import {  initSidebar } from './ui/sidebar.js';
+import { initSidebar } from './ui/sidebar.js';
 import { initMobileNav } from './ui/movile-nav.js';
 import { initFab } from './ui/fab.js';
 import { initPrintersUI } from './printers/printers-ui.js';

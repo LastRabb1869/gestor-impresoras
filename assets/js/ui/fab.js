@@ -33,7 +33,8 @@ export function initFab() {
           break;
       }
       if (navButton) navButton.click();
-      // disparar modal solo para impresoras; los demás vendrán luego
+      
+      // Disparamos el evento para abrir el modal correspondiente
       switch(action) {
         case 'impresora':
           window.dispatchEvent(new Event('abrir-modal-impresora'));

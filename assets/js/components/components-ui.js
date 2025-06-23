@@ -1,6 +1,7 @@
 // assets/js/components/components-ui.js
 
 import { fetchComponentes } from './components-api.js';
+import { initModalComponente } from './modal-componente.js';
 
 export function initComponentsUI() {
   const componentesSection = document.getElementById('componentes-section');
@@ -29,7 +30,7 @@ export function initComponentsUI() {
     });
 
     // Arrancamos el modal
-  
+    initModalComponente();
 }
 
 export async function cargarComponentes() {

@@ -283,20 +283,17 @@ mysqli_stmt_close($stmt_usuario);
         <div class="form-columns">
           <!-- Imagen -->
           <div class="image-upload">
-            <label for="imagen">
+            <!-- fíjate que el for coincide con el id del input -->
+            <label for="imagen_impresora">
               <div class="image-box">
-                <div class="placeholder-text" id="placeholder-text">Subir imagen</div>
-                <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png" required>
-                <div id="uploading" style="display:none;">
-                  <div class="spinner"></div>
-                  <div class="uploading-text">Subiendo imagen...</div>
-                </div>
-                <img id="preview-img" style="display:none; max-height: 150px;" alt="Vista previa de la impresora">
+                <div class="placeholder-text">Subir imagen</div>
+                <input type="file" name="imagen" id="imagen_impresora" accept=".jpg,.jpeg,.png" required>
+                <div class="spinner" style="display:none;"></div>
+                <img id="preview-img_impresora" style="display:none; max-height: 150px;" alt="Vista previa del impresora">
               </div>
             </label>
-            <span class="status-icon" id="icon-imagen"></span>
-            <!-- <div class="tooltip" id="tooltip-imagen">Debes subir una imagen JPG o PNG menor a 5MB.</div> Por ahora -->
-            <small id="nombre-archivo" style="display:block; margin-top:0.5rem; color:#555;"></small>
+            <span class="status-icon" id="icon-imagen_impresora"></span>
+            <small id="nombre-archivo_impresora" class="file-name"></small>
             <small>Formatos: JPG, PNG | Máx: 5MB</small>
           </div>
 
@@ -305,22 +302,22 @@ mysqli_stmt_close($stmt_usuario);
             <div class="field-group">
               <label class="form-lb" for="nombre">Nombre:</label>
               <div class="input-wrapper">
-                <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validable" data-type="nombre" required>
-                <span class="status-icon" id="icon-nombre" title="">
+                <input type="text" id="nombre_impresora" name="nombre" placeholder="Nombre" class="validable" data-type="nombre" required>
+                <span class="status-icon" id="icon-nombre_impresora" title="">
                   <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
-              <div class="tooltip" id="tooltip-nombre"></div>
+              <div class="tooltip" id="tooltip-nombre_impresora"></div>
             </div>
             <div class="field-group">
               <label class="form-lb" for="marca">Marca:</label>
               <div class="input-wrapper">
-                <input type="text" id="marca" name="marca" placeholder="Marca" class="validable" data-type="marca" required>
-                <span class="status-icon" id="icon-marca" title="">
+                <input type="text" id="marca_impresora" name="marca" placeholder="Marca" class="validable" data-type="marca" required>
+                <span class="status-icon" id="icon-marca_impresora" title="">
                   <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
-              <div class="tooltip" id="tooltip-marca"></div>
+              <div class="tooltip" id="tooltip-marca_impresora"></div>
             </div>
             <div class="field-group">
               <label class="form-lb" for="modelo">Modelo:</label>
@@ -335,12 +332,12 @@ mysqli_stmt_close($stmt_usuario);
             <div class="field-group">
               <label class="form-lb" for="num_serie">Número de serie:</label>
               <div class="input-wrapper">
-                <input type="text" id="num_serie" name="num_serie" placeholder="Número de serie" class="validable" data-type="num_serie" required>
-                <span class="status-icon" id="icon-num_serie" title="">
+                <input type="text" id="num_serie_impresora" name="num_serie" placeholder="Número de serie" class="validable" data-type="num_serie" required>
+                <span class="status-icon" id="icon-num_serie_impresora" title="">
                   <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
-              <div class="tooltip" id="tooltip-num_serie"></div>
+              <div class="tooltip" id="tooltip-num_serie_impresora"></div>
             </div>
             <div class="field-group">
               <label class="form-lb" for="ip">Dirección IP:</label>
@@ -356,33 +353,136 @@ mysqli_stmt_close($stmt_usuario);
             <div class="field-group">
               <label class="form-lb" for="estado">Estado:</label>
               <div class="input-wrapper">
-                <select name="estado" id="estado" class="validable" data-type="select" required>
+                <select name="estado" id="estado_impresoras" class="validable" data-type="select" required>
                   <option value="" disabled selected>Selecciona estado</option>
                   <option value="FUNCIONANDO">FUNCIONANDO</option>
                   <option value="CON PROBLEMAS">CON PROBLEMAS</option>
                   <option value="REPARANDO">REPARANDO</option>
                   <option value="BAJA">BAJA</option>
                 </select>
-                <span class="status-icon" id="icon-estado" title=""></span>
+                <span class="status-icon" id="icon-estado_impresoras" title=""></span>
               </div>
-              <div class="tooltip" id="tooltip-estado"></div>
+              <div class="tooltip" id="tooltip-estado_impresoras"></div>
             </div>
 
             <div class="field-group">
               <label class="form-lb" for="select-ubicacion">Ubicación:</label>
               <div class="input-wrapper">
-                <select name="ubicacion" id="select-ubicacion" class="validable" data-type="select" required>
+                <select name="ubicacion" id="select-ubicacion-impresora" class="validable" data-type="select" required>
                   <option value="" disabled selected>Cargando ubicaciones...</option>
                 </select>
-                <span class="status-icon" id="icon-select-ubicacion" title=""></span>
+                <span class="status-icon" id="icon-select-ubicacion-impresora" title=""></span>
               </div>
-              <div class="tooltip" id="tooltip-select-ubicacion"></div>
+              <div class="tooltip" id="tooltip-select-ubicacion-impresora"></div>
             </div>
           </div>
         </div>
 
         <div class="modal-actions">
           <button type="submit" class="btn-add">Añadir impresora</button>
+          <button type="button" class="btn-cancel">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para añadir componente -->
+  <div id="modal-componente" class="modal-overlay hidden">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2>Añadir nuevo componente</h2>
+      <form id="form-componente" enctype="multipart/form-data">
+        <div class="form-columns">
+          <!-- Imagen -->
+          <div class="image-upload">
+            <!-- fíjate que el for coincide con el id del input -->
+            <label for="imagen_componente">
+              <div class="image-box">
+                <div class="placeholder-text">Subir imagen</div>
+                <input type="file" name="imagen" id="imagen_componente" accept=".jpg,.jpeg,.png" required>
+                <div class="spinner" style="display:none;"></div>
+                <img id="preview-img_componente" style="display:none; max-height: 150px;" alt="Vista previa del componente">
+              </div>
+            </label>
+            <span class="status-icon" id="icon-imagen_componente"></span>
+            <small id="nombre-archivo_componente" class="file-name"></small>
+            <small>Formatos: JPG, PNG | Máx: 5MB</small>
+          </div>
+
+          <!-- Datos -->
+          <div class="fields">
+            <div class="field-group">
+              <label class="form-lb" for="nombre">Nombre:</label>
+              <div class="input-wrapper">
+                <input type="text" id="nombre_componente" name="nombre" placeholder="Nombre" class="validable" data-type="nombre" required>
+                <span class="status-icon" id="icon-nombre_componente" title="">
+                  <!-- SVG se inserta aquí desde JS -->
+                </span>
+              </div>
+              <div class="tooltip" id="tooltip-nombre_componente"></div>
+            </div>
+            <div class="field-group">
+              <label class="form-lb" for="marca">Marca:</label>
+              <div class="input-wrapper">
+                <input type="text" id="marca_componente" name="marca" placeholder="Marca" class="validable" data-type="marca" required>
+                <span class="status-icon" id="icon-marca_componente" title="">
+                  <!-- SVG se inserta aquí desde JS -->
+                </span>
+              </div>
+              <div class="tooltip" id="tooltip-marca_componente"></div>
+            </div>
+            <div class="field-group">
+              <label class="form-lb" for="num_serie">Número de serie:</label>
+              <div class="input-wrapper">
+                <input type="text" id="num_serie_componente" name="num_serie" placeholder="Número de serie" class="validable" data-type="num_serie" required>
+                <span class="status-icon" id="icon-num_serie_componente" title="">
+                  <!-- SVG se inserta aquí desde JS -->
+                </span>
+              </div>
+              <div class="tooltip" id="tooltip-num_serie_componente"></div>
+            </div>
+            <div class="field-group">
+              <label class="form-lb" for="stock">Cantidad:</label>
+              <div class="input-wrapper">
+                <input type="text" id="cantidad_stock" name="cantidad_stock" placeholder="Cantidad" class="validable" data-type="cantidad_stock" required>
+                <span class="status-icon" id="icon-cantidad_stock" title="">
+                  <!-- SVG se inserta aquí desde JS -->
+                </span>
+              </div>
+              <div class="tooltip" id="tooltip-cantidad_stock"></div>
+            </div>
+
+            <div class="field-group">
+              <label class="form-lb" for="estado">Estado:</label>
+              <div class="input-wrapper">
+                <select name="estado" id="estado_componentes" class="validable" data-type="select" required>
+                  <option value="" disabled selected>Selecciona estado</option>
+                  <option value="EN CONDICIONES">EN CONDICIONES</option>
+                  <option value="POSIBLE FALLO">POSIBLE FALLO</option>
+                  <option value="SIN STOCK">SIN STOCK</option>
+                  <option value="DESCONOCIDO">DESCONOCIDO</option>
+                  <option value="BAJA DEFINITIVA">BAJA DEFINITIVA</option>
+                </select>
+                <span class="status-icon" id="icon-estado_componentes" title=""></span>
+              </div>
+              <div class="tooltip" id="tooltip-estado_componentes"></div>
+            </div>
+
+            <div class="field-group">
+              <label class="form-lb" for="select-ubicacion">Ubicación:</label>
+              <div class="input-wrapper">
+                <select name="ubicacion" id="select-ubicacion-componente" class="validable" data-type="select" required>
+                  <option value="" disabled selected>Cargando ubicaciones...</option>
+                </select>
+                <span class="status-icon" id="icon-select-ubicacion-componente" title=""></span>
+              </div>
+              <div class="tooltip" id="tooltip-select-ubicacion-componente"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn-add">Añadir componente</button>
           <button type="button" class="btn-cancel">Cancelar</button>
         </div>
       </form>
