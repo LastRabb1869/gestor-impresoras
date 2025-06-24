@@ -326,8 +326,8 @@ mysqli_stmt_close($stmt_usuario);
                 <span class="status-icon" id="icon-modelo" title="">
                   <!-- SVG se inserta aquí desde JS -->
                 </span>
-                <div class="tooltip" id="tooltip-modelo"></div>
               </div>
+              <div class="tooltip" id="tooltip-modelo"></div>
             </div>
             <div class="field-group">
               <label class="form-lb" for="num_serie">Número de serie:</label>

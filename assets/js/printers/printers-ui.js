@@ -86,6 +86,17 @@ export function initPrintersUI() {
     });
   });
 
+    // Escuchar recarga de componentes después de registrar
+    window.addEventListener('recargar-impresoras', async () => {
+      await cargarImpresoras();
+
+      // reaplicar filtro activo
+      const activeBtn = document.querySelector('.filter-button.active');
+      if (activeBtn) {
+        applyCombinedFilter(activeBtn.dataset.filter);
+      }
+    });
+
   // 6) Inicializa modal + primeras tarjetas
   initModalImpresora();
 }
@@ -136,6 +147,3 @@ export function applyCombinedFilter() {
       card.style.display = (okEstado && okUbi) ? 'flex' : 'none';
     });
 }
-
-// Para recargas externas
-window.addEventListener('recargar-impresoras', cargarImpresoras);

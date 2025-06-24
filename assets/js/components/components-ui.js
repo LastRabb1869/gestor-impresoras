@@ -29,6 +29,17 @@ export function initComponentsUI() {
       });
     });
 
+    // Escuchar recarga de componentes después de registrar
+    window.addEventListener('recargar-componentes', async () => {
+      await cargarComponentes();
+
+      // reaplicar filtro activo
+      const activeBtn = document.querySelector('.filter-button-comp.active');
+      if (activeBtn) {
+        applyComponentFilter(activeBtn.dataset.filter);
+      }
+    });
+
     // Arrancamos el modal
     initModalComponente();
 }
