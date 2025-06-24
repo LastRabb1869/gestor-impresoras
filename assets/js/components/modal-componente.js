@@ -31,8 +31,8 @@ export function initModalComponente() {
   });
 
   // 2) Cerrar…
-  function cerrar(force = false) {
-    if (force || confirm('¿Deseas cancelar el registro del componente?')) {
+  function cerrar() {
+    if (confirm('¿Deseas cancelar el registro del componente?')) {
       modal.classList.add('hidden');
     }
   }
@@ -46,7 +46,7 @@ export function initModalComponente() {
     const resp = await setComponente(new FormData(form));
     if (resp.trim() === 'OK') {
       alert('¡Componente registrado!');
-      cerrar(true);
+      modal.classList.add('hidden');
       window.dispatchEvent(new Event('recargar-componentes'));
     } else {
       alert('Error: ' + resp);

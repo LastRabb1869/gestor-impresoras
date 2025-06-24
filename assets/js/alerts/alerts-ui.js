@@ -28,6 +28,17 @@ export function initAlertsUI() {
     });
   });
 
+    // Escuchar recarga de alertas después de registrar
+    window.addEventListener('recargar-alertas', async () => {
+      await cargarAlertas();
+
+      // reaplicar filtro activo
+      const activeBtn = document.querySelector('.filter-button-alt.active');
+      if (activeBtn) {
+        applyComponentFilter(activeBtn.dataset.filter);
+      }
+    });  
+
   // Arrancamos el modal
 }
 
@@ -43,13 +54,17 @@ export async function cargarAlertas() {
     const card = document.createElement('div');
     card.className = 'card alerta-card';
     card.dataset.estado = a.estado_actual;
+    if (a.fecha_concluido == null) {
+      a.fecha_concluido = 'Sin concluir';
+    }
     card.innerHTML = `
       <div class="card-info">
         <h3>Alerta #${a.id} – Prioridad: ${a.prioridad}</h3>
         <p><strong>Impresora:</strong> ${a.impresora}</p>
         <p><strong>IP:</strong> ${a.direccion_ip}</p>
         <p><strong>Estado:</strong> ${a.estado_actual}</p>
-        <p><strong>Reportado:</strong> <small>${a.fecha_hora}</small></p>
+        <p><strong>Reportado:</strong> <small>${a.fecha_reportado}</small></p>
+        <p><strong>Concluido:</strong> <small>${a.fecha_concluido}</small></p>
         <button class="expand-button" data-id="${a.id}">Ver</button>
       </div>`;
     cont.appendChild(card);

@@ -68,7 +68,7 @@ mysqli_stmt_close($stmt_usuario);
       <li class="nav-item" data-section="alertas-section">
         <a href="javascript:;">
           <span class="material-symbols-outlined">warning</span>
-          <span>Indicencias</span>
+          <span>Incidencias</span>
         </a>
       </li>
       <li class="nav-item" data-section="cambios-section">
@@ -263,7 +263,7 @@ mysqli_stmt_close($stmt_usuario);
           <button data-action="departamento" title="Nuevo Departamento">
             <span class="material-symbols-outlined">nearby</span>
           </button>
-          <button data-action="alerta" title="Nueva Indicencia">
+          <button data-action="alerta" title="Nueva Incidencia">
             <span class="material-symbols-outlined">notification_add</span>
           </button>
           <button data-action="cambio" title="Nuevo Cambio">
@@ -514,7 +514,7 @@ mysqli_stmt_close($stmt_usuario);
         <li data-section="departamentos-section"><span class="material-symbols-outlined">nearby</span><span>Departamentos</span></li>
       </ul>
       <ul class="mobile-nav-sub gestionar">
-        <li data-section="alertas-section"><span class="material-symbols-outlined">warning</span><span>Indicencias</span></li>
+        <li data-section="alertas-section"><span class="material-symbols-outlined">warning</span><span>Incidencias</span></li>
         <li data-section="cambios-section"><span class="material-symbols-outlined">sync_alt</span><span>Cambios</span></li>
         <li id="colaboradores-btn"><span class="material-symbols-outlined">manage_accounts</span><span>Colaboradores</span></li>
       </ul>

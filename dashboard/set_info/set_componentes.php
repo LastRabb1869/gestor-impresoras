@@ -2,11 +2,6 @@
 // set_componentes.php
 require_once "../../config/conexion.php";
 
-// Función para validar dirección IP
-function validarIP($ip) {
-    return filter_var($ip, FILTER_VALIDATE_IP);
-}
-
 // Verificamos que los datos básicos estén presentes
 $nombre       = trim($_POST['nombre']);
 $marca        = trim($_POST['marca']);
