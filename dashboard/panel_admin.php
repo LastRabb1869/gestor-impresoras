@@ -489,6 +489,54 @@ mysqli_stmt_close($stmt_usuario);
     </div>
   </div>
 
+  <!-- Modal para añadir Incidencia (Alerta) -->
+  <div id="modal-alerta" class="modal-overlay hidden">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2>Nueva Incidencia</h2>
+      <form id="form-alerta">
+        <div class="fields">
+          <!-- Buscador de impresora -->
+          <div class="field-group">
+            <label for="buscador-impresora">Impresora:</label>
+            <div class="input-wrapper">
+              <input type="text" id="buscador-impresora" placeholder="Buscar por nombre o S/N" autocomplete="off" class="validable" data-type="select" required />
+              <ul id="lista-impresoras" class="suggestions-list"></ul>
+            </div>
+            <div class="tooltip" id="tooltip-buscador-impresora"></div>
+          </div>
+          <!-- IP (autocompleto, solo lectura) -->
+          <div class="field-group">
+            <label for="ip-impresora">Dirección IP:</label>
+            <input type="text" id="ip-impresora" readonly data-type="ip" />
+          </div>
+          <!-- Prioridad -->
+          <div class="field-group">
+            <label for="prioridad-alerta">Prioridad:</label>
+            <select id="prioridad-alerta" name="prioridad" class="validable" data-type="select" required>
+              <option value="" disabled selected>Selecciona prioridad</option>
+              <option value="ALTA">ALTA</option>
+              <option value="MEDIA">MEDIA</option>
+              <option value="BAJA">BAJA</option>
+              <option value="FALSA ALARMA">FALSA ALARMA</option>
+            </select>
+            <div class="tooltip" id="tooltip-prioridad-alerta"></div>
+          </div>
+          <!-- Reporte -->
+          <div class="field-group">
+            <label for="reporte-alerta">Reporte:</label>
+            <textarea id="reporte-alerta" name="reporte" rows="4" class="validable" data-type="reporte" required></textarea>
+            <div class="tooltip" id="tooltip-reporte-alerta"></div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-add">Crear Incidencia</button>
+          <button type="button" class="btn-cancel">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Menú inferior para móvil -->
   <nav class="mobile-nav">
     <ul class="mobile-nav-main">
@@ -524,6 +572,16 @@ mysqli_stmt_close($stmt_usuario);
       </ul>
     </div>
   </nav>
+
+  <!-- Modal genérico de mensajes (error/éxito) -->
+  <div id="modal-mensaje" class="modal-overlay hidden">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+        <h2 id="modal-mensaje-titulo"></h2>
+      <p id="modal-mensaje-contenido"></p>
+      <button id="modal-mensaje-ok">Aceptar</button>
+    </div>
+  </div>
 
   <script type="module" src="../assets/js/dashboard.js"></script>
 </body>

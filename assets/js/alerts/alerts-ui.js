@@ -1,6 +1,7 @@
 // assets/js/alerts/alerts-ui.js
 
-import { fetchAlertas } from './alerts-api.js';
+import { fetchAlertas} from './alerts-api.js';
+import { initModalAlerta } from './modal-alerta.js';
 
 export function initAlertsUI() {
   const alertasSection = document.getElementById('alertas-section');
@@ -35,11 +36,12 @@ export function initAlertsUI() {
       // reaplicar filtro activo
       const activeBtn = document.querySelector('.filter-button-alt.active');
       if (activeBtn) {
-        applyComponentFilter(activeBtn.dataset.filter);
+        applyWarningFilter(activeBtn.dataset.filter);
       }
     });  
 
   // Arrancamos el modal
+  initModalAlerta();
 }
 
 export async function cargarAlertas() {

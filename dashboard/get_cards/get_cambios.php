@@ -1,4 +1,5 @@
 <?php
+// dashboard/get_cards/get_cambios.php
 include '../../config/conexion.php';
 
 $sql = " SELECT c.id, c.impresora_id, i.nombre AS impresora, i.num_serie AS num_serie, c.componente_id, comp.nombre AS componente, c.descripcion, c.fecha_hora

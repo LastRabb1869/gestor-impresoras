@@ -1,5 +1,5 @@
 <?php
-// get_alertas.php
+// dashboard/get_cards/get_alertas.php
 include '../../config/conexion.php';
 
 $sql = " SELECT a.id, a.impresora_id, i.nombre AS impresora, a.prioridad, a.direccion_ip, a.reporte, a.estado_actual, a.fecha_reportado, a.fecha_concluido
