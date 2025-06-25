@@ -513,13 +513,17 @@ mysqli_stmt_close($stmt_usuario);
           <!-- Prioridad -->
           <div class="field-group">
             <label for="prioridad-alerta">Prioridad:</label>
-            <select id="prioridad-alerta" name="prioridad" class="validable" data-type="select" required>
-              <option value="" disabled selected>Selecciona prioridad</option>
-              <option value="ALTA">ALTA</option>
-              <option value="MEDIA">MEDIA</option>
-              <option value="BAJA">BAJA</option>
-              <option value="FALSA ALARMA">FALSA ALARMA</option>
-            </select>
+            <div class="input-wrapper">
+              <select id="prioridad-alerta" name="prioridad"
+                      class="validable" data-type="select" required>
+                <option value="" disabled selected>Selecciona prioridad</option>
+                <option value="ALTA">ALTA</option>
+                <option value="MEDIA">MEDIA</option>
+                <option value="BAJA">BAJA</option>
+                <option value="FALSA ALARMA">FALSA ALARMA</option>
+              </select>
+              <span class="status-icon" id="icon-prioridad-alerta"></span>
+            </div>
             <div class="tooltip" id="tooltip-prioridad-alerta"></div>
           </div>
           <!-- Reporte -->

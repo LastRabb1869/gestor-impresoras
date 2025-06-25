@@ -1,6 +1,7 @@
 // assets/js/alerts/alerts-ui.js
 
 import { fetchAlertas} from './alerts-api.js';
+import { notificationManager } from './notification-manager.js';
 import { initModalAlerta } from './modal-alerta.js';
 
 export function initAlertsUI() {
@@ -71,6 +72,13 @@ export async function cargarAlertas() {
       </div>`;
     cont.appendChild(card);
   });
+
+  // Programa sólo las **nuevas alertas**:
+  data.forEach(a => {
+    if (a.estado_actual === 'EN PROCESO') {
+      notificationManager.schedule(a);
+    }
+  });  
 }
 
 export function applyWarningFilter(filter) {

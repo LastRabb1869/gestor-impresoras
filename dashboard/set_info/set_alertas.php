@@ -54,4 +54,16 @@ if (!$stmt->execute()){
 $alerta_id = $stmt->insert_id;
 $stmt->close();
 
+// ——> Actualizar estado de impresora según prioridad
+if ($prioridad !== 'FALSA ALARMA') {
+    $upd = $conn->prepare(
+        "UPDATE impresoras
+           SET estado = 'CON PROBLEMAS'
+           WHERE id = ?"
+    );
+    $upd->bind_param('i', $impresora_id);
+    $upd->execute();
+    $upd->close();
+}
+
 echo json_encode([ 'success' => true, 'message' => 'Incidencia creada.', 'id' => $alerta_id ]);
