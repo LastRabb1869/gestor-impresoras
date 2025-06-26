@@ -73,8 +73,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 }
             
         }else{
-                    echo "UPS! algo salio mal, intentalo mas tarde";
-                }
+                echo "UPS! algo salio mal, intentalo mas tarde";
+            }
     }
     
     mysqli_close($conn);

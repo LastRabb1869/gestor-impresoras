@@ -1,6 +1,6 @@
 // assets/js/alerts/alerts-ui.js
 
-import { fetchAlertas} from './alerts-api.js';
+import { fetchAlertasDelta} from './alerts-api.js';
 import { notificationManager } from './notification-manager.js';
 import { initModalAlerta } from './modal-alerta.js';
 
@@ -45,40 +45,67 @@ export function initAlertsUI() {
   initModalAlerta();
 }
 
-export async function cargarAlertas() {
-  const data = await fetchAlertas();
-  const cont = document.querySelector('#alertas-section .cards-container');
-  cont.innerHTML = '';
-  if (!data.length) {
-    cont.innerHTML = '<p>No hay alertas pendientes.</p>';
-    return;
-  }
-  data.forEach(a => {
-    const card = document.createElement('div');
-    card.className = 'card alerta-card';
-    card.dataset.estado = a.estado_actual;
-    if (a.fecha_concluido == null) {
-      a.fecha_concluido = 'Sin concluir';
-    }
-    card.innerHTML = `
-      <div class="card-info">
-        <h3>Alerta #${a.id} – Prioridad: ${a.prioridad}</h3>
-        <p><strong>Impresora:</strong> ${a.impresora}</p>
-        <p><strong>IP:</strong> ${a.direccion_ip}</p>
-        <p><strong>Estado:</strong> ${a.estado_actual}</p>
-        <p><strong>Reportado:</strong> <small>${a.fecha_reportado}</small></p>
-        <p><strong>Concluido:</strong> <small>${a.fecha_concluido}</small></p>
-        <button class="expand-button" data-id="${a.id}">Ver</button>
-      </div>`;
-    cont.appendChild(card);
-  });
+let ultimaFecha = null;     // ISO string de la alerta más reciente
+let pollingActivo = false;
 
-  // Programa sólo las **nuevas alertas**:
-  data.forEach(a => {
-    if (a.estado_actual === 'EN PROCESO') {
-      notificationManager.schedule(a);
-    }
-  });  
+export async function cargarAlertas() {
+
+  // ① Traer solo lo nuevo
+  const nuevas = await fetchAlertasDelta(ultimaFecha);
+
+  // ② Actualizar timestamp más reciente
+  if (nuevas.length) {
+    ultimaFecha = nuevas[0].fecha_reportado;
+    nuevas.forEach(a => {
+      renderAlerta(a);                     // ⬅️ crea card si no existe
+      if (a.estado_actual === 'EN PROCESO') {
+        notificationManager.schedule(a);   // ⬅️ programa si no estaba
+      }
+    });
+  }
+
+  // ③ Mensaje si contenedor quedó vacío
+  const cont = document.querySelector('#alertas-section .cards-container');
+  if (!cont.children.length) {
+    cont.innerHTML = '<p>No hay alertas pendientes.</p>';
+  }
+
+  // ④ Polling único
+  if (!pollingActivo) {
+    pollingActivo = true;
+    setInterval(cargarAlertas, 60_000);
+  } 
+}
+
+function formatFechaHora(dt) {
+  if (!dt) return 'Sin concluir';
+  const d = new Date(dt.replace(' ', 'T'));        // ‘2025-06-27 14:05:12’
+  const fecha = d.toLocaleDateString('es-MX');     // 27/06/25
+  const hora  = d.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit' }); // 14:05
+  return `${fecha} a las ${hora}`;
+}
+
+
+// ——— crea la tarjeta solo si no existe ya ———
+function renderAlerta(a) {
+  const cont = document.querySelector('#alertas-section .cards-container');
+  if (document.getElementById('alerta-'+a.id)) return;   // ya existe
+
+  const card = document.createElement('div');
+  card.className = 'card alerta-card';
+  card.id        = 'alerta-'+a.id;
+  card.dataset.estado = a.estado_actual;
+  card.innerHTML = `
+    <div class="card-info">
+      <h3>Alerta #${a.id} – Prioridad: ${a.prioridad}</h3>
+      <p><strong>Impresora:</strong> ${a.impresora}</p>
+      <p><strong>IP:</strong> ${a.direccion_ip}</p>
+      <p><strong>Estado:</strong> ${a.estado_actual}</p>
+      <p><strong>Reportado:</strong> <small>${formatFechaHora(a.fecha_reportado)}</small></p>
+      <p><strong>Concluido:</strong> <small>${formatFechaHora(a.fecha_concluido)}</small></p>
+      <button class="expand-button" data-id="${a.id}">Ver</button>
+    </div>`;
+  cont.appendChild(card);
 }
 
 export function applyWarningFilter(filter) {
