@@ -1,12 +1,57 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Inicio - Print Manager</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Print Manager</title>
+    <!-- Disable tap highlight on IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- Web Application Manifest -->
+    <link rel="manifest" href="./manifest.json">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Web Starter Kit">
+    <link rel="icon" sizes="192x192" href="./icons/web-app-manifest-192x192.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Web Starter Kit">
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"> 
+    
+    <meta name="theme-color" content="#007bff">
+
+    <!-- Material Design icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    <!-- Material Design Lite page styles:
+    You can choose other color schemes from the CDN, more info here http://www.getmdl.io/customize/index.html
+    Format: material.color1-color2.min.css, some examples:
+    material.red-teal.min.css
+    material.blue-orange.min.css
+    material.purple-indigo.min.css
+    -->
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('[SW] registrado:', reg.scope))
+                .catch(console.error);
+            });
+        }
+    </script> 
+    
+    <!-- Mis estilos -->
     <link rel="stylesheet" href="assets/css/style2.css">
     <link href="//fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap" rel="stylesheet">
     <link href="//fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -89,7 +134,7 @@
                 <span class="sr-only"></span>
             </a>
         </div>
-    </section>
+    </section>   
 
     <!-- jQuery JS -->
     <script src="assets/js/jquery-3.4.1.slim.min.js"></script>

@@ -47,6 +47,9 @@
 
     </div>
 
+    <script src="../sw-reg.js"></script>
+
+
 </body>
 
 </html>

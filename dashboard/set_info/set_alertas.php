@@ -16,7 +16,7 @@ $prioridad    = $_POST['prioridad']    ?? '';
 $reporte      = trim($_POST['reporte'] ?? '');
 
 if ($impresora_id <= 0 || !in_array($prioridad, ['ALTA','MEDIA','BAJA','FALSA ALARMA']) || $reporte === '') {
-  error('Datos inválidos o incompletos.');
+  error('Datos invalidos o incompletos.');
 }
 
 // Recuperar IP y estado de impresora

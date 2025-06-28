@@ -43,6 +43,7 @@ class NotificationManager {
 
   _show({ impresora, num_serie, ubicacion, reporte }) {
     if (Notification.permission !== 'granted') return;
+
     const title = `Incidencia: ${impresora}`;
     const body  = `${num_serie}${ubicacion ? ' – '+ubicacion : ''}\n${reporte.slice(0,80)}…`;
     new Notification(title, { body });

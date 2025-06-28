@@ -1,0 +1,41 @@
+{
+  "name": "Printers Master Terminal PPDC",
+  "short_name": "Print PPDC",
+  "theme_color": "#007bff",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope:": "./",
+  "start_url": "./",
+  "description": "Gestor de impresoras para el Paradisus Playa del Carmen.",
+  "icons": [
+    {
+      "src": "./icons/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icons/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+     "src": "/icons/screenshot.png",
+      "sizes": "1086x747",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Wonder Widgets"
+    },
+    {
+     "src": "/icons/screenshot.png",
+      "sizes": "1086x747",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Wonder Widgets"
+    }
+  ]
+}
