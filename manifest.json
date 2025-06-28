@@ -24,14 +24,14 @@
   ],
   "screenshots": [
     {
-     "src": "/icons/screenshot.png",
+     "src": "./icons/screenshot.png",
       "sizes": "1086x747",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Wonder Widgets"
     },
     {
-     "src": "/icons/screenshot.png",
+     "src": "./icons/screenshot.png",
       "sizes": "1086x747",
       "type": "image/png",
       "form_factor": "narrow",
