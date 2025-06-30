@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../assets/css/style_logreg.css">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>INICIO - PRINT MANAGER</title>
-    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../icons/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -46,9 +46,6 @@
         </div>
 
     </div>
-
-    <script src="../sw-reg.js"></script>
-
 
 </body>
 

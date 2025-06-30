@@ -46,7 +46,10 @@ class NotificationManager {
 
     const title = `Incidencia: ${impresora}`;
     const body  = `${num_serie}${ubicacion ? ' – '+ubicacion : ''}\n${reporte.slice(0,80)}…`;
-    new Notification(title, { body });
+
+    navigator.serviceWorker.ready
+      .then(reg => reg.showNotification(title, { body }))
+      .catch(() => new Notification(title, { body }));
   }
 
   cancel(id) {

@@ -20,6 +20,13 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "./icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg",
+      "purpose": "any"
+    
     }
   ],
   "screenshots": [
