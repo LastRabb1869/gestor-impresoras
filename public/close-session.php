@@ -8,6 +8,7 @@
     session_unset();
     session_destroy();
     header("location: ../index.html");
+    //header("location: https://192.168.0.10:8000/index.html");
 
     exit;
 ?>

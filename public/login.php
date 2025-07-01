@@ -5,48 +5,59 @@
 <!DOCTYPE html>
 <html lang="es-ES">
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="../assets/css/style_logreg.css">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>INICIO - PRINT MANAGER</title>
-    <link rel="shortcut icon" href="../icons/favicon.ico" type="image/x-icon">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../assets/css/style_logreg.css">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>INICIO - PRINT MANAGER</title>
+        <meta name="msapplication-tap-highlight" content="no">
 
-<body>
+        <link rel="manifest" href="../manifest.json">
 
-    <div class="container-all">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="application-name" content="PWA Starter Kit">
+        <link rel="icon" sizes="192x192" href="../icons/web-app-manifest-192x192.png">
 
-        <div class="ctn-form">
-            <img src="../assets/img/ppdc-logo1.png" alt="" class="logo">
-            <h1 class="title">Iniciar Sesión</h1>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-title" content="PWA Starter Kit">
+        <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    </head>
 
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <body>
 
-                <label for="">Correo Meliá</label>
-                <input type="text" name="email">
-                <span class="msg-error"><?php echo $email_err; ?></span>
-                <label for="">Contraseña</label>
-                <input type="password" name="password">
-                <span class="msg-error"><?php echo $password_err; ?></span>
+        <div class="container-all">
 
-                <input type="submit" value="Iniciar">
+            <div class="ctn-form">
+                <img src="../assets/img/ppdc-logo1.png" alt="" class="logo">
+                <h1 class="title">Iniciar Sesión</h1>
 
-            </form>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
-            <span class="text-footer">¿Aún no te has regsitrado?
-                <a href="register.php">Registrate</a>
-            </span>
+                    <label for="">Correo Meliá</label>
+                    <input type="text" name="email">
+                    <span class="msg-error"><?php echo $email_err; ?></span>
+                    <label for="">Contraseña</label>
+                    <input type="password" name="password">
+                    <span class="msg-error"><?php echo $password_err; ?></span>
+
+                    <input type="submit" value="Iniciar">
+
+                </form>
+
+                <span class="text-footer">¿Aún no te has regsitrado?
+                    <a href="register.php">Registrate</a>
+                </span>
+            </div>
+
+            <div class="ctn-text">
+                <div class="capa"></div>
+                <h1 class="title-description">Gestor de impresoras Meliá.</h1>
+                <p class="text-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat natus dolore ea dicta molestias totam iusto perspiciatis iste obcaecati quod dolor, eaque qui asperiores? Molestias ad nemo placeat est quidem?</p>
+            </div>
+
         </div>
 
-        <div class="ctn-text">
-            <div class="capa"></div>
-            <h1 class="title-description">Gestor de impresoras Meliá.</h1>
-            <p class="text-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat natus dolore ea dicta molestias totam iusto perspiciatis iste obcaecati quod dolor, eaque qui asperiores? Molestias ad nemo placeat est quidem?</p>
-        </div>
-
-    </div>
-
-</body>
+    </body>
 
 </html>

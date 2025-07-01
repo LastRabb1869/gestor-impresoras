@@ -10,7 +10,18 @@
         <title>REGISTRO - PRINT MANAGER</title>
         <link rel="stylesheet" href="../assets/css/style_logreg.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+        <meta name="msapplication-tap-highlight" content="no">
+
+        <link rel="manifest" href="../manifest.json">
+
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="application-name" content="PWA Starter Kit">
+        <link rel="icon" sizes="192x192" href="../icons/web-app-manifest-192x192.png">
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-title" content="PWA Starter Kit">
+        <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
     </head>
     <body>
     <div class="container-all">

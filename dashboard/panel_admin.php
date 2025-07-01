@@ -1,32 +1,46 @@
 <!-- panel_admin.php -->
 <?php
-session_start();
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("Location: ../public/login.php");
-    exit;
-}
+  session_start();
+  if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+      header("Location: ../public/login.php");
+      exit;
+  }
 
-require_once "../config/conexion.php";
+  require_once "../config/conexion.php";
 
-$nombre = $_SESSION['email'];
-$nivel = $_SESSION['nivel'];
-$id_usuario = $_SESSION['id'];
-// Datos de usuario
-$sql_usuario = "SELECT nombre, imagen_perfil FROM usuarios WHERE id = ?";
-$stmt_usuario = mysqli_prepare($conn, $sql_usuario);
-mysqli_stmt_bind_param($stmt_usuario, "i", $id_usuario);
-mysqli_stmt_execute($stmt_usuario);
-mysqli_stmt_bind_result($stmt_usuario, $nombre_usuario, $imagen_perfil);
-mysqli_stmt_fetch($stmt_usuario);
-mysqli_stmt_close($stmt_usuario);
+  $nombre = $_SESSION['email'];
+  $nivel = $_SESSION['nivel'];
+  $id_usuario = $_SESSION['id'];
+  // Datos de usuario
+  $sql_usuario = "SELECT nombre, imagen_perfil, num_colaborador FROM usuarios WHERE id = ?";
+  $stmt_usuario = mysqli_prepare($conn, $sql_usuario);
+  mysqli_stmt_bind_param($stmt_usuario, "i", $id_usuario);
+  mysqli_stmt_execute($stmt_usuario);
+  mysqli_stmt_bind_result($stmt_usuario, $nombre_usuario, $imagen_perfil, $num_colaborador);
+  mysqli_stmt_fetch($stmt_usuario);
+  mysqli_stmt_close($stmt_usuario);
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-ES">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel - <?php echo htmlspecialchars($nivel); ?></title>
+  
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="manifest" href="../manifest.json">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="PWA Starter Kit">
+  <link rel="icon" sizes="192x192" href="../icons/web-app-manifest-192x192.png">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="PWA Starter Kit">">
+  <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+
   <!-- Fuente de iconos Material Symbols -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
   <link rel="stylesheet" href="../assets/css/style_dashboard.css">
@@ -36,7 +50,7 @@ mysqli_stmt_close($stmt_usuario);
   <aside class="sidebar">
     <div class="sidebar-header">
       <img src="../assets/img/ppdc-logo.jpg" alt="Logo Meliá" class="logo-mini">
-      <h2>Gestor Meliá</h2>
+      <h2>Printers PPDC</h2>
     </div>
     <ul class="sidebar-links">
       <h4>
@@ -102,7 +116,7 @@ mysqli_stmt_close($stmt_usuario);
     </ul>
     <div class="user-account">
       <div class="user-profile">
-        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="Perfil"/>
+        <img src="../assets/sources/users/<?php echo $num_colaborador ?>/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="Perfil"/>
         <div class="user-detail">
           <h4><?php echo htmlspecialchars($nombre_usuario); ?></h4>
           <span><?php echo $_SESSION['nivel']; ?></span>
@@ -577,13 +591,18 @@ mysqli_stmt_close($stmt_usuario);
     </div>
   </nav>
 
-  <!-- Modal genérico de mensajes (error/éxito) -->
+  <!-- Modal genérico de mensajes (confirm / success / error) -->
   <div id="modal-mensaje" class="modal-overlay hidden">
     <div class="modal-content">
       <button class="modal-close">&times;</button>
-        <h2 id="modal-mensaje-titulo"></h2>
+
+      <h2 id="modal-mensaje-titulo"></h2>
       <p id="modal-mensaje-contenido"></p>
-      <button id="modal-mensaje-ok">Aceptar</button>
+
+      <div class="msg-actions">
+        <button id="modal-mensaje-ok" class="btn-ok-msg">SI</button>
+        <button id="modal-mensaje-cancel" class="btn-cancel-msg">NO</button>
+      </div>
     </div>
   </div>
 

@@ -1,7 +1,7 @@
 // assets/js/alerts/modal-alerta.js
 
 import { setAlerta, fetchImpresorasDisponibles } from './alerts-api.js';
-import { initModalError } from '../ui/modal-mensaje.js';
+import { initModalConfirm, initModalError } from '../ui/modal-mensaje.js';
 import { initFieldValidation, resetFieldValidation } from '../ui/validation.js';
 
 export function initModalAlerta() {
@@ -27,8 +27,12 @@ export function initModalAlerta() {
   });
 
   // 2) Cerrar modal
-  function cerrar() {
-    if (confirm('¿Cancelar registro de incidencia?')) {
+  async function cerrar() {
+    const ok = await initModalConfirm(
+      'Cancelar',
+      '¿Deseas cancelar el registro de la alerta?'
+    );
+    if (ok) { // usuario aceptó cancelar
       modal.classList.add('hidden');
     }
   }
@@ -75,11 +79,14 @@ export function initModalAlerta() {
       initModalError('ERROR', 'Selecciona una impresora válida.', 'error');
       return;
     }
-    const fd = new FormData();
-    fd.append('impresora_id', impresoraId);
-    fd.append('prioridad', prioridad.value);
-    fd.append('reporte', reporte.value.trim());
+    // confirmación
+    const ok = await initModalConfirm(
+      'Confirmar',
+      '¿Confirmas que deseas crear esta incidencia?'
+    );
+    if (!ok) return;
 
+    // envía
     try {
       const { success, message } = await setAlerta(fd);
       if (!success) throw new Error(message);

@@ -14,13 +14,13 @@
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Web Starter Kit">
+    <meta name="application-name" content="PWA Starter Kit">
     <link rel="icon" sizes="192x192" href="./icons/web-app-manifest-192x192.png">
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Web Starter Kit">
+    <meta name="apple-mobile-web-app-title" content="PWA Starter Kit">
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"> 
     
     <meta name="theme-color" content="#007bff">
@@ -28,20 +28,13 @@
     <!-- Material Design icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
-    <!-- Material Design Lite page styles:
-    You can choose other color schemes from the CDN, more info here http://www.getmdl.io/customize/index.html
-    Format: material.color1-color2.min.css, some examples:
-    material.red-teal.min.css
-    material.blue-orange.min.css
-    material.purple-indigo.min.css
-    -->
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-light_blue.min.css" /> 
 
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('[SW] registrado (página pública):', reg.scope))
+                .then(reg => console.log('[All systems online', reg.scope))
                 .catch(console.error);
             });
         }
@@ -69,8 +62,8 @@
                     <ul>
                         <!-- <li> <a href="index.html">Inicio</a></li>
                             <li><a href="Carreras.html">Carreras</a></li> -->
-                        <li><a href="public/login.php">Iniciar sesión</a></li>
-                        <!-- <li><a href="Contacto.html">Contacto</a></li> -->
+                        <li><a href="public/login.php">Iniciar sesión</a></li> 
+                        <!--<li><a href="https://192.168.0.10/public/login.php">Iniciar sesión</a></li>-->
                     </ul>
                 </nav>
 
@@ -102,12 +95,10 @@
                 <div class="carousel-item" style="background-image: url('img/1.jpg')">
                     <!-- <img src="assets/images/banner-3.jpg" class="d-block w-100" alt="..."> -->
                     <div class="carousel-caption container">
-                        <h6 class="tag-cover-9"> Cultura </h6>
-                        <h3 class="title-cover-9">Talleres Culturales</h3>
-                        <p class="para-cover-9">Los talleres culturales serían especificaciones de los talleres de ocio
-                            que, promovidos generalmente a través de asociaciones, fundaciones o centros públicos
-                            realizan propuestas de desarrollo cultural y artístico desde la dinamización y participación
-                            grupal.
+                        <h6 class="tag-cover-9"> "El futuro es tuyo con Meliá" </h6>
+                        <h3 class="title-cover-9">Clases de inglés</h3>
+                        <p class="para-cover-9">Los martes y jueves a partir de las 4:00 p.m. en el
+                            salón de conferencias.
                         </p>
 
                     </div>
@@ -115,12 +106,12 @@
                 <div class="carousel-item" style="background-image: url('img/hero-bg.jpg')">
                     <!-- <img src="assets/images/banner-2.jpg" class="d-block w-100" alt="..."> -->
                     <div class="carousel-caption container">
-                        <h6 class="tag-cover-9"> Deportes</h6>
-                        <h3 class="title-cover-9">Futbol</h3>
-                        <p class="para-cover-9">El proyecto consistía en una competición donde 15 clubes fundadores
-                            disputarían un torneo continental anual, en el que ellos tendrían un cupo fijo y se
-                            permitiría la participación de cinco clubes más.</p>
-
+                        <h6 class="tag-cover-9"> Practicantes</h6>
+                        <h3 class="title-cover-9">Proyectos</h3>
+                        <p class="para-cover-9">
+                            Siempre podrás encontrar un proyecto en el que puedas participar, ya sea
+                            de desarrollo, diseño o cualquier área que te interese.
+                        </p>
                     </div>
                 </div>
 

@@ -540,27 +540,82 @@ body {
 }
 
 /* Modal genérico de mensajes */
+#modal-mensaje .msg-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-ok-msg {
+  background: #007bff;
+  color: #fff;
+  padding: 0.55rem 1.3rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-ok-msg:hover { background:#0056b3; }
+
+.btn-cancel-msg {
+  background: #ccc;
+  color: #000;
+  padding: 0.55rem 1.3rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-cancel-msg:hover { background:#bbb; }
+
+/* Colores según tipo */
+#modal-mensaje.error   h2 { color:#e55353; }
+#modal-mensaje.success h2 { color:#28a745; }
+#modal-mensaje.confirm h2 { color:#007bff; }
+
+#modal-mensaje {
+  padding: 2rem;
+  text-align: center;
+}
+
 #modal-mensaje h2 {
   font-size: 1.4rem;
   margin-bottom: 1rem;
 }
+
 #modal-mensaje.error h2 {
-  color: #e55353;  /* rojo para errores */
+  color: #e55353;
 }
 #modal-mensaje.success h2 {
-  color: #3b82f6;  /* azul para confirmaciones */
+  color: #28a745;
 }
+#modal-mensaje.confirm h2 {
+  color: #007bff;
+}
+
+/* Texto */
 #modal-mensaje p {
   margin-bottom: 1.5rem;
   line-height: 1.4;
+  color: #333;
 }
+
 #modal-mensaje button#modal-mensaje-ok {
   background-color: #007bff;
-  color: #fff;
+  color: white;
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 4px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#modal-mensaje button#modal-mensaje-ok:hover {
+  background-color: #0056b3;
+}
+
+#modal-mensaje.modal-content {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 8px;
 }
 
 /* ====== Suggestions lists para el buscador ====== */

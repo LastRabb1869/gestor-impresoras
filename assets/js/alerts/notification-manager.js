@@ -1,7 +1,7 @@
 // assets/js/alerts/notification-manager.js
 
 const INTERVALOS = {
-  ALTA: 1 * 60 * 1000,
+  ALTA: 10 * 60 * 1000,
   MEDIA: 15 * 60 * 1000,
   BAJA: 30 * 60 * 1000
 };

@@ -1,5 +1,6 @@
 // assets/js/printers/modal-impresora.js
 
+import { initModalConfirm, initModalError } from '../ui/modal-mensaje.js';
 import { cargarUbicaciones } from '../departaments/departaments-api.js';
 import { setImpresora } from './printers-api.js';
 import { initFieldValidation, initImageValidation, resetFieldValidation } from '../ui/validation.js';
@@ -31,26 +32,42 @@ export function initModalImpresora() {
     );
   });
 
-  // 2) Cerrar…
-  function cerrar() {
-    if (confirm('¿Deseas cancelar el registro de la impresora?')) {
+  // 2) Cerrar
+  async function cerrar() {
+    const ok = await initModalConfirm(
+      'Cancelar',
+      '¿Deseas cancelar el registro de la impresora?'
+    );
+    if (ok) { // usuario aceptó cancelar
       modal.classList.add('hidden');
     }
   }
+
   modal.querySelector('.modal-close').addEventListener('click', cerrar);
   modal.querySelector('.btn-cancel').addEventListener('click', cerrar);
 
   // 3) Submit
   form.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (!confirm('¿Confirmas que deseas añadir esta impresora?')) return;
-    const resp = await setImpresora(new FormData(form));
-    if (resp.trim() === 'OK') {
-      alert('¡Impresora registrada!');
-      modal.classList.add('hidden');
-      window.dispatchEvent(new Event('recargar-impresoras'));
-    } else {
-      alert('Error: ' + resp);
-    }
-  });
+      e.preventDefault();
+      // 1) Confirmar acción
+      const ok = await initModalConfirm(
+        'Confirmar',
+        '¿Confirmas que deseas añadir esta impresora?'
+      );
+      if (!ok) return;
+  
+      // 2) Realizar petición
+      try {
+        const resp = await setImpresora(new FormData(form));
+        if (resp.trim() === 'OK') {
+          initModalError('¡Éxito!', 'Impresora registrada.', 'success');
+          modal.classList.add('hidden');
+          window.dispatchEvent(new Event('recargar-impresoras'));
+        } else {
+          throw new Error(resp);
+        }
+      } catch (err) {
+        initModalError('ERROR', err.message, 'error');
+      }
+    });
 }

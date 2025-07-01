@@ -1,25 +1,55 @@
 // assets/js/ui/modal-mensaje.js
+const modalMsg   = document.getElementById('modal-mensaje');
+const titulo     = modalMsg.querySelector('#modal-mensaje-titulo');
+const contenido  = modalMsg.querySelector('#modal-mensaje-contenido');
+const btnOk      = modalMsg.querySelector('#modal-mensaje-ok');
+const btnCancel  = modalMsg.querySelector('#modal-mensaje-cancel');
+const btnClose   = modalMsg.querySelector('.modal-close');
 
-export function initModalError(titulo, texto, tipo = 'error') {
-  const modal  = document.getElementById('modal-mensaje');
-  const tituloEl   = modal.querySelector('#modal-mensaje-titulo');
-  const contenidoEl= modal.querySelector('#modal-mensaje-contenido');
-  const closeBtn   = modal.querySelector('.modal-close');
-  const okBtn      = modal.querySelector('#modal-mensaje-ok');
+let _confirmResolve = null;
 
-  // Ajustar contenido y clase
-  modal.classList.remove('hidden', 'error', 'success');
-  modal.classList.add(tipo);
-  tituloEl.textContent    = titulo;
-  contenidoEl.textContent = texto;
+/* ---------- helpers ---------- */
+function ocultar() {
+  modalMsg.classList.add('hidden');
+}
+function resetClases() {
+  modalMsg.classList.remove('success','error','confirm');
+}
 
-  // Abrir modal
-  modal.classList.remove('hidden');
-
-  // Cerrar al hacer click en X o Aceptar
-  function cerrar() {
-    modal.classList.add('hidden');
+/* ---------- cierres ---------- */
+function cerrarTodo(result = false) {
+  ocultar();
+  if (_confirmResolve) {
+    _confirmResolve(result); // true si OK, false si Cancel/Cerrar
+    _confirmResolve = null;
   }
-  closeBtn.onclick = cerrar;
-  okBtn.onclick    = cerrar;
+}
+
+btnClose .addEventListener('click', () => cerrarTodo(false));
+btnCancel.addEventListener('click', () => cerrarTodo(false));
+btnOk    .addEventListener('click', () => cerrarTodo(true));
+
+/* ---------- API pública ---------- */
+
+// mensaje simple
+export function initModalError(title, msg, clase='error') {
+  resetClases();
+  titulo.textContent    = title;
+  contenido.textContent = msg;
+  modalMsg.classList.add(clase);
+  btnCancel.style.display = 'none';   // sólo OK
+  modalMsg.classList.remove('hidden');
+}
+
+// confirmación (devuelve Promise<boolean>)
+export function initModalConfirm(title, msg) {
+  return new Promise(resolve => {
+    resetClases();
+    titulo.textContent    = title;
+    contenido.textContent = msg;
+    modalMsg.classList.add('confirm');
+    btnCancel.style.display = 'inline-block'; // se muestra Cancelar
+    _confirmResolve = resolve;
+    modalMsg.classList.remove('hidden');
+  });
 }

@@ -1,5 +1,6 @@
 // assets/js/printers/modal-componente.js
 
+import { initModalConfirm, initModalError } from '../ui/modal-mensaje.js';
 import { cargarUbicaciones } from '../departaments/departaments-api.js';
 import { setComponente } from './components-api.js';
 import { initFieldValidation, initImageValidation, resetFieldValidation } from '../ui/validation.js';
@@ -31,8 +32,12 @@ export function initModalComponente() {
   });
 
   // 2) Cerrar…
-  function cerrar() {
-    if (confirm('¿Deseas cancelar el registro del componente?')) {
+  async function cerrar() {
+    const ok = await initModalConfirm(
+      'Cancelar',
+      '¿Deseas cancelar el registro del componente?'
+    );
+    if (ok) { // usuario aceptó cancelar
       modal.classList.add('hidden');
     }
   }
@@ -42,14 +47,25 @@ export function initModalComponente() {
   // 3) Submit
   form.addEventListener('submit', async e => {
     e.preventDefault();
-    if (!confirm('¿Confirmas que deseas añadir esta componente?')) return;
-    const resp = await setComponente(new FormData(form));
-    if (resp.trim() === 'OK') {
-      alert('¡Componente registrado!');
-      modal.classList.add('hidden');
-      window.dispatchEvent(new Event('recargar-componentes'));
-    } else {
-      alert('Error: ' + resp);
+    // 1) Confirmar acción
+    const ok = await initModalConfirm(
+      'Confirmar',
+      '¿Confirmas que deseas añadir este componente?'
+    );
+    if (!ok) return;
+
+    // 2) Realizar petición
+    try {
+      const resp = await setComponente(new FormData(form));
+      if (resp.trim() === 'OK') {
+        initModalError('¡Éxito!', 'Componente registrado.', 'success');
+        modal.classList.add('hidden');
+        window.dispatchEvent(new Event('recargar-componentes'));
+      } else {
+        throw new Error(resp);
+      }
+    } catch (err) {
+      initModalError('ERROR', err.message, 'error');
     }
   });
 }
