@@ -42,7 +42,7 @@ export function initModalError(title, msg, clase='error') {
 }
 
 // confirmación (devuelve Promise<boolean>)
-export function initModalConfirm(title, msg) {
+export async function initModalConfirm(title, msg) {
   return new Promise(resolve => {
     resetClases();
     titulo.textContent    = title;

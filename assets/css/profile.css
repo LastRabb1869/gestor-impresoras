@@ -1,0 +1,112 @@
+/* assets/css/profile.css */
+
+.profile-container {
+  max-width: 480px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.profile-container h1 {
+  text-align:center;
+  margin-bottom:1.5rem;
+  color:#007bff;
+}
+
+.field-group {
+  margin-bottom:1rem;
+}
+
+.field-group label {
+  display:block;
+  margin-bottom:0.3rem;
+  font-weight:600;
+}
+
+.field-group input[type="text"],
+.field-group input[type="email"],
+.field-group input[type="password"],
+.field-group input[type="file"] {
+  width:100%;
+  padding:0.5rem;
+  border:1px solid #ccc;
+  border-radius:4px;
+}
+
+#preview-photo {
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:50%;
+  border:2px solid #007bff;
+  transition:opacity .25s;
+}
+
+.avatar-wrapper:hover #preview-photo {
+  opacity:.7;
+}
+
+.btn-save {
+  display:block;
+  width:100%;
+  padding:0.7rem;
+  background:#007bff;
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  font-size:1rem;
+  cursor:pointer;
+}
+
+.btn-save:hover {
+  background:#0056b3;
+}
+
+#back-to-dashboard {
+  background:none;
+  border:none;
+  color:#007bff;
+  cursor:pointer;
+  font-size:0.9rem;
+  margin-bottom:1rem;
+}
+
+/* --- Avatar clicable --- */
+.foto-perfil {
+  text-align:center;
+  margin-bottom:1.2rem;
+}
+.avatar-wrapper {
+  position:relative;
+  display:inline-block;
+  cursor:pointer;
+}
+#imagen {                /* input file invisible */
+  display:none;
+}
+#preview-photo {
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:50%;
+  border:2px solid #007bff;
+  transition:opacity .25s;
+}
+
+.avatar-wrapper:hover #preview-photo {
+  opacity:.7;
+}
+
+.edit-icon {
+  position:absolute;
+  bottom:6px; 
+  right:6px;
+  background:#007bff;
+  color:#fff;
+  font-size:20px;
+  padding:4px;
+  border-radius:50%;
+  opacity:.9;
+  pointer-events:none;
+}

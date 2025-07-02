@@ -12,11 +12,11 @@
   $nivel = $_SESSION['nivel'];
   $id_usuario = $_SESSION['id'];
   // Datos de usuario
-  $sql_usuario = "SELECT nombre, imagen_perfil, num_colaborador FROM usuarios WHERE id = ?";
+  $sql_usuario = "SELECT nombre, apellido, correo, imagen_perfil, num_colaborador FROM usuarios WHERE id = ?";
   $stmt_usuario = mysqli_prepare($conn, $sql_usuario);
   mysqli_stmt_bind_param($stmt_usuario, "i", $id_usuario);
   mysqli_stmt_execute($stmt_usuario);
-  mysqli_stmt_bind_result($stmt_usuario, $nombre_usuario, $imagen_perfil, $num_colaborador);
+  mysqli_stmt_bind_result($stmt_usuario, $nombre_usuario, $apellido, $correo, $imagen_perfil, $num_colaborador);
   mysqli_stmt_fetch($stmt_usuario);
   mysqli_stmt_close($stmt_usuario);
 ?>
@@ -38,12 +38,13 @@
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="PWA Starter Kit">">
+  <meta name="apple-mobile-web-app-title" content="PWA Starter Kit">
   <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
 
   <!-- Fuente de iconos Material Symbols -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
   <link rel="stylesheet" href="../assets/css/style_dashboard.css">
+  <link rel="stylesheet" href="../assets/css/profile.css">
 </head>
 <body>
 
@@ -101,7 +102,7 @@
         <span>Cuenta</span>
         <div class="menu-separator"></div>
       </h4>
-      <li class="nav-item" id="profile-open">
+      <li class="nav-item" data-section="perfil-section">
         <a href="javascript:;">
           <span class="material-symbols-outlined">account_circle</span>
           <span>Perfil</span>
@@ -116,10 +117,10 @@
     </ul>
     <div class="user-account">
       <div class="user-profile">
-        <img src="../assets/sources/users/<?php echo $num_colaborador ?>/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" alt="Perfil"/>
+        <img src="../assets/sources/users/<?= htmlspecialchars($num_colaborador) ?>/profile_img/<?= htmlspecialchars($imagen_perfil) ?: 'default-user.png'; ?>" alt="Perfil"/>
         <div class="user-detail">
           <h4><?php echo htmlspecialchars($nombre_usuario); ?></h4>
-          <span><?php echo $_SESSION['nivel']; ?></span>
+          <span><?php echo htmlspecialchars($_SESSION['nivel']); ?></span>
         </div>
       </div>
     </div>
@@ -264,6 +265,38 @@
           <!-- Aquí el JS inyectará la sección de alertas -->
         </div>
       </section>
+      <!-- Sección Perfil -->
+      <section id="perfil-section" class="dashboard-section">
+        <div class="profile-container">
+          <h1>Mi Perfil</h1>
+          <form id="form-profile" enctype="multipart/form-data">
+            <!-- Grupo: foto de perfil -->
+            <div class="field-group foto-perfil">
+              <label class="avatar-wrapper">
+                <img id="preview-photo" src="../assets/sources/users/<?= htmlspecialchars($num_colaborador) ?>/profile_img/<?= htmlspecialchars($imagen_perfil) ?: 'default-user.png'; ?>" alt="Foto de perfil">
+                <span class="edit-icon material-symbols-outlined">photo_camera</span>
+                <input type="file" id="imagen" name="imagen" accept=".jpg,.png">
+              </label>
+            </div>
+            <div class="field-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" value="<?=htmlspecialchars($nombre_usuario)?>" required>
+            </div>
+            <div class="field-group">
+              <label for="apellido">Apellido</label>
+              <input type="text" id="apellido" name="apellido" value="<?=htmlspecialchars($apellido)?>" required>
+            </div>
+            <div class="field-group">
+              <label for="correo">Correo</label>
+              <input type="email" id="correo" name="correo" value="<?=htmlspecialchars($correo)?>" readonly>
+            </div>
+            <div class="field-group">
+              <label for="password">Nueva Contraseña</label>
+              <input type="password" id="password" name="password" placeholder="Dejar en blanco para no cambiar">
+            </div>
+            <button type="submit" class="btn-save">Guardar cambios</button>
+          </form>
+        </div>
         <!-- FAB de control y añadidos -->
       <div class="fab-menu">
         <button id="fab-toggle" class="fab" title="Acciones rápidas">+</button>
@@ -567,7 +600,7 @@
         <span>Gestionar</span>
       </li>
       <li data-group="cuenta">
-        <img src="../assets/img/<?php echo $imagen_perfil ?: 'default-user.png'; ?>" class="mobile-avatar" alt="Perfil"/>
+        <img src="../assets/sources/users/<?= htmlspecialchars($num_colaborador) ?>/profile_img/<?= htmlspecialchars($imagen_perfil) ?: 'default-user.png'; ?>" class="mobile-avatar" alt="Perfil"/>
         <span>Cuenta</span>
       </li>
     </ul>
@@ -585,7 +618,7 @@
         <li id="colaboradores-btn"><span class="material-symbols-outlined">manage_accounts</span><span>Colaboradores</span></li>
       </ul>
       <ul class="mobile-nav-sub cuenta">
-        <li id="profile-open"><span class="material-symbols-outlined">account_circle</span><span>Perfil</span></li>
+        <li data-section="perfil-section"><span class="material-symbols-outlined">account_circle</span><span>Perfil</span></li>
         <li class="logout-btn"><span class="material-symbols-outlined">logout</span><span>Salir</span></li>
       </ul>
     </div>

@@ -4,13 +4,14 @@ import { cargarComponentes, applyComponentFilter } from './components/components
 import { cargarAlertas, applyWarningFilter } from './alerts/alerts-ui.js';
 import { cargarCambios } from './changes/changes-ui.js';
 import { cargarDepartamentos } from './departaments/departaments-ui.js';
+import { changeDataProfile } from './profile.js';
 
-export function initNav() {
+export async function initNav() {
   const navItems = document.querySelectorAll('.nav-item[data-section]');
   const sections = document.querySelectorAll('.dashboard-section');
 
   navItems.forEach(item => {
-    item.addEventListener('click', () => {
+    item.addEventListener('click', async () => {
       // 1) Alternar clase active
       navItems.forEach(i => i.classList.remove('active'));
       item.classList.add('active');
@@ -21,31 +22,50 @@ export function initNav() {
       });
       // 3) Inicializar según sección
       switch (target) {
-        case 'impresoras-section':
+        case 'impresoras-section': {
           cargarImpresoras();
           // reset filtros
           document.querySelectorAll('#impresoras-section .filter-button').forEach(b => b.classList.remove('active'));
           document.querySelector('#impresoras-section .filter-button[data-filter="todas"]').classList.add('active');
           applyCombinedFilter('todas');
           break;
-        case 'componentes-section':
+        }
+        case 'componentes-section': {
           cargarComponentes();
           document.querySelectorAll('#componentes-section .filter-button-comp').forEach(b => b.classList.remove('active'));
           document.querySelector('#componentes-section .filter-button-comp[data-filter="todos"]').classList.add('active');
           applyComponentFilter('todos');
           break;
-        case 'departamentos-section':
+        }
+        case 'departamentos-section': {
           cargarDepartamentos();
           break;
-        case 'alertas-section':
+        }
+        case 'alertas-section': {
           cargarAlertas();
           document.querySelectorAll('#alertas-section .filter-button-alt').forEach(b => b.classList.remove('active'));
           document.querySelector('#alertas-section .filter-button-alt[data-filter="todas"]').classList.add('active');
           applyWarningFilter('todas');
           break;
-        case 'cambios-section':
+        }
+        case 'cambios-section': {
           cargarCambios();
           break;
+        }
+        case 'perfil-section': {
+          changeDataProfile();
+          break;
+        }
+        default: {
+          const perfil = document.getElementById('perfil-section');
+          if (perfil?.classList.contains('active') && window.restoreProfileForm) {
+            const { initModalConfirm } = await import('./ui/modal-mensaje.js');
+            const ok = await initModalConfirm('Salir sin guardar?', 'Tienes cambios sin guardar en tu perfil.');
+            if (!ok) return; // aborta el cambio de sección
+            window.restoreProfileForm(); // limpia el formulario
+          }
+          break;
+        }
       }
     });
   });

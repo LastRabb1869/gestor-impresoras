@@ -25,6 +25,7 @@ export function initFab() {
           break;
         case 'departamento':
           navButton = document.querySelector('.nav-item[data-section="departamentos-section"]');
+          break;
         case 'alerta':
           navButton = document.querySelector('.nav-item[data-section="alertas-section"]');
           break;

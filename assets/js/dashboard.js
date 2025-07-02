@@ -9,6 +9,7 @@ import { initComponentsUI } from './components/components-ui.js';
 import { initDepartamentsUI } from './departaments/departaments-ui.js';
 import { cargarAlertas, initAlertsUI } from './alerts/alerts-ui.js';
 import { initChangesUI, bindChangesDelegation } from './changes/changes-ui.js';
+//import { changeDataProfile } from './profile.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // — Elementos principales —
@@ -22,8 +23,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   initDepartamentsUI();
   initAlertsUI();
   initChangesUI();
+//  changeDataProfile();
   bindChangesDelegation();  
-  initNav();
+  await initNav();
 
   await cargarAlertas();
 
