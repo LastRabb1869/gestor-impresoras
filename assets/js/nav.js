@@ -4,7 +4,7 @@ import { cargarComponentes, applyComponentFilter } from './components/components
 import { cargarAlertas, applyWarningFilter } from './alerts/alerts-ui.js';
 import { cargarCambios } from './changes/changes-ui.js';
 import { cargarDepartamentos } from './departaments/departaments-ui.js';
-import { changeDataProfile } from './profile.js';
+import { initProfileSection } from './users/profile.js';
 
 export async function initNav() {
   const navItems = document.querySelectorAll('.nav-item[data-section]');
@@ -53,7 +53,7 @@ export async function initNav() {
           break;
         }
         case 'perfil-section': {
-          changeDataProfile();
+          initProfileSection();
           break;
         }
         default: {

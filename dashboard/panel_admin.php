@@ -1,24 +1,32 @@
 <!-- panel_admin.php -->
 <?php
   session_start();
-  if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-      header("Location: ../public/login.php");
-      exit;
+  if (!isset($_SESSION["loggedin"])||!$_SESSION["loggedin"]) {
+    header("Location: ../public/login.php");
+    exit;
   }
-
+  
   require_once "../config/conexion.php";
 
   $nombre = $_SESSION['email'];
   $nivel = $_SESSION['nivel'];
+
+  // — Datos usuario —
   $id_usuario = $_SESSION['id'];
-  // Datos de usuario
-  $sql_usuario = "SELECT nombre, apellido, correo, imagen_perfil, num_colaborador FROM usuarios WHERE id = ?";
-  $stmt_usuario = mysqli_prepare($conn, $sql_usuario);
-  mysqli_stmt_bind_param($stmt_usuario, "i", $id_usuario);
-  mysqli_stmt_execute($stmt_usuario);
-  mysqli_stmt_bind_result($stmt_usuario, $nombre_usuario, $apellido, $correo, $imagen_perfil, $num_colaborador);
-  mysqli_stmt_fetch($stmt_usuario);
-  mysqli_stmt_close($stmt_usuario);
+  $sql = "SELECT nombre, apellido, correo, imagen_perfil, num_colaborador
+            FROM usuarios WHERE id = ?";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "i", $id_usuario);
+  mysqli_stmt_execute($stmt);
+  mysqli_stmt_bind_result($stmt,
+    $perfil_nombre,
+    $perfil_apellido,
+    $perfil_correo,
+    $perfil_imagen,
+    $perfil_numcolab
+  );
+  mysqli_stmt_fetch($stmt);
+  mysqli_stmt_close($stmt);
 ?>
 
 <!DOCTYPE html>
@@ -117,9 +125,9 @@
     </ul>
     <div class="user-account">
       <div class="user-profile">
-        <img src="../assets/sources/users/<?= htmlspecialchars($num_colaborador) ?>/profile_img/<?= htmlspecialchars($imagen_perfil) ?: 'default-user.png'; ?>" alt="Perfil"/>
+        <img src="../assets/sources/users/<?= htmlspecialchars($perfil_nombre) ?>/profile_img/<?= htmlspecialchars($perfil_imagen) ?: 'default-user.png'; ?>" alt="Perfil"/>
         <div class="user-detail">
-          <h4><?php echo htmlspecialchars($nombre_usuario); ?></h4>
+          <h4><?php echo htmlspecialchars($perfil_nombre); ?></h4>
           <span><?php echo htmlspecialchars($_SESSION['nivel']); ?></span>
         </div>
       </div>
@@ -273,30 +281,33 @@
             <!-- Grupo: foto de perfil -->
             <div class="field-group foto-perfil">
               <label class="avatar-wrapper">
-                <img id="preview-photo" src="../assets/sources/users/<?= htmlspecialchars($num_colaborador) ?>/profile_img/<?= htmlspecialchars($imagen_perfil) ?: 'default-user.png'; ?>" alt="Foto de perfil">
+                <img id="preview-photo" src="../assets/sources/users/<?=htmlspecialchars($perfil_nombre)?>/profile_img/<?=htmlspecialchars($perfil_imagen?:'default-user.png')?>" alt="Foto de perfil">
                 <span class="edit-icon material-symbols-outlined">photo_camera</span>
-                <input type="file" id="imagen" name="imagen" accept=".jpg,.png">
+                <input type="file" id="imagen" name="imagen" accept=".jpg,.png, .jpeg">
               </label>
             </div>
             <div class="field-group">
               <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" name="nombre" value="<?=htmlspecialchars($nombre_usuario)?>" required>
+              <input type="text" id="nombre" name="nombre" value="<?=htmlspecialchars($perfil_nombre)?>" required>
             </div>
             <div class="field-group">
               <label for="apellido">Apellido</label>
-              <input type="text" id="apellido" name="apellido" value="<?=htmlspecialchars($apellido)?>" required>
+              <input type="text" id="apellido" name="apellido" value="<?=htmlspecialchars($perfil_apellido)?>" required>
             </div>
             <div class="field-group">
               <label for="correo">Correo</label>
-              <input type="email" id="correo" name="correo" value="<?=htmlspecialchars($correo)?>" readonly>
+              <input type="email" id="correo" name="correo" value="<?=htmlspecialchars($perfil_correo)?>" readonly>
             </div>
             <div class="field-group">
               <label for="password">Nueva Contraseña</label>
               <input type="password" id="password" name="password" placeholder="Dejar en blanco para no cambiar">
             </div>
-            <button type="submit" class="btn-save">Guardar cambios</button>
+            <div class="modal-actions">
+              <button type="submit" class="btn-save">Guardar cambios</button>
+            </div>
           </form>
         </div>
+      </section>
         <!-- FAB de control y añadidos -->
       <div class="fab-menu">
         <button id="fab-toggle" class="fab" title="Acciones rápidas">+</button>
@@ -600,7 +611,7 @@
         <span>Gestionar</span>
       </li>
       <li data-group="cuenta">
-        <img src="../assets/sources/users/<?= htmlspecialchars($num_colaborador) ?>/profile_img/<?= htmlspecialchars($imagen_perfil) ?: 'default-user.png'; ?>" class="mobile-avatar" alt="Perfil"/>
+        <img src="../assets/sources/users/<?= htmlspecialchars($perfil_nombre) ?>/profile_img/<?= htmlspecialchars($perfil_imagen) ?: 'default-user.png'; ?>" class="mobile-avatar" alt="Perfil"/>
         <span>Cuenta</span>
       </li>
     </ul>

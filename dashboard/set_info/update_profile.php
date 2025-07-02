@@ -1,89 +1,93 @@
 <?php
-// assets/php/update_profile.php
-
+// dashboard/set_info/update_profile.php
 session_start();
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['loggedin'])) {
-    http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'No autorizado']);
-    exit;
+// 1 — seguridad
+if (empty($_SESSION['loggedin'])) {
+  http_response_code(401);
+  echo json_encode(['success'=>false,'message'=>'No autorizado']); exit;
 }
 
-require_once "../../config/conexion.php";
+// 2 — conexión
+require_once dirname(__DIR__,2).'/config/conexion.php';
 
+// 3 — datos
 $id       = $_SESSION['id'];
-$numColab = trim($_POST['num_colaborador']);
+$numColab = $_SESSION['num_colaborador'] ?? '';
+
 $nombre   = trim($_POST['nombre']   ?? '');
 $apellido = trim($_POST['apellido'] ?? '');
 $password = trim($_POST['password'] ?? '');
 
-if ($nombre === '' || $apellido === '') {
-    echo json_encode(['success' => false, 'message' => 'Nombre y apellido obligatorios']);
-    exit;
+if ($nombre==='' || $apellido==='') {
+  echo json_encode(['success'=>false,'message'=>'Nombre y apellido obligatorios']); exit;
 }
 
-/* --- imagen --- */
+// 4 — captura de Warnings para que nunca salgan en el JSON
+ob_start();
+
+// ---------- F O T O ----------
 $imagen_perfil = null;
-
 if (!empty($_FILES['imagen']['name'])) {
-    $ext     = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
-    $allowed = ['jpg','jpeg','png'];
 
-    if (!in_array($ext, $allowed)) {
-        echo json_encode(['success' => false, 'message' => 'Formato de imagen no válido']);
-        exit;
-    }
+  $ext = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
+  if (!in_array($ext,['jpg','jpeg','png'])) {
+    ob_end_clean();
+    echo json_encode(['success'=>false,'message'=>'Formato de imagen no válido']); exit;
+  }
 
-    // Ruta absoluta hasta assets/sources/users/{num}/profile_img/
-    //$base    = realpath(__DIR__ . '/../..'); // sube de assets/php a assets/
-    //$carpeta = $base . "/sources/users/$numColab/profile_img/";
-    $carpeta = realpath(__DIR__ . '/../../assets/sources/users') . '/' . $numColab . '/profile_img/';
+  // ruta absoluta   .../assets/sources/users/{numColab}/profile_img/
+  $root    = dirname(__DIR__,2);                // llega a la raíz del proyecto
+  $carpeta = "$root/assets/sources/users/$nombre/profile_img/";
 
-    if (!is_dir($carpeta)) {
-        mkdir($carpeta, 0755, true);
-    }
+  if (!is_dir($carpeta) && !mkdir($carpeta,0755,true)) {
+    ob_end_clean();
+    echo json_encode(['success'=>false,'message'=>'No se pudo crear la carpeta del usuario']); exit;
+  }
 
-    $nombreNuevo = uniqid('pf_', true) . ".$ext";
-    $destino     = $carpeta . $nombreNuevo;
+  $nuevoNombre = uniqid('pf_',true).".".$ext;
+  if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $carpeta.$nuevoNombre)) {
+    ob_end_clean();
+    echo json_encode(['success'=>false,'message'=>'Error al copiar la imagen']); exit;
+  }
 
-    if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $destino)) {
-        echo json_encode(['success' => false, 'message' => 'Error al subir la imagen']);
-        exit;
-    }
-
-    $imagen_perfil = $nombreNuevo;
-    // Refresca sidebar después
-    $_SESSION['imagen_perfil'] = $imagen_perfil;
+  $imagen_perfil = $nuevoNombre;
 }
 
-/* --- UPDATE dinámico --- */
-$sets   = ['nombre = ?', 'apellido = ?'];
+// 5 — SQL dinámico
+$sets   = ['nombre=?','apellido=?'];
 $types  = 'ss';
-$params = [$nombre, $apellido];
+$params = [$nombre,$apellido];
 
-if ($password !== '') {
-    $sets[]   = 'contrasena = ?';
-    $types   .= 's';
-    $params[] = password_hash($password, PASSWORD_DEFAULT);
+if ($password!=='') {
+  $sets[]   = 'contrasena=?';
+  $types   .= 's';
+  $params[] = password_hash($password,PASSWORD_DEFAULT);
 }
-
 if ($imagen_perfil) {
-    $sets[]   = 'imagen_perfil = ?';
-    $types   .= 's';
-    $params[] = $imagen_perfil;
+  $sets[]   = 'imagen_perfil=?';
+  $types   .= 's';
+  $params[] = $imagen_perfil;
 }
 
-$types   .= 'i';
-$params[] = $id;
+$sql = "UPDATE usuarios SET ".implode(',',$sets)." WHERE id=?";
+$types .= 'i';  $params[] = $id;
 
-$sql   = 'UPDATE usuarios SET ' . implode(', ', $sets) . ' WHERE id = ?';
-$stmt  = $conn->prepare($sql);
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+  ob_end_clean();
+  echo json_encode(['success'=>false,'message'=>'Error interno']); exit;
+}
 $stmt->bind_param($types, ...$params);
 
-if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Perfil actualizado']);
+$status = $stmt->execute();
+ob_end_clean();
+
+if ($status) {
+  if ($imagen_perfil) $_SESSION['imagen_perfil'] = $imagen_perfil;
+  echo json_encode(['success'=>true,'message'=>'Perfil actualizado']);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Error al guardar']);
+  echo json_encode(['success'=>false,'message'=>'Error al guardar']);
 }
 exit;
