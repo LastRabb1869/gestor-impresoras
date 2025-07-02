@@ -125,7 +125,7 @@
     </ul>
     <div class="user-account">
       <div class="user-profile">
-        <img src="../assets/sources/users/<?= htmlspecialchars($perfil_nombre) ?>/profile_img/<?= htmlspecialchars($perfil_imagen) ?: 'default-user.png'; ?>" alt="Perfil"/>
+        <img src="../assets/sources/users/<?= htmlspecialchars($perfil_numcolab) ?>/profile_img/<?= htmlspecialchars($perfil_imagen) ?: 'default-user.png'; ?>" alt="Perfil"/>
         <div class="user-detail">
           <h4><?php echo htmlspecialchars($perfil_nombre); ?></h4>
           <span><?php echo htmlspecialchars($_SESSION['nivel']); ?></span>
@@ -281,7 +281,7 @@
             <!-- Grupo: foto de perfil -->
             <div class="field-group foto-perfil">
               <label class="avatar-wrapper">
-                <img id="preview-photo" src="../assets/sources/users/<?=htmlspecialchars($perfil_nombre)?>/profile_img/<?=htmlspecialchars($perfil_imagen?:'default-user.png')?>" alt="Foto de perfil">
+                <img id="preview-photo" src="../assets/sources/users/<?=htmlspecialchars($perfil_numcolab)?>/profile_img/<?=htmlspecialchars($perfil_imagen?:'default-user.png')?>" alt="Foto de perfil">
                 <span class="edit-icon material-symbols-outlined">photo_camera</span>
                 <input type="file" id="imagen" name="imagen" accept=".jpg,.png, .jpeg">
               </label>
@@ -297,6 +297,10 @@
             <div class="field-group">
               <label for="correo">Correo</label>
               <input type="email" id="correo" name="correo" value="<?=htmlspecialchars($perfil_correo)?>" readonly>
+            </div>
+            <div class="field-group">
+              <label for="num_colaborador">Número de Colaborador</label>
+              <input type="text" id="num_colaborador" name="num_colaborador" value="<?=htmlspecialchars($perfil_numcolab)?>" readonly>
             </div>
             <div class="field-group">
               <label for="password">Nueva Contraseña</label>
@@ -611,7 +615,7 @@
         <span>Gestionar</span>
       </li>
       <li data-group="cuenta">
-        <img src="../assets/sources/users/<?= htmlspecialchars($perfil_nombre) ?>/profile_img/<?= htmlspecialchars($perfil_imagen) ?: 'default-user.png'; ?>" class="mobile-avatar" alt="Perfil"/>
+        <img src="../assets/sources/users/<?= htmlspecialchars($perfil_numcolab) ?>/profile_img/<?= htmlspecialchars($perfil_imagen) ?: 'default-user.png'; ?>" class="mobile-avatar" alt="Perfil"/>
         <span>Cuenta</span>
       </li>
     </ul>

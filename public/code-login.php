@@ -55,6 +55,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                         $_SESSION["id"] = $id;
                         $_SESSION["email"] = $email;
                         $_SESSION["nivel"] = $nivel;
+                        $_SESSION['num_colaborador'] = $row['num_colaborador'];
                         
                         if ($nivel === 'Admin IT') {
                             header("location: ../dashboard/panel_admin.php");

@@ -3,18 +3,15 @@
 session_start();
 header('Content-Type: application/json');
 
-// 1 — seguridad
 if (empty($_SESSION['loggedin'])) {
   http_response_code(401);
   echo json_encode(['success'=>false,'message'=>'No autorizado']); exit;
 }
 
-// 2 — conexión
 require_once dirname(__DIR__,2).'/config/conexion.php';
 
-// 3 — datos
 $id       = $_SESSION['id'];
-$numColab = $_SESSION['num_colaborador'] ?? '';
+$numColab = $_SESSION['num_colaborador'] ?? ($_POST['num_colaborador'] ?? '');   // ✅
 
 $nombre   = trim($_POST['nombre']   ?? '');
 $apellido = trim($_POST['apellido'] ?? '');
@@ -24,10 +21,9 @@ if ($nombre==='' || $apellido==='') {
   echo json_encode(['success'=>false,'message'=>'Nombre y apellido obligatorios']); exit;
 }
 
-// 4 — captura de Warnings para que nunca salgan en el JSON
-ob_start();
+ob_start();                                       // atrapa warnings
 
-// ---------- F O T O ----------
+/* -------  F O T O  ------- */
 $imagen_perfil = null;
 if (!empty($_FILES['imagen']['name'])) {
 
@@ -37,9 +33,8 @@ if (!empty($_FILES['imagen']['name'])) {
     echo json_encode(['success'=>false,'message'=>'Formato de imagen no válido']); exit;
   }
 
-  // ruta absoluta   .../assets/sources/users/{numColab}/profile_img/
-  $root    = dirname(__DIR__,2);                // llega a la raíz del proyecto
-  $carpeta = "$root/assets/sources/users/$nombre/profile_img/";
+  $root    = dirname(__DIR__,2);
+  $carpeta = $root."/assets/sources/users/$numColab/profile_img/";
 
   if (!is_dir($carpeta) && !mkdir($carpeta,0755,true)) {
     ob_end_clean();
@@ -51,11 +46,10 @@ if (!empty($_FILES['imagen']['name'])) {
     ob_end_clean();
     echo json_encode(['success'=>false,'message'=>'Error al copiar la imagen']); exit;
   }
-
   $imagen_perfil = $nuevoNombre;
 }
 
-// 5 — SQL dinámico
+/* -------  UPDATE  ------- */
 $sets   = ['nombre=?','apellido=?'];
 $types  = 'ss';
 $params = [$nombre,$apellido];
@@ -71,23 +65,21 @@ if ($imagen_perfil) {
   $params[] = $imagen_perfil;
 }
 
-$sql = "UPDATE usuarios SET ".implode(',',$sets)." WHERE id=?";
+$sql  = 'UPDATE usuarios SET '.implode(', ',$sets).' WHERE id=?';
 $types .= 'i';  $params[] = $id;
 
 $stmt = $conn->prepare($sql);
-if (!$stmt) {
-  ob_end_clean();
-  echo json_encode(['success'=>false,'message'=>'Error interno']); exit;
-}
+if (!$stmt) { ob_end_clean(); echo json_encode(['success'=>false,'message'=>'Error interno']); exit; }
 $stmt->bind_param($types, ...$params);
 
-$status = $stmt->execute();
+$ok = $stmt->execute();
 ob_end_clean();
 
-if ($status) {
+if ($ok) {
   if ($imagen_perfil) $_SESSION['imagen_perfil'] = $imagen_perfil;
   echo json_encode(['success'=>true,'message'=>'Perfil actualizado']);
 } else {
   echo json_encode(['success'=>false,'message'=>'Error al guardar']);
 }
+
 exit;
