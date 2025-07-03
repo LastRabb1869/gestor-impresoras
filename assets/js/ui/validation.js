@@ -25,6 +25,14 @@ export const reglas = {
     regex: /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/,
     mensaje: "Introduce una dirección IP válida (ej. 10.180.0.151)"
   },
+  perfil_nombre: {
+    regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
+    mensaje: "En el nombre, solo letras, acentos y espacios son válidos."
+  },
+  perfil_apellido: {
+    regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
+    mensaje: "En el apellido, solo letras, acentos y espacios son válidos."
+  },
   select: {
     custom: v => v !== "",
     mensaje: "Debes seleccionar una opción válida."

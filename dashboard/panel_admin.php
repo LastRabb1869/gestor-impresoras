@@ -100,7 +100,7 @@
           <span>Cambios</span>
         </a>
       </li>
-      <li class="nav-item" id="colaboradores-btn">
+      <li class="nav-item" data-section="colaboradores-section">
         <a href="javascript:;">
           <span class="material-symbols-outlined">manage_accounts</span>
           <span>Colaboradores</span>
@@ -273,6 +273,43 @@
           <!-- Aquí el JS inyectará la sección de alertas -->
         </div>
       </section>
+      <!-- Sección Colaboradores -->
+      <section id="colaboradores-section" class="dashboard-section">
+        <div class="sub-navbar">
+          <button id="colab-edit-toggle" class="btn-edit">Editar</button>
+        </div>
+        <h2>Responsables</h2>
+        <table class="table-colab">
+          <thead>
+            <tr>
+              <th>F. Perfil</th>
+              <th># Colab.</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Ubicación</th>
+              <th>Estado</th>
+              <th>PDF</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <h2>Usuarios</h2>
+        <table class="table-users">
+          <thead>
+            <tr>
+              <th>F. Perfil</th>
+              <th># Colab.</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Correo</th>
+              <th>Nivel</th>
+              <th>Estado</th>
+              <th>Contraseña</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
       <!-- Sección Perfil -->
       <section id="perfil-section" class="dashboard-section">
         <div class="profile-container">
@@ -288,12 +325,14 @@
             </div>
             <div class="field-group">
               <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" name="nombre" value="<?=htmlspecialchars($perfil_nombre)?>" required>
+              <input type="text" id="nombre" name="perfil_nombre" class="validable" data-type="perfil_nombre" value="<?=htmlspecialchars($perfil_nombre)?>" required>
             </div>
+            <div class="tooltip" id="tooltip-perfil_nombre"></div>
             <div class="field-group">
               <label for="apellido">Apellido</label>
-              <input type="text" id="apellido" name="apellido" value="<?=htmlspecialchars($perfil_apellido)?>" required>
+              <input type="text" id="apellido" name="perfil_apellido" class="validable" data-type="perfil_apellido" value="<?=htmlspecialchars($perfil_apellido)?>" required>
             </div>
+            <div class="tooltip" id="tooltip-perfil_apellido"></div>
             <div class="field-group">
               <label for="correo">Correo</label>
               <input type="email" id="correo" name="correo" value="<?=htmlspecialchars($perfil_correo)?>" readonly>
@@ -366,7 +405,6 @@
               <div class="input-wrapper">
                 <input type="text" id="nombre_impresora" name="nombre" placeholder="Nombre" class="validable" data-type="nombre" required>
                 <span class="status-icon" id="icon-nombre_impresora" title="">
-                  <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
               <div class="tooltip" id="tooltip-nombre_impresora"></div>
@@ -376,7 +414,6 @@
               <div class="input-wrapper">
                 <input type="text" id="marca_impresora" name="marca" placeholder="Marca" class="validable" data-type="marca" required>
                 <span class="status-icon" id="icon-marca_impresora" title="">
-                  <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
               <div class="tooltip" id="tooltip-marca_impresora"></div>
@@ -386,7 +423,6 @@
               <div class="input-wrapper">
                 <input type="text" id="modelo" name="modelo" placeholder="Modelo" class="validable" data-type="modelo" required>
                 <span class="status-icon" id="icon-modelo" title="">
-                  <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
               <div class="tooltip" id="tooltip-modelo"></div>
@@ -396,7 +432,6 @@
               <div class="input-wrapper">
                 <input type="text" id="num_serie_impresora" name="num_serie" placeholder="Número de serie" class="validable" data-type="num_serie" required>
                 <span class="status-icon" id="icon-num_serie_impresora" title="">
-                  <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
               <div class="tooltip" id="tooltip-num_serie_impresora"></div>
@@ -406,7 +441,6 @@
               <div class="input-wrapper">
                 <input type="text" id="ip" name="ip" placeholder="Dirección IP" class="validable" data-type="ip" required>
                 <span class="status-icon" id="icon-ip" title="">
-                  <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
               <div class="tooltip" id="tooltip-ip"></div>
@@ -478,7 +512,6 @@
               <div class="input-wrapper">
                 <input type="text" id="nombre_componente" name="nombre" placeholder="Nombre" class="validable" data-type="nombre" required>
                 <span class="status-icon" id="icon-nombre_componente" title="">
-                  <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
               <div class="tooltip" id="tooltip-nombre_componente"></div>
@@ -488,7 +521,6 @@
               <div class="input-wrapper">
                 <input type="text" id="marca_componente" name="marca" placeholder="Marca" class="validable" data-type="marca" required>
                 <span class="status-icon" id="icon-marca_componente" title="">
-                  <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
               <div class="tooltip" id="tooltip-marca_componente"></div>
@@ -498,7 +530,6 @@
               <div class="input-wrapper">
                 <input type="text" id="num_serie_componente" name="num_serie" placeholder="Número de serie" class="validable" data-type="num_serie" required>
                 <span class="status-icon" id="icon-num_serie_componente" title="">
-                  <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
               <div class="tooltip" id="tooltip-num_serie_componente"></div>
@@ -508,7 +539,6 @@
               <div class="input-wrapper">
                 <input type="text" id="cantidad_stock" name="cantidad_stock" placeholder="Cantidad" class="validable" data-type="cantidad_stock" required>
                 <span class="status-icon" id="icon-cantidad_stock" title="">
-                  <!-- SVG se inserta aquí desde JS -->
                 </span>
               </div>
               <div class="tooltip" id="tooltip-cantidad_stock"></div>
@@ -630,7 +660,7 @@
       <ul class="mobile-nav-sub gestionar">
         <li data-section="alertas-section"><span class="material-symbols-outlined">warning</span><span>Incidencias</span></li>
         <li data-section="cambios-section"><span class="material-symbols-outlined">sync_alt</span><span>Cambios</span></li>
-        <li id="colaboradores-btn"><span class="material-symbols-outlined">manage_accounts</span><span>Colaboradores</span></li>
+        <li data-section="colaboradores-section"><span class="material-symbols-outlined">manage_accounts</span><span>Colaboradores</span></li>
       </ul>
       <ul class="mobile-nav-sub cuenta">
         <li data-section="perfil-section"><span class="material-symbols-outlined">account_circle</span><span>Perfil</span></li>

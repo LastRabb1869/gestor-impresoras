@@ -11,10 +11,10 @@ if (empty($_SESSION['loggedin'])) {
 require_once dirname(__DIR__,2).'/config/conexion.php';
 
 $id       = $_SESSION['id'];
-$numColab = $_SESSION['num_colaborador'] ?? ($_POST['num_colaborador'] ?? '');   // ✅
+$numColab = $_SESSION['num_colaborador'] ?? ($_POST['num_colaborador'] ?? '');
 
-$nombre   = trim($_POST['nombre']   ?? '');
-$apellido = trim($_POST['apellido'] ?? '');
+$nombre   = trim($_POST['perfil_nombre']   ?? '');
+$apellido = trim($_POST['perfil_apellido'] ?? '');
 $password = trim($_POST['password'] ?? '');
 
 if ($nombre==='' || $apellido==='') {

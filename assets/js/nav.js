@@ -5,6 +5,7 @@ import { cargarAlertas, applyWarningFilter } from './alerts/alerts-ui.js';
 import { cargarCambios } from './changes/changes-ui.js';
 import { cargarDepartamentos } from './departaments/departaments-ui.js';
 import { initProfileSection } from './users/profile.js';
+import { initColaboradoresSection } from './users/colaboradores.js';
 
 export async function initNav() {
   const navItems = document.querySelectorAll('.nav-item[data-section]');
@@ -52,6 +53,10 @@ export async function initNav() {
           cargarCambios();
           break;
         }
+        case 'colaboradores-section': {
+          initColaboradoresSection();
+          break;
+        }
         case 'perfil-section': {
           initProfileSection();
           break;
@@ -61,8 +66,8 @@ export async function initNav() {
           if (perfil?.classList.contains('active') && window.restoreProfileForm) {
             const { initModalConfirm } = await import('./ui/modal-mensaje.js');
             const ok = await initModalConfirm('Salir sin guardar?', 'Tienes cambios sin guardar en tu perfil.');
-            if (!ok) return; // aborta el cambio de sección
-            window.restoreProfileForm(); // limpia el formulario
+            if (!ok) return;
+            window.restoreProfileForm();
           }
           break;
         }
