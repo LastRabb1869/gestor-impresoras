@@ -53,3 +53,51 @@ export async function initModalConfirm(title, msg) {
     modalMsg.classList.remove('hidden');
   });
 }
+
+export function initModalPrompt(title, msg) {
+  return new Promise(resolve => {
+    // Recojo elementos ya existentes
+    const modal = document.getElementById('modal-mensaje');
+    const h2    = modal.querySelector('#modal-mensaje-titulo');
+    const p     = modal.querySelector('#modal-mensaje-contenido');
+    const btnOk = modal.querySelector('#modal-mensaje-ok');
+    const btnCancel = modal.querySelector('#modal-mensaje-cancel');
+    const btnClose  = modal.querySelector('.modal-close');
+
+    // Crea o reutiliza un input dentro del <p>
+    p.innerHTML = `<p>${msg}</p><input id="modal-prompt-input" type="password" style="width:100%;padding:0.5rem;margin-top:0.5rem;" />`;
+    h2.textContent = title;
+
+    // Clases de estado
+    modal.classList.remove('hidden','success','error','confirm');
+    modal.classList.add('confirm');
+
+    // Limpio event listeners antiguos
+    btnOk.replaceWith(btnOk.cloneNode(true));
+    btnCancel.replaceWith(btnCancel.cloneNode(true));
+    btnClose.replaceWith(btnClose.cloneNode(true));
+
+    const newOk     = modal.querySelector('#modal-mensaje-ok');
+    const newCancel = modal.querySelector('#modal-mensaje-cancel');
+    const newClose  = modal.querySelector('.modal-close');
+    const input     = modal.querySelector('#modal-prompt-input');
+
+    // Cuando acepte
+    newOk.addEventListener('click', () => {
+      const val = input.value.trim();
+      modal.classList.add('hidden');
+      resolve(val || null);
+    });
+
+    // Cuando cancele o cierre
+    function onCancel() {
+      modal.classList.add('hidden');
+      resolve(null);
+    }
+    newCancel.addEventListener('click', onCancel);
+    newClose .addEventListener('click', onCancel);
+
+    // Foco al input
+    input.focus();
+  });
+}

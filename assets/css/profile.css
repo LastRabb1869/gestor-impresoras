@@ -82,7 +82,7 @@
   display:inline-block;
   cursor:pointer;
 }
-#imagen {                /* input file invisible */
+#imagen {
   display:none;
 }
 #preview-photo {
@@ -137,24 +137,58 @@
 .avatar-wrapper {
   position: relative;
   display: inline-block;
-  width: 40px; height: 40px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
 }
 .avatar-wrapper img {
-  width:100%; height:100%; object-fit:cover;
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 .avatar-wrapper input[type=file] {
   position: absolute;
-  top:0; left:0; width:100%; height:100%;
-  opacity:0; cursor: pointer;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  cursor: pointer;
 }
 .avatar-wrapper:hover::after {
   content:'📤';
-  position:absolute; bottom:0; right:0;
+  position:absolute;
+  bottom:0;
+  right:0;
   background:rgba(0,0,0,0.5);
-  color:white; font-size:1rem; padding:2px; border-radius:50%;
+  color:white;
+  font-size:1rem;
+  padding:2px;
+  border-radius:50%;
+}
+
+.table-colab .avatar-wrapper {
+  width: 40px; height: 40px;
+}
+
+#perfil-section .foto-perfil {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Tamaño grande para perfil */
+#perfil-section .avatar-wrapper {
+  width: 120px;
+  height: 120px;
+  display: inline-block;
+}
+#perfil-section .avatar-wrapper img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
 }
 
 /* PDF cell */
@@ -165,42 +199,129 @@
 .archivo-cell input[type=file] {
   display:none;
 }
-.archivo-cell:hover input[type=file] {
-  display:inline-block;
-}
-
-/* Switch ALTA/BAJA */
 .switch {
-  width:50px; height:24px;
-  background:#ccc; border-radius:12px;
-  position: relative; cursor: default;
+  width:50px;
+  height:24px;
+  background:#ccc;
+  border-radius:12px;
+  position: relative;
+  /* cursor: default; */
   transition: background .3s;
 }
-.switch.can-toggle { cursor: pointer; }
+
 .switch .knob {
-  width:20px; height:20px;
-  background:white; border-radius:50%;
-  position:absolute; top:2px; left:2px;
+  width:20px;
+  height:20px;
+  background:white;
+  border-radius:50%;
+  position:absolute;
+  top:2px; 
+  left:2px;
   transition: left .3s;
 }
-.switch.alta { background:#4caf50; }
-.switch.alta .knob  { left:28px; }
-.switch.baja { background:#e53935; }
-.switch.baja .knob { left:2px; }
+
+.switch.alta {
+  background:#4caf50; 
+}
+
+.switch.alta .knob  { 
+  left:2px;
+}
+
+.switch.baja {
+  background:#e53935;
+}
+
+.switch.baja .knob {
+  left:28px;
+}
 
 /* Contraseña masacrada */
-.cell-password { position: relative; }
-.cell-password .show-pass {
-  background:none; border:none;
-  cursor:pointer; position:absolute;
-  right:5px; top:50%; transform:translateY(-50%);
+.cell-resetpwd {
+  position: relative;
+}
+
+.cell-resetpwd .show-pass {
+  background:none;
+  border:none;
+  cursor:pointer;
+  position:absolute;
+  right:5px;
+  top:50%;
+  transform:translateY(-50%);
 }
 
 /* Botón Editar/Guardar */
-.btn-edit {
-  padding:0.5rem 1rem;
-  background:#007bff; color:#fff;
-  border:none; border-radius:4px;
-  cursor:pointer; font-size:0.9rem;
+.btn-edit, .btn-cancel {
+  padding:0.5rem 1rem;  
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+  font-size:0.9rem;
 }
-.btn-edit:hover { background:#0056b3 }
+
+.btn-edit {
+  background:#4caf50;
+}
+
+.btn-cancel {
+  background:#e53935;
+}
+
+.btn-cancel:hover {
+  background:#e51a16;
+}
+
+.btn-edit:hover {
+  background:#22c928;
+}
+
+.btn-cancel.hidden {
+  display:none !important;
+}
+
+/* 1) Sólo muestra Ver PDF cuando NO está en edición */
+#colaboradores-section.editing .archivo-cell a {
+  display: none;
+}
+
+/* 2) Sólo muestra el input file cuando está en edición */
+#colaboradores-section .archivo-cell .archivo-input {
+  display: none;
+}
+#colaboradores-section.editing .archivo-cell .archivo-input {
+  display: inline-block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+}
+/* 3) Ayuda a que el texto “ningún archivo seleccionado” quede debajo */
+.archivo-cell .file-name {
+  display: block;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+/* Contenedores de tablas */
+.table-wrapper {
+  background: #fff;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrapper h2 {
+  margin-bottom: 1rem;
+  color: #000000;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.table-wrapper table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+}

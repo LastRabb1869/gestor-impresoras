@@ -20,7 +20,7 @@ if (!$numCol || !$nom || !$ape) {
 }
 
 $root    = dirname(__DIR__,2);
-$baseDir = "$root/assets/sources/usuarios/$numCol/";
+$baseDir = "$root/assets/sources/users/$numCol/";
 if (!is_dir($baseDir)) mkdir($baseDir,0755,true);
 
 $imgName = null;
@@ -29,11 +29,11 @@ if (!empty($_FILES['imagen']['name'])) {
   if (!in_array($ext,['jpg','jpeg','png'])) {
     echo json_encode(['success'=>false,'message'=>'Formato de imagen no válido']); exit;
   }
-  $out = "$baseDir/avatar/";
+  $out = "$baseDir/profile_img/";
   if (!is_dir($out)) mkdir($out,0755,true);
   $imgName = uniqid('pf_',true).".$ext";
   if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $out.$imgName)) {
-    echo json_encode(['success'=>false,'message'=>'Error al subir avatar']); exit;
+    echo json_encode(['success'=>false,'message'=>'Error al subir la foto de perfil']); exit;
   }
 }
 

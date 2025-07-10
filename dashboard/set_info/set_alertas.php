@@ -29,7 +29,6 @@ if (!$stmt->fetch()){
 }
 $stmt->close();
 
-// ¿Existe incidencia activa?
 $stmt = $conn->prepare("SELECT COUNT(*) FROM alertas WHERE impresora_id = ? AND estado_actual = 'EN PROCESO'");
 $stmt->bind_param('i', $impresora_id);
 $stmt->execute();

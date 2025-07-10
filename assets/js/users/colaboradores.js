@@ -1,12 +1,13 @@
 // assets/js/users/colaboradores.js
 
-import { initModalConfirm, initModalError } from '../ui/modal-mensaje.js';
+import { initModalConfirm, initModalError, initModalPrompt } from '../ui/modal-mensaje.js';
 
 export function initColaboradoresSection() {
   const section = document.getElementById('colaboradores-section');
   if (!section) return;
 
   const btnToggle = section.querySelector('#colab-edit-toggle');
+  const btnCancel = section.querySelector('#colab-cancel');
   let editMode = false;
 
   const tbColab = section.querySelector('.table-colab tbody');
@@ -50,9 +51,8 @@ export function initColaboradoresSection() {
                <a href="../assets/sources/users/${item.num_colaborador}/archivo/${item.archivo}" target="_blank">Ver PDF</a>
                <input type="file" accept=".pdf" class="archivo-input" disabled>
              </td>`
-          : `<td class="cell-password" data-real-pass="${item.contrasena}">
-               <span class="masked">••••••</span>
-               <button class="show-pass">👁</button>
+          : `<td class="cell-resetpwd">
+               <button class="btn-reset-pwd" disabled>🔒 Restablecer</button>
              </td>`
         }
       `;
@@ -62,9 +62,11 @@ export function initColaboradoresSection() {
   }
 
   function setEditMode(on) {
+    section.classList.toggle('editing', on);
     editMode = on;
+    btnCancel.classList.toggle('hidden', !on);
     btnToggle.textContent = on ? 'Guardar' : 'Editar';
-    section.querySelectorAll('.avatar-input, .archivo-input')
+    section.querySelectorAll('.avatar-input, .archivo-input, .btn-reset-pwd')
            .forEach(i => i.disabled = !on);
     section.querySelectorAll('.switch')
            .forEach(sw => on ? sw.classList.add('can-toggle') : sw.classList.remove('can-toggle'));
@@ -78,6 +80,17 @@ export function initColaboradoresSection() {
       }
     });
   }
+
+  btnCancel.addEventListener('click', () => {
+    initModalConfirm('Cancelar cambios','¿Descartar todos los cambios?')
+      .then(ok => {
+        if (!ok) {
+          // restaurar todo recargando los datos
+          loadData();
+        }
+        setEditMode(false);
+      });
+  });
 
   btnToggle.addEventListener('click', async () => {
     if (!editMode) {
@@ -125,6 +138,7 @@ export function initColaboradoresSection() {
     try {
       await Promise.all(tasks);
       initModalError('¡Éxito!','Cambios guardados.','success');
+      setEditMode(false);
       setTimeout(loadData, 500);
     } catch (err) {
       initModalError('ERROR', err.message,'error');
@@ -140,15 +154,32 @@ export function initColaboradoresSection() {
     sw.classList.toggle('baja');
   });
 
-  // mostrar contraseña
-  section.addEventListener('click', e => {
-    if (!e.target.matches('.show-pass')) return;
-    const cell = e.target.closest('.cell-password');
-    const span = cell.querySelector('.masked');
-    span.textContent = span.textContent==='••••••'
-      ? cell.dataset.realPass
-      : '••••••';
+  // Reset password handler
+  section.addEventListener('click', async e => {
+    if (!editMode) return;
+    const btn = e.target.closest('.btn-reset-pwd');
+    if (!btn) return;
+    const tr = btn.closest('tr');
+    const num = tr.dataset.id;
+    // Pedimos la nueva contraseña
+    const newPwd = await initModalPrompt(
+      'Nueva contraseña',
+      'Escribe la nueva contraseña para el usuario:');
+    if (!newPwd) return;  // cancelado o vacío
+    // Enviamos al servidor
+    try {
+      const res = await fetch('set_info/update_usuario_password.php', {
+        method: 'POST',
+        body:  new URLSearchParams({ num_colaborador: num, password: newPwd })
+      });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.message);
+      initModalError('¡Éxito!', 'Contraseña restablecida.', 'success');
+    } catch (err) {
+      initModalError('ERROR', err.message, 'error');
+    }
   });
 
+  section.offsetHeight;
   loadData();
 }

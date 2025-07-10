@@ -13,8 +13,7 @@ $sql = "SELECT num_colaborador,
                correo,
                nivel,
                estado,
-               imagen_perfil,
-               contrasena
+               imagen_perfil
           FROM usuarios
          WHERE id != ?
          ORDER BY num_colaborador";

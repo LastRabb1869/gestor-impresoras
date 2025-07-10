@@ -52,7 +52,7 @@
   <!-- Fuente de iconos Material Symbols -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
   <link rel="stylesheet" href="../assets/css/style_dashboard.css">
-  <link rel="stylesheet" href="../assets/css/profile.css">
+  <!-- <link rel="stylesheet" href="../assets/css/profile.css"> -->
 </head>
 <body>
 
@@ -277,38 +277,43 @@
       <section id="colaboradores-section" class="dashboard-section">
         <div class="sub-navbar">
           <button id="colab-edit-toggle" class="btn-edit">Editar</button>
+          <button id="colab-cancel" class="btn-cancel hidden">Cancelar</button>
         </div>
-        <h2>Responsables</h2>
-        <table class="table-colab">
-          <thead>
-            <tr>
-              <th>F. Perfil</th>
-              <th># Colab.</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Ubicación</th>
-              <th>Estado</th>
-              <th>PDF</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <h2>Usuarios</h2>
-        <table class="table-users">
-          <thead>
-            <tr>
-              <th>F. Perfil</th>
-              <th># Colab.</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Correo</th>
-              <th>Nivel</th>
-              <th>Estado</th>
-              <th>Contraseña</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+        <div class="table-wrapper">
+          <h2>Responsables</h2>
+          <table class="table-colab">
+            <thead>
+              <tr>
+                <th>F. Perfil</th>
+                <th># Colab.</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Ubicación</th>
+                <th>Estado</th>
+                <th>RESPONSIVA</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="table-wrapper">
+          <h2>Usuarios</h2>
+          <table class="table-users">
+            <thead>
+              <tr>
+                <th>F. Perfil</th>
+                <th># Colab.</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Nivel</th>
+                <th>Estado</th>
+                <th>Contraseña</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </section>
       <!-- Sección Perfil -->
       <section id="perfil-section" class="dashboard-section">
@@ -319,7 +324,7 @@
             <div class="field-group foto-perfil">
               <label class="avatar-wrapper">
                 <img id="preview-photo" src="../assets/sources/users/<?=htmlspecialchars($perfil_numcolab)?>/profile_img/<?=htmlspecialchars($perfil_imagen?:'default-user.png')?>" alt="Foto de perfil">
-                <span class="edit-icon material-symbols-outlined">photo_camera</span>
+                <!-- <span class="edit-icon material-symbols-outlined">photo_camera</span> -->
                 <input type="file" id="imagen" name="imagen" accept=".jpg,.png, .jpeg">
               </label>
             </div>
@@ -673,13 +678,13 @@
   <div id="modal-mensaje" class="modal-overlay hidden">
     <div class="modal-content">
       <button class="modal-close">&times;</button>
-
       <h2 id="modal-mensaje-titulo"></h2>
-      <p id="modal-mensaje-contenido"></p>
-
+      <div id="modal-mensaje-contenido">
+        <!-- Aquí se inyecta texto y/o input -->
+      </div>
       <div class="msg-actions">
-        <button id="modal-mensaje-ok" class="btn-ok-msg">SI</button>
-        <button id="modal-mensaje-cancel" class="btn-cancel-msg">NO</button>
+        <button id="modal-mensaje-cancel" class="btn-cancel-msg">Cancelar</button>
+        <button id="modal-mensaje-ok" class="btn-ok-msg">Aceptar</button>
       </div>
     </div>
   </div>
