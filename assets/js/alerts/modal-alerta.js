@@ -86,6 +86,11 @@ export function initModalAlerta() {
     );
     if (!ok) return;
 
+    
+    const fd = new FormData(form);
+    
+    fd.append('impresora_id', impresoraId);    
+
     // envía
     try {
       const { success, message } = await setAlerta(fd);

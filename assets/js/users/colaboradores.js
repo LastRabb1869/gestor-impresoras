@@ -9,6 +9,7 @@ export function initColaboradoresSection() {
   const btnToggle = section.querySelector('#colab-edit-toggle');
   const btnCancel = section.querySelector('#colab-cancel');
   let editMode = false;
+  let dirty = false;
 
   const tbColab = section.querySelector('.table-colab tbody');
   const tbUser  = section.querySelector('.table-users tbody');
@@ -44,7 +45,10 @@ export function initColaboradoresSection() {
           : `<td class="cell-ubicacion">${item.ubicacion_nombre||item.ubicacion_id}</td>`
         }
         <td>
-          <div class="switch ${item.estado.toLowerCase()}" ></div>
+          <label class="toggle-switch">
+            <input type="checkbox" class="toggle-checkbox" ${item.estado==='ALTA' ? 'checked' : ''} disabled>
+            <span class="toggle-slider"></span>
+          </label>
         </td>
         ${ type==='responsable'
           ? `<td class="archivo-cell">
@@ -61,6 +65,11 @@ export function initColaboradoresSection() {
     setEditMode(editMode);
   }
 
+  // Añadir listeners a los inputs de texto y archivos
+  section.querySelectorAll('input[type="text"], .avatar-input, .archivo-input, .toggle-checkbox')
+    .forEach(el => el.addEventListener('input', () => dirty = true));
+
+
   function setEditMode(on) {
     section.classList.toggle('editing', on);
     editMode = on;
@@ -68,8 +77,12 @@ export function initColaboradoresSection() {
     btnToggle.textContent = on ? 'Guardar' : 'Editar';
     section.querySelectorAll('.avatar-input, .archivo-input, .btn-reset-pwd')
            .forEach(i => i.disabled = !on);
-    section.querySelectorAll('.switch')
-           .forEach(sw => on ? sw.classList.add('can-toggle') : sw.classList.remove('can-toggle'));
+    //section.querySelectorAll('.toggle-checkbox')
+    //.forEach(cb => cb.disabled = !on);
+    section.querySelectorAll('.toggle-checkbox').forEach(cb =>
+      cb.addEventListener('change', () => dirty = true)
+    );
+
     // Convertir nombre/apellido
     section.querySelectorAll('td.cell-nombre, td.cell-apellido').forEach(td => {
       const txt = td.textContent;
@@ -81,20 +94,29 @@ export function initColaboradoresSection() {
     });
   }
 
-  btnCancel.addEventListener('click', () => {
-    initModalConfirm('Cancelar cambios','¿Descartar todos los cambios?')
-      .then(ok => {
-        if (!ok) {
-          // restaurar todo recargando los datos
-          loadData();
-        }
-        setEditMode(false);
-      });
+  btnCancel.addEventListener('click', async () => {
+    if (!dirty) {
+      // No hay cambios, salgo YA del modo edición
+      setEditMode(false);
+      return;
+    }
+    // Sólo si hay cambios pregunto
+    const ok = await initModalConfirm(
+      'Cancelar cambios',
+      '¿Descartar todos los cambios?'
+    );
+    if (ok) {
+      // Confirmaste descartar: recargo y fuera de edición
+      await loadData();
+      setEditMode(false);
+    }
+    // Si ok===false, me quedo en edición y dirty sigue true
   });
 
   btnToggle.addEventListener('click', async () => {
     if (!editMode) {
       setEditMode(true);
+      if (on) dirty = false;
       return;
     }
     const ok = await initModalConfirm('Confirmar','¿Guardar cambios?');
@@ -108,7 +130,8 @@ export function initColaboradoresSection() {
       fd.append('num_colaborador', id);
       fd.append('nombre',   tr.querySelector('.cell-nombre input').value);
       fd.append('apellido', tr.querySelector('.cell-apellido input').value);
-      const estado = tr.querySelector('.switch').classList.contains('baja') ? 'BAJA' : 'ALTA';
+      const cb = tr.querySelector('.toggle-checkbox');
+      const estado = cb.checked ? 'ALTA' : 'BAJA';
       fd.append('estado', estado);
 
       const avatarFile = tr.querySelector('.avatar-input').files[0];
@@ -138,6 +161,7 @@ export function initColaboradoresSection() {
     try {
       await Promise.all(tasks);
       initModalError('¡Éxito!','Cambios guardados.','success');
+      dirty = false;
       setEditMode(false);
       setTimeout(loadData, 500);
     } catch (err) {

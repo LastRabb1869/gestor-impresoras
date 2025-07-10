@@ -1,6 +1,5 @@
 <?php
 // dashboard/set_info/set_alertas.php
-// Crea o registra una nueva incidencia (alerta) y devuelve JSON { success: bool, message: string, id?: int }
 
 include '../../config/conexion.php';
 header('Content-Type: application/json; charset=utf-8');

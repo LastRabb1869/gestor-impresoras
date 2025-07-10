@@ -58,7 +58,7 @@
 
   <aside class="sidebar">
     <div class="sidebar-header">
-      <img src="../assets/img/ppdc-logo.jpg" alt="Logo Meliá" class="logo-mini">
+      <img src="../icons/favicon.ico" alt="Logo Meliá" class="logo-mini">
       <h2>Printers PPDC</h2>
     </div>
     <ul class="sidebar-links">
@@ -626,7 +626,11 @@
           <!-- Reporte -->
           <div class="field-group">
             <label for="reporte-alerta">Reporte:</label>
-            <textarea id="reporte-alerta" name="reporte" rows="4" class="validable" data-type="reporte" required></textarea>
+            <div class="input-wrapper">
+              <textarea id="reporte-alerta" name="reporte" rows="4"
+                        class="validable" data-type="reporte" required>
+              </textarea>
+            </div>
             <div class="tooltip" id="tooltip-reporte-alerta"></div>
           </div>
         </div>

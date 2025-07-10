@@ -236,7 +236,7 @@ body {
   top: 0;
   left: 0;
   display: none;
-  padding: 1rem;;
+  padding: 1rem;
 }
 .dashboard-section.active {
   display: block;
@@ -342,9 +342,6 @@ body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   padding: 0.5rem;
   z-index: 1500;
-}
-
-.filter-all__dropdown {
   color: #161a2d; 
 }
 
@@ -524,7 +521,7 @@ body {
 .mobile-nav-sub.principal,
 .mobile-nav-sub.gestionar,
 .mobile-nav-sub.cuenta {
-  /* empty – se activará vía JS */
+  /* empty – se activara vía JS */
 }
 
 .mobile-nav-sub li {
@@ -564,19 +561,11 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 .btn-cancel-msg:hover { background:#bbb; }
 
 /* Colores según tipo */
-#modal-mensaje.error   h2 { color:#e55353; }
-#modal-mensaje.success h2 { color:#28a745; }
-#modal-mensaje.confirm h2 { color:#007bff; }
-
-#modal-mensaje {
-  padding: 2rem;
-  text-align: center;
-}
-
 #modal-mensaje h2 {
   font-size: 1.4rem;
   margin-bottom: 1rem;
@@ -590,6 +579,11 @@ body {
 }
 #modal-mensaje.confirm h2 {
   color: #007bff;
+}
+
+#modal-mensaje {
+  padding: 2rem;
+  text-align: center;
 }
 
 /* Texto */
@@ -744,17 +738,16 @@ body {
   cursor: pointer;
 }
 .btn-add {
-  background-color: #007bff;
-  color: #fff;
+  background: #007bff;
 }
-.btn-cancel {
-  background-color: #ccc;
+
+.btn-add:hover {
+  background: #0056b3;
 }
 
 .field-group {
   position: relative;
   margin-bottom: 0.2rem;
-  position: relative;
   overflow: visible;
 }
 
@@ -819,9 +812,6 @@ body {
   color:#007bff;
 }
 
-.field-group {
-  margin-bottom:1rem;
-}
 
 .field-group label {
   display:block;
@@ -837,15 +827,6 @@ body {
   padding:0.5rem;
   border:1px solid #ccc;
   border-radius:4px;
-}
-
-#preview-photo {
-  width:120px;
-  height:120px;
-  object-fit:cover;
-  border-radius:50%;
-  border:2px solid #007bff;
-  transition:opacity .25s;
 }
 
 .avatar-wrapper:hover #preview-photo {
@@ -882,11 +863,6 @@ body {
   text-align:center;
   margin-bottom:1.2rem;
 }
-.avatar-wrapper {
-  position:relative;
-  display:inline-block;
-  cursor:pointer;
-}
 #imagen {
   display:none;
 }
@@ -897,10 +873,6 @@ body {
   border-radius:50%;
   border:2px solid #007bff;
   transition:opacity .25s;
-}
-
-.avatar-wrapper:hover #preview-photo {
-  opacity:.7;
 }
 
 .edit-icon {
@@ -938,7 +910,7 @@ body {
   background: #fafafa;
 }
 
-/* Avatar klickable */
+/* Avatar clicable 2 */
 .avatar-wrapper {
   position: relative;
   display: inline-block;
@@ -1004,37 +976,48 @@ body {
 .archivo-cell input[type=file] {
   display:none;
 }
-.switch {
-  width:50px;
-  height:24px;
-  background:#ccc;
-  border-radius:12px;
+
+/* Toggle switch básico */
+.toggle-switch {
   position: relative;
-  /* cursor: default; */
-  transition: background .3s;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
 }
-
-.switch .knob {
-  width:20px;
-  height:20px;
-  background:white;
-  border-radius:50%;
-  position:absolute;
-  top:2px; 
-  left:2px;
-  transition: left .3s;
+.toggle-switch .toggle-checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
-
-.switch.alta {
-  background:#4caf50; 
+.toggle-switch .toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #e53935;   /* rojo = BAJA (unchecked) */
+  transition: 0.3s;
+  border-radius: 24px;
 }
-
-.switch.alta .knob  { 
-  left:2px;
+.toggle-switch .toggle-slider::before {
+  position: absolute;
+  content: "";
+  height: 20px; width: 20px;
+  left: 2px; bottom: 2px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
 }
-
-.switch.baja {
-  background:#e53935;
+/* Estado “checked” = ALTA */
+.toggle-switch .toggle-checkbox:checked + .toggle-slider {
+  background-color: #4caf50;   /* verde = ALTA */
+}
+.toggle-switch .toggle-checkbox:checked + .toggle-slider::before {
+  transform: translateX(26px);
+}
+/* Cuando está disabled, le bajamos opacidad */
+.toggle-switch .toggle-checkbox:disabled + .toggle-slider {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .switch.baja .knob {
@@ -1056,18 +1039,19 @@ body {
   transform:translateY(-50%);
 }
 
-/* Botón Editar/Guardar */
-.btn-edit, .btn-cancel {
+/* Botón Editar/Guardar y Añadir*/
+.btn-edit, .btn-cancel, .btn-add {
   padding:0.5rem 1rem;  
   color:#fff;
   border:none;
   border-radius:4px;
   cursor:pointer;
   font-size:0.9rem;
+  transition: background-color 0.3s;
 }
 
 .btn-edit {
-  background:#4caf50;
+  background:#22c928;
 }
 
 .btn-cancel {
@@ -1079,19 +1063,17 @@ body {
 }
 
 .btn-edit:hover {
-  background:#22c928;
+  background:#4caf50;
 }
 
 .btn-cancel.hidden {
   display:none !important;
 }
 
-/* 1) Sólo muestra Ver PDF cuando NO está en edición */
 #colaboradores-section.editing .archivo-cell a {
   display: none;
 }
 
-/* 2) Sólo muestra el input file cuando está en edición */
 #colaboradores-section .archivo-cell .archivo-input {
   display: none;
 }
@@ -1100,7 +1082,6 @@ body {
   margin-top: 0.3rem;
   font-size: 0.8rem;
 }
-/* 3) Ayuda a que el texto “ningún archivo seleccionado” quede debajo */
 .archivo-cell .file-name {
   display: block;
   font-size: 0.8rem;
@@ -1132,11 +1113,18 @@ body {
 }
 
 
-/* ====== Responsive ====== */
+/* ====== Responsiva ====== */
 @media(max-width: 768px) {
-  .sidebar, .topbar { display: none; }
-  .main-content { margin: 0; padding-bottom: 120px; }
-  .mobile-nav { display: block; }
+  .sidebar, .topbar {
+    display: none; 
+  }
+  .main-content {
+    margin: 0;
+    padding-bottom: 120px;
+  }
+  .mobile-nav {
+    display: block;
+  }
   
   .cards-container {
   flex-direction: column;
