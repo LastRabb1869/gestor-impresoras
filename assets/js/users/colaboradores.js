@@ -77,11 +77,12 @@ export function initColaboradoresSection() {
     btnToggle.textContent = on ? 'Guardar' : 'Editar';
     section.querySelectorAll('.avatar-input, .archivo-input, .btn-reset-pwd')
            .forEach(i => i.disabled = !on);
-    //section.querySelectorAll('.toggle-checkbox')
-    //.forEach(cb => cb.disabled = !on);
-    section.querySelectorAll('.toggle-checkbox').forEach(cb =>
-      cb.addEventListener('change', () => dirty = true)
-    );
+    section.querySelectorAll('.toggle-checkbox').forEach(cb => {
+      // 1) habilitamos o deshabilitamos
+      cb.disabled = !on;
+      // 2) nos aseguramos de tener un listener que marque dirty
+      cb.onchange = () => { dirty = true; };
+    });
 
     // Convertir nombre/apellido
     section.querySelectorAll('td.cell-nombre, td.cell-apellido').forEach(td => {
@@ -170,13 +171,13 @@ export function initColaboradoresSection() {
   });
 
   // toggle switch
-  section.addEventListener('click', e => {
-    if (!editMode) return;
-    const sw = e.target.closest('.switch.can-toggle');
-    if (!sw) return;
-    sw.classList.toggle('alta');
-    sw.classList.toggle('baja');
-  });
+  //section.addEventListener('click', e => {
+  //  if (!editMode) return;
+  //  const sw = e.target.closest('.switch.can-toggle');
+  //  if (!sw) return;
+  //  sw.classList.toggle('alta');
+  //  sw.classList.toggle('baja');
+  //});
 
   // Reset password handler
   section.addEventListener('click', async e => {

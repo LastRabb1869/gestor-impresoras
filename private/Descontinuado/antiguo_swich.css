@@ -1,0 +1,32 @@
+.switch {
+  width:50px;
+  height:24px;
+  background:#ccc;
+  border-radius:12px;
+  position: relative;
+  /* cursor: default; */
+  transition: background .3s;
+}
+
+.switch .knob {
+  width:20px;
+  height:20px;
+  background:white;
+  border-radius:50%;
+  position:absolute;
+  top:2px; 
+  left:2px;
+  transition: left .3s;
+}
+
+.switch.alta {
+  background:#4caf50; 
+}
+
+.switch.alta .knob  { 
+  left:2px;
+}
+
+.switch.baja {
+  background:#e53935;
+}
