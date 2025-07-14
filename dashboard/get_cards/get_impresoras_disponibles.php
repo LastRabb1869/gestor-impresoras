@@ -10,7 +10,7 @@ $sql = " SELECT i.id, i.nombre  AS impresora, i.num_serie, i.direccion_ip, 'DISP
          ON a.impresora_id = i.id
          AND a.estado_actual = 'EN PROCESO'
          WHERE  a.id IS NULL
-         AND  i.estado NOT IN ('REPARANDO', 'CON PROBLEMAS')
+         AND  i.estado NOT IN ('REPARANDO', 'CON PROBLEMAS', 'BAJA')
          ORDER BY i.nombre ASC";
 
 $result = mysqli_query($conn, $sql);

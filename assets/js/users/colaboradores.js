@@ -170,15 +170,6 @@ export function initColaboradoresSection() {
     }
   });
 
-  // toggle switch
-  //section.addEventListener('click', e => {
-  //  if (!editMode) return;
-  //  const sw = e.target.closest('.switch.can-toggle');
-  //  if (!sw) return;
-  //  sw.classList.toggle('alta');
-  //  sw.classList.toggle('baja');
-  //});
-
   // Reset password handler
   section.addEventListener('click', async e => {
     if (!editMode) return;

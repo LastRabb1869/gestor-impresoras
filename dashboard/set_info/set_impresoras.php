@@ -1,5 +1,5 @@
 <?php
-// set_impresoras.php
+// dashboard/set_info/set_impresoras.php
 require_once "../../config/conexion.php";
 
 // Función para validar dirección IP

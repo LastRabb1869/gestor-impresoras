@@ -321,12 +321,6 @@ body {
   color: #fff;
 }
 
-/*
-.filter-all.active {
-  bacground: none;
-}
-
-
 /* Dropdown de ubicaciones */
 .filter-all__dropdown {
   position: absolute;

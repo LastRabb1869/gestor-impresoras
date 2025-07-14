@@ -52,7 +52,6 @@
   <!-- Fuente de iconos Material Symbols -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
   <link rel="stylesheet" href="../assets/css/style_dashboard.css">
-  <!-- <link rel="stylesheet" href="../assets/css/profile.css"> -->
 </head>
 <body>
 
@@ -324,7 +323,6 @@
             <div class="field-group foto-perfil">
               <label class="avatar-wrapper">
                 <img id="preview-photo" src="../assets/sources/users/<?=htmlspecialchars($perfil_numcolab)?>/profile_img/<?=htmlspecialchars($perfil_imagen?:'default-user.png')?>" alt="Foto de perfil">
-                <!-- <span class="edit-icon material-symbols-outlined">photo_camera</span> -->
                 <input type="file" id="imagen" name="imagen" accept=".jpg,.png, .jpeg">
               </label>
             </div>
