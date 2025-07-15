@@ -496,58 +496,96 @@
         <div class="grid">
           <!-- Columna 1 -->
           <div class="fila">
-            <label class="form-lb" for="nombre">Nombre:</label>
-            <input type="text" data-field="nombre" class="field-input" readonly />
+            <label for="nombre">Nombre:</label>
+            <div class="input-wrapper">
+              <input type="text" id="nombre" data-field="nombre" class="field-input validable" data-type="nombre" readonly />
+              <span class="status-icon" id="icon-nombre"></span>
+            </div>
+            <div class="tooltip" id="tooltip-nombre"></div>
           </div>
           <div class="fila">
-            <label>Marca:</label>
-            <input type="text" data-field="marca" class="field-input" readonly />
+            <label for="marca">Marca:</label>
+            <div class="input-wrapper">
+              <input type="text" id="marca" data-field="marca" class="field-input validable" data-type="marca" readonly />
+              <span class="status-icon" id="icon-marca"></span>
+            </div>
+            <div class="tooltip" id="tooltip-marca"></div>
           </div>
           <div class="fila">
-            <label>Modelo:</label>
-            <input type="text" data-field="modelo" class="field-input" readonly />
+            <label for="modelo">Modelo:</label>
+            <div class="input-wrapper">
+              <input type="text" id="modelo" data-field="modelo" class="field-input validable" data-type="modelo" readonly />
+              <span class="status-icon" id="icon-modelo"></span>
+            </div>
+            <div class="tooltip" id="tooltip-modelo"></div>
           </div>
           <div class="fila">
-            <label>Número de serie:</label>
-            <input type="text" data-field="num_serie" class="field-input" readonly />
+            <label for="num_serie">Número de serie:</label>
+            <div class="input-wrapper">
+              <input type="text" id="num_serie" data-field="num_serie" class="field-input validable" data-type="num_erie" readonly />
+              <span class="status-icon" id="icon-num_serie"></span>
+            </div>
+            <div class="tooltip" id="tooltip-num_serie"></div>
           </div>
           <div class="fila">
-            <label>Dirección IP:</label>
-            <input type="text" data-field="ip" class="field-input" readonly />
+            <label for="ip">Dirección IP:</label>
+            <div class="input-wrapper">
+              <input type="text" id="ip" data-field="ip" class="field-input validable" data-type="ip" readonly />
+              <span class="status-icon" id="icon-ip"></span>
+            </div>
+            <div class="tooltip" id="tooltip-ip"></div>
           </div>
 
           <!-- Columna 2 -->
           <div class="fila">
-            <label>Estado:</label>
-            <select data-field="estado" class="field-input" disabled>
-              <option value="FUNCIONANDO">FUNCIONANDO</option>
-              <option value="CON PROBLEMAS">CON PROBLEMAS</option>
-              <option value="REPARANDO">REPARANDO</option>
-              <option value="BAJA">BAJA</option>
-            </select>
+            <label for="estado">Estado:</label>
+            <div class="input-wrapper">
+              <select id="estado" data-field="estado" class="field-input validable" data-type="select" disabled>
+                <option value="FUNCIONANDO">FUNCIONANDO</option>
+                <option value="CON PROBLEMAS">CON PROBLEMAS</option>
+                <option value="REPARANDO">REPARANDO</option>
+                <option value="BAJA">BAJA</option>
+              </select>
+              <span class="status-icon" id="icon-estado"></span>
+            </div>
+            <div class="tooltip" id="tooltip-estado"></div>
           </div>
           <div class="fila">
-            <label>Ubicación:</label>
-            <select data-field="ubicacion_id" class="field-input" disabled></select>
+            <label for="ubicacion_id">Ubicación:</label>
+            <div class="input-wrapper">
+              <select id="ubicacion_id" data-field="ubicacion_id" class="field-input validable" data-type="select" disabled> </select>
+              <span class="status-icon" id="icon-ubicacion_id"></span>
+            </div>
+            <div class="tooltip" id="tooltip-ubicacion_id"></div>
           </div>
           <div class="fila">
-            <label>Responsable:</label>
-            <select data-field="responsable_id" class="field-input" disabled></select>
+            <label for="responsable_id">Responsable:</label>
+            <div class="input-wrapper">
+              <select id="responsable_id" data-field="responsable_id" class="field-input validable" data-type="select" disabled>
+              </select>
+              <span class="status-icon" id="icon-responsable_id"></span>
+            </div>
+            <div class="tooltip" id="tooltip-responsable_id"></div>
           </div>
           <div class="fila">
-            <label>Fecha agregada:</label>
-            <input type="text" data-field="fecha_agregada" class="field-input" readonly />
+            <label for="fecha_agregada">Fecha agregada:</label>
+            <div class="input-wrapper">
+              <input type="text" id="fecha_agregada" data-field="fecha_agregada" class="field-input" readonly />
+            </div>
           </div>
           <div class="fila">
-            <label>Fecha comprada:</label>
-            <input type="date" data-field="fecha_comprada" class="field-input" readonly />
+            <label for="fecha_comprada">Fecha comprada:</label>
+            <div class="input-wrapper">
+              <input type="date" id="fecha_comprada" data-field="fecha_comprada" class="field-input" readonly />
+            </div>
           </div>
         </div>
       </section>
+
       <footer>
-        <button id="btn-editar" class="btn-edit">Editar</button>
+        <button id="btn-editar"  class="btn-edit">Editar</button>
         <button id="btn-cancelar" class="btn-cancelar hidden">Cancelar</button>
-        <button id="btn-guardar" class="btn-guardar hidden">Guardar</button>
+        <button id="btn-guardar"  class="btn-guardar hidden">Guardar</button>
       </footer>
     </div>
   </div>
