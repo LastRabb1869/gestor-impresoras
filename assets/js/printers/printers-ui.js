@@ -3,6 +3,7 @@
 import { fetchImpresoras } from './printers-api.js';
 import { initModalImpresora } from './modal-impresora.js';
 import { fetchDepartamentos } from '../departaments/departaments-api.js';
+import { initModalVerImpresora } from './modal-ver-impresora.js';
 
 let selectedLocations = [];   // IDs de ubicaciones marcadas
 let currentEstadoFilter = 'todas';
@@ -129,6 +130,7 @@ export async function cargarImpresoras() {
       </div>`;
     cont.appendChild(card);
   });
+    initModalVerImpresora(); // inicializar modal para cada tarjeta
 }
 
 // Filtrado combinado: estado + ubicaciones

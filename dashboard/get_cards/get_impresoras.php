@@ -3,10 +3,26 @@
 
 include '../../config/conexion.php';
 
-$sql_impresoras = "SELECT i.id, i.nombre, i.marca, i.num_serie, i.estado, i.imagen, u.nombre AS ubicacion, u.id AS ubicacion_id, fecha_agregada, fecha_comprada
-                    FROM impresoras i
-                    LEFT JOIN ubicaciones u ON i.ubicacion_id = u.id
-                    ORDER BY i.nombre";
+$sql_impresoras = "SELECT
+    i.id,
+    i.nombre,
+    i.marca,
+    i.modelo,
+    i.num_serie,
+    i.direccion_ip,
+    i.estado,
+    i.ubicacion_id,
+    u.nombre       AS ubicacion,
+    i.imagen,
+    i.fecha_agregada,
+    i.fecha_comprada,
+    i.responsable_id,
+    CONCAT(r.nombre, ' ', r.apellido) AS responsable_nombre
+  FROM impresoras i
+  LEFT JOIN ubicaciones u ON i.ubicacion_id = u.id
+  LEFT JOIN responsables r ON i.responsable_id = r.id
+  ORDER BY i.nombre
+";
 $result_impresoras = mysqli_query($conn, $sql_impresoras);
 
 $impresoras = [];

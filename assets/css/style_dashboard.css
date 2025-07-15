@@ -653,10 +653,12 @@ body {
   width: 90%;
   position: relative;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  margin: auto;
 }
 .modal-close {
   position: absolute;
-  top: 10px; right: 10px;
+  top: 10px;
+  right: 10px;
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -731,11 +733,11 @@ body {
   border-radius: 4px;
   cursor: pointer;
 }
-.btn-add {
+.btn-add, .btn-guardar {
   background: #007bff;
 }
 
-.btn-add:hover {
+.btn-add:hover, .btn-guardar:hover {
   background: #0056b3;
 }
 
@@ -1034,7 +1036,7 @@ body {
 }
 
 /* Botón Editar/Guardar y Añadir*/
-.btn-edit, .btn-cancel, .btn-add {
+.btn-edit, .btn-cancel, .btn-add, .btn-cancelar, .btn-guardar {
   padding:0.5rem 1rem;  
   color:#fff;
   border:none;
@@ -1044,23 +1046,23 @@ body {
   transition: background-color 0.3s;
 }
 
+.btn-cancel, .btn-cancelar {
+  background:#ff423f;
+}
+
+.btn-cancel:hover, .btn-cancelar:hover {
+  background:#de0e0a;
+}
+
 .btn-edit {
   background:#22c928;
-}
-
-.btn-cancel {
-  background:#e53935;
-}
-
-.btn-cancel:hover {
-  background:#e51a16;
 }
 
 .btn-edit:hover {
   background:#4caf50;
 }
 
-.btn-cancel.hidden {
+.btn-cancel.hidden, .btn-cancelar.hidden {
   display:none !important;
 }
 
@@ -1104,6 +1106,52 @@ body {
   width: 100%;
   min-width: 700px;
   border-collapse: collapse;
+}
+
+/* en tu archivo general */
+.modal-content .contenido .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-content .contenido .fila {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content .contenido .fila label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.modal-content .contenido .fila span,
+.modal-content .contenido .fila input,
+.modal-content .contenido .fila select {
+  width: 100%;
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-content .contenido .imagen-field {
+  grid-column: span 2;
+  text-align: center;
+}
+
+.modal-content .contenido .imagen-field img {
+  max-height: 150px;
+  border-radius: 4px;
+}
+
+/* Footer (acciones) */
+.modal-content footer,
+.modal-content .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 

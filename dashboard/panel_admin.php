@@ -485,6 +485,85 @@
     </div>
   </div>
 
+  <!-- Modal Ver/Editar impresora -->
+  <div id="modal-ver-impresora" class="modal-overlay hidden">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2>Detalle impresora</h2>
+      <section class="contenido">
+        <!-- Aquí el JS inyecta este bloque: -->
+        <div class="grid">
+          <!-- Columna 1 -->
+          <div class="fila">
+            <label>Nombre:</label>
+            <span data-field="nombre"></span>
+            <input data-field="nombre" class="input-editar hidden" />
+          </div>
+          <div class="fila">
+            <label>Marca:</label>
+            <span data-field="marca"></span>
+            <input data-field="marca" class="input-editar hidden" />
+          </div>
+          <div class="fila">
+            <label>Modelo:</label>
+            <span data-field="modelo"></span>
+            <input data-field="modelo" class="input-editar hidden" />
+          </div>
+          <div class="fila">
+            <label>Número de serie:</label>
+            <span data-field="num_serie"></span>
+            <input data-field="num_serie" class="input-editar hidden" />
+          </div>
+          <div class="fila">
+            <label>Dirección IP:</label>
+            <span data-field="ip"></span>
+            <input data-field="ip" class="input-editar hidden" />
+          </div>
+
+          <!-- Columna 2 -->
+          <div class="fila">
+            <label>Estado:</label>
+            <span data-field="estado"></span>
+            <select data-field="estado" class="input-editar hidden">
+              <option value="FUNCIONANDO">FUNCIONANDO</option>
+              <option value="CON PROBLEMAS">CON PROBLEMAS</option>
+              <option value="REPARANDO">REPARANDO</option>
+              <option value="BAJA">BAJA</option>
+            </select>
+          </div>
+          <div class="fila">
+            <label>Ubicación:</label>
+            <span data-field="ubicacion"></span>
+            <select data-field="ubicacion_id" class="input-editar hidden"></select>
+          </div>
+          <div class="fila">
+            <label>Responsable:</label>
+            <span data-field="responsable"></span>
+            <select data-field="responsable_id" class="input-editar hidden"></select>
+          </div>
+          <div class="fila">
+            <label>Fecha agregada:</label>
+            <span data-field="fecha_agregada"></span>
+          </div>
+          <div class="fila">
+            <label>Fecha comprada:</label>
+            <span data-field="fecha_comprada"></span>
+            <input data-field="fecha_comprada" type="date" class="input-editar hidden" />
+          </div>
+          <div class="fila imagen-field">
+            <label>Imagen:</label>
+            <img data-field="imagen" alt="Foto de impresora" />
+          </div>
+        </div>
+      </section>
+      <footer>
+        <button id="btn-editar" class="btn-edit">Editar</button>
+        <button id="btn-cancelar" class="btn-cancelar hidden">Cancelar</button>
+        <button id="btn-guardar" class="btn-guardar hidden">Guardar</button>
+      </footer>
+    </div>
+  </div>
+
   <!-- Modal para añadir componente -->
   <div id="modal-componente" class="modal-overlay hidden">
     <div class="modal-content">
