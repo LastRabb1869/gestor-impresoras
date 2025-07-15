@@ -1154,6 +1154,16 @@ body {
   margin-top: 1.5rem;
 }
 
+.modal-header-image {
+  height: 110px;
+  background-size: cover;
+  background-position: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.modal-content h2 {
+  margin-top: 1rem;
+}
 
 /* ====== Responsiva ====== */
 @media(max-width: 768px) {

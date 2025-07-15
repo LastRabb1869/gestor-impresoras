@@ -2,109 +2,132 @@ import { initModalConfirm, initModalError } from '../ui/modal-mensaje.js';
 import { setImpresora } from './printers-api.js';
 
 export function initModalVerImpresora() {
-  const modal   = document.getElementById('modal-ver-impresora');
-  const content = modal.querySelector('.contenido .grid');
+  const modal = document.getElementById('modal-ver-impresora');
+  const headerImg = modal.querySelector('.modal-header-image');
+  const grid = modal.querySelector('.contenido .grid');
+  const btnClose = modal.querySelector('.modal-close');
   const btnEdit = modal.querySelector('#btn-editar');
-  const btnCan  = modal.querySelector('#btn-cancelar');
+  const btnCan = modal.querySelector('#btn-cancelar');
   const btnSave = modal.querySelector('#btn-guardar');
-  let currentData = null;
+  let currentData = {};
 
-  // Helper: toggle edit mode
+  // Cierra modal
+  btnClose.addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+
+  // Alterna readonly/disabled
   function toggleEditMode(editing) {
-    modal.querySelectorAll('span[data-field]').forEach(el => el.classList.toggle('hidden', editing));
-    modal.querySelectorAll('.input-editar').forEach(el => el.classList.toggle('hidden', !editing));
+    grid.querySelectorAll('.field-input').forEach(el => {
+      if (el.tagName === 'INPUT') {
+        editing ? el.removeAttribute('readonly') : el.setAttribute('readonly', '');
+      } else if (el.tagName === 'SELECT') {
+        el.disabled = !editing;
+      }
+    });
     btnEdit.classList.toggle('hidden', editing);
     btnCan.classList.toggle('hidden', !editing);
     btnSave.classList.toggle('hidden', !editing);
   }
 
-  // Populate selects for ubicaciones y responsables
-  async function populateSelects(data) {
-    const ubiSel = content.querySelector('select[data-field="ubicacion_id"]');
-    const respSel = content.querySelector('select[data-field="responsable_id"]');
+  // Rellena todos los campos
+  function populateFields(data) {
+    // Header image
+    headerImg.style.backgroundImage =
+      `url("../assets/sources/printers/${data.num_serie}/img/${data.imagen||'default-impresora.jpg'}")`;
 
+    // Campos de texto simples (incluimos IP aquí)
+    ['nombre','marca','modelo','num_serie','ip'].forEach(field => {
+      const el = grid.querySelector(`[data-field="${field}"]`);
+      if (!el) return;
+      // Para ip usamos data.direccion_ip
+      if (field === 'ip') {
+        el.value = data.direccion_ip || '';
+      } else {
+        el.value = data[field] || '';
+      }
+    });
+
+    // Fechas
+    const fa = grid.querySelector('input[data-field="fecha_agregada"]');
+    if (fa) {
+      fa.value = data.fecha_agregada
+        ? new Date(data.fecha_agregada).toLocaleDateString()
+        : '—';
+      fa.setAttribute('readonly','');
+    }
+    const fc = grid.querySelector('input[data-field="fecha_comprada"]');
+    if (fc) {
+      fc.value = data.fecha_comprada ? data.fecha_comprada.slice(0,10) : '';
+      fc.setAttribute('readonly','');
+    }
+
+    // Selects (estado)
+    const estadoEl = grid.querySelector('select[data-field="estado"]');
+    if (estadoEl) estadoEl.value = data.estado;
+  }
+
+  // Poblado de select dinámicos
+  async function populateSelects(data) {
     // Ubicaciones
-    const resU = await fetch('get_cards/get_ubicaciones.php');
-    const ubs = await resU.json();
-    ubiSel.innerHTML = ubs.map(u =>
+    const ubs = await (await fetch('get_cards/get_ubicaciones.php')).json();
+    const ubiEl = grid.querySelector('select[data-field="ubicacion_id"]');
+    ubiEl.innerHTML = ubs.map(u =>
       `<option value="${u.id}"${u.id===data.ubicacion_id? ' selected':''}>${u.nombre}</option>`
     ).join('');
 
     // Responsables
-    const resR = await fetch('get_cards/get_responsables.php');
-    const rs  = await resR.json();
-    respSel.innerHTML = ['<option value="">— Ninguno —</option>',
-      ...rs.map(r => `
-        <option value="${r.num_colaborador}"${r.num_colaborador===data.responsable_id? ' selected':''}>
-          ${r.nombre} ${r.apellido}
-        </option>`)
+    const rs = await (await fetch('get_cards/get_responsables.php')).json();
+    const respEl = grid.querySelector('select[data-field="responsable_id"]');
+    respEl.innerHTML = [
+      '<option value="">— Ninguno —</option>',
+      ...rs.map(r =>
+        `<option value="${r.num_colaborador}"${r.num_colaborador===data.responsable_id? ' selected':''}>
+           ${r.nombre} ${r.apellido}
+         </option>`
+      )
     ].join('');
   }
 
-  // 1) Bind expand buttons dynamically
-  document.addEventListener('recargar-impresoras', bindExpandButtons);
+  // Engancha botones "Ver"
   function bindExpandButtons() {
     document.querySelectorAll('.expand-button').forEach(btn => {
       btn.onclick = async () => {
-        const id = parseInt(btn.dataset.id, 10);
-        const resp = await fetch(`get_cards/view_impresora.php?id=${id}`);
-        const data = await resp.json();
-        currentData = data;
-
-        // Fill fields
-        ['nombre','marca','modelo','num_serie','ip','estado','fecha_agregada','fecha_comprada'].forEach(field => {
-          const span = content.querySelector(`span[data-field="${field}"]`);
-          const input = content.querySelector(`input[data-field="${field}"]`);
-          const select = content.querySelector(`select[data-field="${field}"]`);
-          if (span) span.textContent = field.includes('fecha') ?
-            (data[field] ? new Date(data[field]).toLocaleDateString() : '—') : data[field] || '—';
-          if (input) input.value = field==='fecha_comprada' ? (data.fecha_comprada?.slice(0,10)||'') : data[field] || '';
-          if (select) select.value = data[field];
-        });
-
-        // Imagen
-        const imgEl = content.querySelector('img[data-field="imagen"]');
-        imgEl.src = `../assets/sources/printers/${data.num_serie}/img/${data.imagen||'default-impresora.jpg'}`;
-
-        // Populate dynamic selects
-        await populateSelects(data);
-
-        // Reset to view mode
+        const id = +btn.dataset.id;
+        currentData = await (await fetch(`get_cards/view_impresora.php?id=${id}`)).json();
+        populateFields(currentData);
+        await populateSelects(currentData);
         toggleEditMode(false);
         modal.classList.remove('hidden');
       };
     });
   }
   bindExpandButtons();
+  window.addEventListener('recargar-impresoras', bindExpandButtons);
 
-  // 2) Edit, Cancel, Save
-  btnEdit.onclick = () => toggleEditMode(true);
+  // Botones de control
   btnCan.onclick = () => modal.classList.add('hidden');
-
+  btnEdit.onclick = () => toggleEditMode(true);
   btnSave.onclick = async () => {
-    const ok = await initModalConfirm('Guardar cambios', '¿Deseas guardar los cambios?');
-    if (!ok) return;
-
-    // Build FormData
+    if (!await initModalConfirm('Guardar cambios','¿Deseas guardar los cambios?')) return;
     const form = new FormData();
     form.append('id', currentData.id);
     ['nombre','marca','modelo','num_serie','ip','estado','ubicacion_id','responsable_id','fecha_comprada']
       .forEach(field => {
-        const el = content.querySelector(`[data-field="${field}"]`);
-        form.append(field, el.value || el.textContent);
+        const el = grid.querySelector(`[data-field="${field}"]`);
+        form.append(field, el.value || '');
       });
-
     try {
-      const respText = await setImpresora(form);
-      if (respText.trim() === 'OK') {
-        initModalError('¡Listo!', 'Datos actualizados correctamente.', 'success');
+      const res = await setImpresora(form);
+      if (res.trim() === 'OK') {
+        initModalError('¡Listo!','Datos actualizados correctamente.','success');
         modal.classList.add('hidden');
         window.dispatchEvent(new Event('recargar-impresoras'));
       } else {
-        throw new Error(respText);
+        throw new Error(res);
       }
-    } catch (err) {
-      initModalError('Error al guardar', err.message, 'error');
+    } catch (e) {
+      initModalError('Error al guardar', e.message, 'error');
     }
   };
 }
